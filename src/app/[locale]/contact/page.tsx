@@ -31,7 +31,7 @@ function ContactContent() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen dark:bg-black bg-white dark:text-white text-gray-900">
       <Navbar />
       
       {/* Hero Section */}
@@ -40,21 +40,21 @@ function ContactContent() {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/9f1dfb0535e8.jpg)` }}
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black"></div>
+          <div className="absolute inset-0 dark:bg-gradient-to-b bg-gradient-to-b from-black/80 via-black/60 to-black"></div>
         </div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-3 mb-6">
-            <span className="w-8 h-[1px] bg-amber-400/50"></span>
-            <span className="text-amber-400/80 text-xs tracking-[0.3em] uppercase">{t.contact.beginYourJourney}</span>
-            <span className="w-8 h-[1px] bg-amber-400/50"></span>
+            <span className="w-8 h-[1px] bg-amber-500/50"></span>
+            <span className="text-amber-500/80 text-xs tracking-[0.3em] uppercase">{t.contact.beginYourJourney}</span>
+            <span className="w-8 h-[1px] bg-amber-500/50"></span>
           </div>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-light mb-4">
-            Reserve Your <span className="font-serif italic text-amber-400">Experience</span>
+            Reserve Your <span className="font-serif italic text-amber-500">Experience</span>
           </h1>
           
-          <p className="text-white/50 font-light max-w-xl mx-auto">
+          <p className="dark:text-white/50 text-white/70 font-light max-w-xl mx-auto">
             {t.contact.pageSubtitle}
           </p>
         </div>
@@ -68,20 +68,20 @@ function ContactContent() {
             {/* Form Section */}
             <div className="lg:col-span-3">
               {isSubmitted ? (
-                <div className="bg-zinc-900/50 border border-emerald-500/30 p-12 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-emerald-500/10 flex items-center justify-center">
-                    <CheckCircle className="w-10 h-10 text-emerald-400" />
+                <div className="dark:bg-zinc-900/50 bg-emerald-50 border dark:border-emerald-500/30 border-emerald-200 p-12 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
+                  <div className="w-20 h-20 mx-auto mb-6 rounded-full dark:bg-emerald-500/10 bg-emerald-100 flex items-center justify-center">
+                    <CheckCircle className="w-10 h-10 text-emerald-500" />
                   </div>
                   <h3 className="text-2xl font-light mb-3">{t.contact.successTitle}</h3>
-                  <p className="text-white/50 mb-6">{t.contact.successMessage}</p>
-                  <p className="text-amber-400/60 text-sm">{t.contact.successImmediate}</p>
+                  <p className="dark:text-white/50 text-gray-600 mb-6">{t.contact.successMessage}</p>
+                  <p className="text-amber-500/60 text-sm">{t.contact.successImmediate}</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-8">
                   
                   {/* Experience Selection */}
                   <div>
-                    <label className="block text-xs tracking-[0.2em] uppercase text-white/50 mb-4">
+                    <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-4">
                       {t.contact.selectExperience}
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -90,11 +90,11 @@ function ContactContent() {
                         onClick={() => setSelectedPackage('')}
                         className={`p-4 border text-left transition-all duration-300 ${
                           selectedPackage === '' 
-                            ? 'border-amber-400 bg-amber-400/5' 
-                            : 'border-white/10 hover:border-white/30'
+                            ? 'border-amber-500 dark:bg-amber-500/5 bg-amber-50' 
+                            : 'dark:border-white/10 border-gray-200 hover:border-gray-300'
                         }`}
                       >
-                        <span className={`text-sm ${selectedPackage === '' ? 'text-amber-400' : 'text-white/70'}`}>
+                        <span className={`text-sm ${selectedPackage === '' ? 'text-amber-500' : 'dark:text-white/70 text-gray-700'}`}>
                           {t.contact.notSureYet}
                         </span>
                       </button>
@@ -105,19 +105,19 @@ function ContactContent() {
                           onClick={() => setSelectedPackage(pkg.id.toString())}
                           className={`p-4 border text-left transition-all duration-300 ${
                             selectedPackage === pkg.id.toString() 
-                              ? 'border-amber-400 bg-amber-400/5' 
-                              : 'border-white/10 hover:border-white/30'
+                              ? 'border-amber-500 dark:bg-amber-500/5 bg-amber-50' 
+                              : 'dark:border-white/10 border-gray-200 hover:border-gray-300'
                           }`}
                         >
                           <div className="flex justify-between items-start gap-2">
-                            <span className={`text-sm ${selectedPackage === pkg.id.toString() ? 'text-amber-400' : 'text-white/70'}`}>
+                            <span className={`text-sm ${selectedPackage === pkg.id.toString() ? 'text-amber-500' : 'dark:text-white/70 text-gray-700'}`}>
                               {pkg.id === 1 ? t.packageNames.camelDinner : 
                                pkg.id === 2 ? t.packageNames.quadDinner : 
                                pkg.id === 3 ? t.packageNames.ultimateCombo : 
                                pkg.id === 4 ? t.packageNames.sunriseBreakfast : 
                                t.packageNames.safari4x4}
                             </span>
-                            <span className="text-xs text-white/40 whitespace-nowrap">{pkg.price} MAD</span>
+                            <span className="text-xs dark:text-white/40 text-gray-500 whitespace-nowrap">{pkg.price} MAD</span>
                           </div>
                         </button>
                       ))}
@@ -127,7 +127,7 @@ function ContactContent() {
                   {/* Name & Email */}
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-xs tracking-[0.2em] uppercase text-white/50 mb-3">
+                      <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-3">
                         {t.contact.fullName}
                       </label>
                       <input
@@ -136,11 +136,11 @@ function ContactContent() {
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
                         placeholder={t.contact.fullNamePlaceholder}
-                        className="w-full bg-transparent border-b border-white/10 py-3 text-white placeholder:text-white/30 focus:border-amber-400 focus:outline-none transition-colors"
+                        className="w-full bg-transparent dark:border-b border-b dark:border-white/10 border-gray-200 py-3 dark:text-white text-gray-900 dark:placeholder:text-white/30 placeholder:text-gray-400 focus:border-amber-500 focus:outline-none transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs tracking-[0.2em] uppercase text-white/50 mb-3">
+                      <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-3">
                         {t.contact.email}
                       </label>
                       <input
@@ -149,7 +149,7 @@ function ContactContent() {
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
                         placeholder={t.contact.emailPlaceholder}
-                        className="w-full bg-transparent border-b border-white/10 py-3 text-white placeholder:text-white/30 focus:border-amber-400 focus:outline-none transition-colors"
+                        className="w-full bg-transparent dark:border-b border-b dark:border-white/10 border-gray-200 py-3 dark:text-white text-gray-900 dark:placeholder:text-white/30 placeholder:text-gray-400 focus:border-amber-500 focus:outline-none transition-colors"
                       />
                     </div>
                   </div>
@@ -157,7 +157,7 @@ function ContactContent() {
                   {/* Phone & Date */}
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-xs tracking-[0.2em] uppercase text-white/50 mb-3">
+                      <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-3">
                         {t.contact.phone}
                       </label>
                       <input
@@ -165,45 +165,45 @@ function ContactContent() {
                         value={formData.phone}
                         onChange={(e) => setFormData({...formData, phone: e.target.value})}
                         placeholder={t.contact.phonePlaceholder}
-                        className="w-full bg-transparent border-b border-white/10 py-3 text-white placeholder:text-white/30 focus:border-amber-400 focus:outline-none transition-colors"
+                        className="w-full bg-transparent dark:border-b border-b dark:border-white/10 border-gray-200 py-3 dark:text-white text-gray-900 dark:placeholder:text-white/30 placeholder:text-gray-400 focus:border-amber-500 focus:outline-none transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs tracking-[0.2em] uppercase text-white/50 mb-3">
+                      <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-3">
                         {t.contact.preferredDate}
                       </label>
                       <input
                         type="date"
                         value={formData.date}
                         onChange={(e) => setFormData({...formData, date: e.target.value})}
-                        className="w-full bg-transparent border-b border-white/10 py-3 text-white focus:border-amber-400 focus:outline-none transition-colors [color-scheme:dark]"
+                        className="w-full bg-transparent dark:border-b border-b dark:border-white/10 border-gray-200 py-3 dark:text-white text-gray-900 focus:border-amber-500 focus:outline-none transition-colors [color-scheme:auto]"
                       />
                     </div>
                   </div>
 
                   {/* Guests */}
                   <div>
-                    <label className="block text-xs tracking-[0.2em] uppercase text-white/50 mb-3">
+                    <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-3">
                       {t.contact.numberOfGuests}
                     </label>
                     <select
                       value={formData.guests}
                       onChange={(e) => setFormData({...formData, guests: e.target.value})}
-                      className="w-full bg-transparent border-b border-white/10 py-3 text-white focus:border-amber-400 focus:outline-none transition-colors"
+                      className="w-full bg-transparent dark:border-b border-b dark:border-white/10 border-gray-200 py-3 dark:text-white text-gray-900 focus:border-amber-500 focus:outline-none transition-colors"
                     >
-                      <option value="" className="bg-zinc-900">{t.contact.selectGroupSize}</option>
+                      <option value="" className="dark:bg-zinc-900 bg-white">{t.contact.selectGroupSize}</option>
                       {[1,2,3,4,5,6,7,8,9,10].map(n => (
-                        <option key={n} value={n} className="bg-zinc-900">
+                        <option key={n} value={n} className="dark:bg-zinc-900 bg-white">
                           {n} {n === 1 ? t.contact.guest : t.contact.guests}
                         </option>
                       ))}
-                      <option value="10+" className="bg-zinc-900">{t.contact.group}</option>
+                      <option value="10+" className="dark:bg-zinc-900 bg-white">{t.contact.group}</option>
                     </select>
                   </div>
 
                   {/* Message */}
                   <div>
-                    <label className="block text-xs tracking-[0.2em] uppercase text-white/50 mb-3">
+                    <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-3">
                       {t.contact.specialRequests}
                     </label>
                     <textarea
@@ -211,7 +211,7 @@ function ContactContent() {
                       value={formData.message}
                       onChange={(e) => setFormData({...formData, message: e.target.value})}
                       placeholder={t.contact.specialRequestsPlaceholder}
-                      className="w-full bg-transparent border border-white/10 p-4 text-white placeholder:text-white/30 focus:border-amber-400 focus:outline-none transition-colors resize-none"
+                      className="w-full bg-transparent dark:border border dark:border-white/10 border-gray-200 p-4 dark:text-white text-gray-900 dark:placeholder:text-white/30 placeholder:text-gray-400 focus:border-amber-500 focus:outline-none transition-colors resize-none"
                     ></textarea>
                   </div>
 
@@ -225,7 +225,7 @@ function ContactContent() {
                     <span className="w-0 h-[1px] bg-black/30 group-hover:w-8 transition-all duration-300"></span>
                   </button>
 
-                  <p className="text-center text-white/30 text-xs">
+                  <p className="center dark:text-white/30 text-gray-400 text-xs text-center">
                     {t.contact.submitAgreement}
                   </p>
                 </form>
@@ -237,66 +237,66 @@ function ContactContent() {
               
               {/* Contact Info */}
               <div>
-                <h3 className="text-xs tracking-[0.2em] uppercase text-amber-400 mb-8">{t.contact.contactDirectly}</h3>
+                <h3 className="text-xs tracking-[0.2em] uppercase text-amber-500 mb-8">{t.contact.contactDirectly}</h3>
                 
                 <div className="space-y-8">
                   <div className="flex items-start gap-4 group">
-                    <div className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:border-amber-400/50 transition-colors">
-                      <Phone className="w-5 h-5 text-white/50 group-hover:text-amber-400 transition-colors" />
+                    <div className="w-12 h-12 dark:border border rounded-full flex items-center justify-center flex-shrink-0 dark:border-white/10 border-gray-200 group-hover:border-amber-500/50 transition-colors">
+                      <Phone className="w-5 h-5 dark:text-white/50 text-gray-500 group-hover:text-amber-500 transition-colors" />
                     </div>
                     <div>
-                      <p className="text-white/40 text-xs tracking-wider uppercase mb-1">{t.contact.phoneWhatsApp}</p>
-                      <a href="tel:+212XXXXXXXXX" className="text-white hover:text-amber-400 transition-colors">
+                      <p className="dark:text-white/40 text-gray-500 text-xs tracking-wider uppercase mb-1">{t.contact.phoneWhatsApp}</p>
+                      <a href="tel:+212XXXXXXXXX" className="dark:text-white hover:text-amber-500 text-gray-700 hover:text-amber-500 transition-colors">
                         +212 XXX XXXXXX
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4 group">
-                    <div className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:border-amber-400/50 transition-colors">
-                      <Mail className="w-5 h-5 text-white/50 group-hover:text-amber-400 transition-colors" />
+                    <div className="w-12 h-12 dark:border border rounded-full flex items-center justify-center flex-shrink-0 dark:border-white/10 border-gray-200 group-hover:border-amber-500/50 transition-colors">
+                      <Mail className="w-5 h-5 dark:text-white/50 text-gray-500 group-hover:text-amber-500 transition-colors" />
                     </div>
                     <div>
-                      <p className="text-white/40 text-xs tracking-wider uppercase mb-1">{t.contact.emailAddress}</p>
-                      <a href="mailto:info@familiestours.com" className="text-white hover:text-amber-400 transition-colors">
+                      <p className="dark:text-white/40 text-gray-500 text-xs tracking-wider uppercase mb-1">{t.contact.emailAddress}</p>
+                      <a href="mailto:info@familiestours.com" className="dark:text-white hover:text-amber-500 text-gray-700 hover:text-amber-500 transition-colors">
                         info@familiestours.com
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4 group">
-                    <div className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:border-amber-400/50 transition-colors">
-                      <MapPin className="w-5 h-5 text-white/50 group-hover:text-amber-400 transition-colors" />
+                    <div className="w-12 h-12 dark:border border rounded-full flex items-center justify-center flex-shrink-0 dark:border-white/10 border-gray-200 group-hover:border-amber-500/50 transition-colors">
+                      <MapPin className="w-5 h-5 dark:text-white/50 text-gray-500 group-hover:text-amber-500 transition-colors" />
                     </div>
                     <div>
-                      <p className="text-white/40 text-xs tracking-wider uppercase mb-1">{t.contact.location}</p>
-                      <p className="text-white">{t.contact.locationDetail}</p>
-                      <p className="text-white/50 text-sm mt-1">{t.contact.hotelPickup}</p>
+                      <p className="dark:text-white/40 text-gray-500 text-xs tracking-wider uppercase mb-1">{t.contact.location}</p>
+                      <p className="dark:text-white text-gray-700">{t.contact.locationDetail}</p>
+                      <p className="dark:text-white/50 text-gray-500 text-sm mt-1">{t.contact.hotelPickup}</p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4 group">
-                    <div className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:border-amber-400/50 transition-colors">
-                      <Clock className="w-5 h-5 text-white/50 group-hover:text-amber-400 transition-colors" />
+                    <div className="w-12 h-12 dark:border border rounded-full flex items-center justify-center flex-shrink-0 dark:border-white/10 border-gray-200 group-hover:border-amber-500/50 transition-colors">
+                      <Clock className="w-5 h-5 dark:text-white/50 text-gray-500 group-hover:text-amber-500 transition-colors" />
                     </div>
                     <div>
-                      <p className="text-white/40 text-xs tracking-wider uppercase mb-1">{t.contact.availability}</p>
-                      <p className="text-white">{t.contact.available247}</p>
+                      <p className="dark:text-white/40 text-gray-500 text-xs tracking-wider uppercase mb-1">{t.contact.availability}</p>
+                      <p className="dark:text-white text-gray-700">{t.contact.available247}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Quick Info Box */}
-              <div className="border border-amber-400/20 bg-amber-400/5 p-8">
+              <div className="dark:border border dark:border-amber-400/20 border-amber-200 dark:bg-amber-400/5 bg-amber-50 p-8">
                 <h4 className="font-light text-lg mb-4 flex items-center gap-3">
-                  <Calendar className="w-5 h-5 text-amber-400" />
+                  <Calendar className="w-5 h-5 text-amber-500" />
                   {t.contact.whatHappensNext}
                 </h4>
-                <ol className="space-y-4 text-sm text-white/60">
+                <ol className="space-y-4 text-sm dark:text-white/60 text-gray-600">
                   {t.contact.steps.map((step, idx) => (
                     <li key={idx} className="flex gap-3">
-                      <span className="text-amber-400 font-medium">0{idx + 1}</span>
+                      <span className="text-amber-500 font-medium">0{idx + 1}</span>
                       <span>{step}</span>
                     </li>
                   ))}
@@ -304,8 +304,8 @@ function ContactContent() {
               </div>
 
               {/* Transport Reminder */}
-              <div className="border-l-2 border-emerald-500/50 pl-6 py-1">
-                <p className="text-emerald-400/80 text-sm flex items-center gap-2">
+              <div className="dark:border-l-2 border-l-2 dark:border-emerald-500/50 border-emerald-400 pl-6 py-1">
+                <p className="dark:text-emerald-400/80 text-emerald-600 text-sm flex items-center gap-2">
                   <Users className="w-4 h-4" />
                   {t.contact.transportReminder}
                 </p>

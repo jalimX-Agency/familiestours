@@ -21,7 +21,7 @@ function AboutContent() {
   const team = t.about.team;
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen dark:bg-black bg-white dark:text-white text-gray-900">
       <Navbar />
       
       {/* Hero Section */}
@@ -30,21 +30,21 @@ function AboutContent() {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${images.camelCaravan})` }}
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black"></div>
+          <div className="absolute inset-0 dark:bg-gradient-to-b bg-gradient-to-b from-black/80 via-black/60 to-black"></div>
         </div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-3 mb-6">
-            <span className="w-8 h-[1px] bg-amber-400/50"></span>
-            <span className="text-amber-400/80 text-xs tracking-[0.3em] uppercase">{t.about.since}</span>
-            <span className="w-8 h-[1px] bg-amber-400/50"></span>
+            <span className="w-8 h-[1px] bg-amber-500/50"></span>
+            <span className="text-amber-500/80 text-xs tracking-[0.3em] uppercase">{t.about.since}</span>
+            <span className="w-8 h-[1px] bg-amber-500/50"></span>
           </div>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light mb-6">
-            Our <span className="font-serif italic text-amber-400">Story</span>
+            Our <span className="font-serif italic text-amber-500">Story</span>
           </h1>
           
-          <p className="text-lg text-white/50 max-w-2xl mx-auto font-light">
+          <p className="text-lg dark:text-white/50 text-white/70 max-w-2xl mx-auto font-light">
             {t.about.pageSubtitle}
           </p>
         </div>
@@ -62,22 +62,22 @@ function AboutContent() {
                   className="w-full aspect-[4/5] object-cover"
                 />
               </div>
-              <div className="absolute -bottom-6 -left-6 w-full h-full border border-amber-400/10 -z-10 hidden lg:block"></div>
+              <div className="absolute -bottom-6 -left-6 w-full h-full border border-amber-500/10 -z-10 hidden lg:block"></div>
               
-              <div className="absolute -right-4 top-1/4 bg-zinc-900/90 backdrop-blur-sm border border-white/10 p-6 hidden md:block">
-                <div className="text-4xl font-light text-amber-400 mb-1">15+</div>
-                <div className="text-xs text-white/50 tracking-wider uppercase">{t.about.yearsOfExperienceLabel}</div>
+              <div className="absolute -right-4 top-1/4 dark:bg-zinc-900/90 bg-zinc-800/90 backdrop-blur-sm dark:border border border-white/10 p-6 hidden md:block">
+                <div className="text-4xl font-light text-amber-500 mb-1">15+</div>
+                <div className="dark:text-white/50 text-gray-300 text-xs tracking-wider uppercase">{t.about.yearsOfExperienceLabel}</div>
               </div>
             </div>
 
             <div>
-              <span className="text-amber-400/80 text-xs tracking-[0.3em] uppercase block mb-6">{t.about.theBeginning}</span>
+              <span className="text-amber-500/80 text-xs tracking-[0.3em] uppercase block mb-6">{t.about.theBeginning}</span>
               
               <h2 className="text-3xl lg:text-4xl font-light mb-8 leading-tight">
                 {t.about.storyTitle}
               </h2>
               
-              <div className="space-y-6 text-white/60 leading-relaxed">
+              <div className="space-y-6 dark:text-white/60 text-gray-600 leading-relaxed">
                 <p>{t.about.storyP1}</p>
                 <p>{t.about.storyP2}</p>
                 <p>{t.about.storyP3}</p>
@@ -89,37 +89,37 @@ function AboutContent() {
 
       {/* Quote Divider */}
       <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-amber-950/20 to-zinc-950"></div>
+        <div className="absolute inset-0 dark:bg-gradient-to-r bg-gradient-to-r dark:from-zinc-950 from-gray-100 dark:via-amber-950/20 via-amber-50/20 dark:to-zinc-950 to-gray-100"></div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <span className="text-amber-400/40 text-7xl font-serif block mb-6">&ldquo;</span>
-          <blockquote className="text-2xl md:text-3xl font-light leading-relaxed text-white/80 italic">
+          <span className="text-amber-500/40 text-7xl font-serif block mb-6">&ldquo;</span>
+          <blockquote className="text-2xl md:text-3xl font-light leading-relaxed dark:text-white/80 text-gray-700 italic">
             {t.about.founderQuote}
           </blockquote>
-          <p className="mt-8 text-amber-400/60 text-sm tracking-widest uppercase">{t.about.founderName}</p>
+          <p className="mt-8 text-amber-500/60 text-sm tracking-widest uppercase">{t.about.founderName}</p>
         </div>
       </section>
 
       {/* Values Section */}
-      <section className="py-24 lg:py-32 bg-zinc-950">
+      <section className="py-24 lg:py-32 dark:bg-zinc-950 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="text-center mb-16 lg:mb-20">
-            <span className="text-amber-400/80 text-xs tracking-[0.3em] uppercase block mb-4">{t.about.guidesUs}</span>
+            <span className="text-amber-500/80 text-xs tracking-[0.3em] uppercase block mb-4">{t.about.guidesUs}</span>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-light">
-              {t.about.coreValues.split(' ')[0]} <span className="font-serif italic text-amber-400">{t.about.coreValues.split(' ').slice(1).join(' ')}</span>
+              {t.about.coreValues.split(' ')[0]} <span className="font-serif italic text-amber-500">{t.about.coreValues.split(' ').slice(1).join(' ')}</span>
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px dark:bg-white/5 bg-gray-200">
             {values.map((value, idx) => (
-              <div key={idx} className="bg-zinc-950 p-10 lg:p-12 group hover:bg-zinc-900 transition-colors duration-500">
-                <div className="text-amber-400/60 mb-6 group-hover:text-amber-400 transition-colors duration-300">
+              <div key={idx} className="dark:bg-zinc-950 bg-white p-10 lg:p-12 group dark:hover:bg-zinc-900 hover:bg-gray-100 transition-colors duration-500">
+                <div className="text-amber-500/60 mb-6 group-hover:text-amber-500 transition-colors duration-300">
                   {value.icon}
                 </div>
-                <h3 className="text-xl font-light mb-4 group-hover:text-amber-400 transition-colors duration-300">
+                <h3 className="text-xl font-light mb-4 group-hover:text-amber-500 transition-colors duration-300">
                   {value.title}
                 </h3>
-                <p className="text-white/50 text-sm leading-relaxed">
+                <p className="dark:text-white/50 text-gray-600 text-sm leading-relaxed">
                   {value.description}
                 </p>
               </div>
@@ -132,18 +132,18 @@ function AboutContent() {
       <section className="py-24 lg:py-32">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="text-center mb-16 lg:mb-20">
-            <span className="text-amber-400/80 text-xs tracking-[0.3em] uppercase block mb-4">The People Behind the Magic</span>
+            <span className="text-amber-500/80 text-xs tracking-[0.3em] uppercase block mb-4">The People Behind the Magic</span>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-light">
-              Meet Our <span className="font-serif italic text-amber-400">Team</span>
+              Meet Our <span className="font-serif italic text-amber-500">Team</span>
             </h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
             {team.map((member, idx) => (
               <div key={idx} className="group">
-                <div className="aspect-[3/4] bg-gradient-to-br from-zinc-800 to-zinc-900 mb-6 overflow-hidden relative">
+                <div className="aspect-[3/4] dark:bg-gradient-to-br bg-gradient-to-br dark:from-zinc-800 from-zinc-200 dark:to-zinc-900 to-zinc-400 mb-6 overflow-hidden relative">
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-6xl font-light text-amber-400/20 group-hover:text-amber-400/30 transition-colors duration-500">
+                    <span className="text-6xl font-light text-amber-500/20 group-hover:text-amber-500/30 transition-colors duration-500">
                       {member.name.charAt(0)}
                     </span>
                   </div>
@@ -155,7 +155,7 @@ function AboutContent() {
                 </div>
                 
                 <h3 className="text-xl font-light mb-1">{member.name}</h3>
-                <p className="text-amber-400/60 text-sm">{member.role}</p>
+                <p className="text-amber-500/60 text-sm">{member.role}</p>
               </div>
             ))}
           </div>
@@ -163,24 +163,24 @@ function AboutContent() {
       </section>
 
       {/* Numbers Section */}
-      <section className="py-24 bg-zinc-950">
+      <section className="py-24 dark:bg-zinc-950 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             <div className="text-center">
-              <div className="text-4xl lg:text-5xl font-light text-amber-400 mb-2">{t.about.yearsOfExperience}</div>
-              <div className="text-white/40 text-sm tracking-wider uppercase">{t.about.yearsOfExperienceLabel}</div>
+              <div className="text-4xl lg:text-5xl font-light text-amber-500 mb-2">{t.about.yearsOfExperience}</div>
+              <div className="dark:text-white/40 text-gray-500 text-sm tracking-wider uppercase">{t.about.yearsOfExperienceLabel}</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl lg:text-5xl font-light text-amber-400 mb-2">{t.about.happyGuests}</div>
-              <div className="text-white/40 text-sm tracking-wider uppercase">{t.about.happyGuestsLabel}</div>
+              <div className="text-4xl lg:text-5xl font-light text-amber-500 mb-2">{t.about.happyGuests}</div>
+              <div className="dark:text-white/40 text-gray-500 text-sm tracking-wider uppercase">{t.about.happyGuestsLabel}</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl lg:text-5xl font-light text-amber-400 mb-2">{t.about.familyOwned}</div>
-              <div className="text-white/40 text-sm tracking-wider uppercase">{t.about.familyOwnedLabel}</div>
+              <div className="text-4xl lg:text-5xl font-light text-amber-500 mb-2">{t.about.familyOwned}</div>
+              <div className="dark:text-white/40 text-gray-500 text-sm tracking-wider uppercase">{t.about.familyOwnedLabel}</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl lg:text-5xl font-light text-amber-400 mb-2">{t.about.averageRating}</div>
-              <div className="text-white/40 text-sm tracking-wider uppercase">{t.about.averageRatingLabel}</div>
+              <div className="text-4xl lg:text-5xl font-light text-amber-500 mb-2">{t.about.averageRating}</div>
+              <div className="dark:text:white/40 text-gray-500 text-sm tracking-wider uppercase">{t.about.averageRatingLabel}</div>
             </div>
           </div>
         </div>
@@ -193,7 +193,7 @@ function AboutContent() {
 
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: localeParam } = await params;
-  const locale = (localeParam as Locale) || 'en';
+  const locale = (localeParam as any) || 'en';
   
   return (
     <LocaleProvider defaultLoc={locale}>

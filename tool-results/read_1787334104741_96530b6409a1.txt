@@ -1,0 +1,1050 @@
+     1→export const locales = ['en', 'fr', 'es'] as const;
+     2→export type Locale = (typeof locales)[number];
+     3→
+     4→export const defaultLocale: Locale = 'en';
+     5→
+     6→interface Translations {
+     7→  // Navigation
+     8→  nav: {
+     9→    home: string;
+    10→    experiences: string;
+    11→    about: string;
+    12→    gallery: string;
+    13→    reserve: string;
+    14→    bookNow: string;
+    15→  };
+    16→  
+    17→  // Hero Section
+    18→  hero: {
+    19→    location: string;
+    20→    title1: string;
+    21→    title2: string;
+    22→    subtitle: string;
+    23→    discover: string;
+    24→    viewGallery: string;
+    25→    scroll: string;
+    26→  };
+    27→  
+    28→  // Home Page
+    29→  home: {
+    30→    curatedForYou: string;
+    31→    signatureExperiences: string;
+    32→    viewAllExperiences: string;
+    33→    quote: string;
+    34→    quoteAuthor: string;
+    35→    difference: string;
+    36→    whyChooseUs: string;
+    37→    values: {
+    38→      title: string;
+    39→      description: string;
+    40→    }[];
+    41→    guestStories: string;
+    42→    beginJourney: string;
+    43→    ctaTitle: string;
+    44→    ctaSubtitle: string;
+    45→    reserveExperience: string;
+    46→  };
+    47→  
+    48→  // Tours/Experiences
+    49→  tours: {
+    50→    pageTitle: string;
+    51→    pageSubtitle: string;
+    52→    transportIncluded: string;
+    53→    transportDetail: string;
+    54→    allExperiences: string;
+    55→    familyAdventures: string;
+    56→    luxuryPrivate: string;
+    57→    startingFrom: string;
+    58→    perPerson: string;
+    59→    signature: string;
+    60→    luxury: string;
+    61→    duration: string;
+    62→    difficulty: string;
+    63→    groupSize: string;
+    64→    whatsIncluded: string;
+    65→    bookThisExperience: string;
+    66→    customTitle: string;
+    67→    customSubtitle: string;
+    68→    requestCustom: string;
+    69→    features: {
+    70→      camelTrek: string;
+    71→      traditionalDinner: string;
+    72→      liveMusic: string;
+    73→      mintTea: string;
+    74→      sandboarding: string;
+    75→      quadTour: string;
+    76→      safetyEquipment: string;
+    77→      professionalInstructor: string;
+    78→      desertCampRelaxation: string;
+    79→      quadAdventure: string;
+    80→      sunsetCamel: string;
+    81→      gourmetDinner: string;
+    82→      berberShow: string;
+    83→      stargazing: string;
+    84→      professionalPhotography: string;
+    85→      preDawnDeparture: string;
+    86→      sunriseViewing: string;
+    87→      traditionalBreakfast: string;
+    88→      morningCamelTrek: string;
+    89→      quadExploration: string;
+    90→      photographyOpportunities: string;
+    91→      private4x4: string;
+    92→      extendedExploration: string;
+    93→      berberVillage: string;
+    94→      premiumDinner: string;
+    95→      privateTent: string;
+    96→      vipService: string;
+    97→      photographerIncluded: string;
+    98→      customizableItinerary: string;
+    99→    };
+   100→    packages: {
+   101→      title: string;
+   102→      subtitle: string;
+   103→      description: string;
+   104→    }[];
+   105→  };
+   106→  
+   107→  // About Page
+   108→  about: {
+   109→    pageTitle: string;
+   110→    pageSubtitle: string;
+   111→    since: string;
+   112→    theBeginning: string;
+   113→    storyTitle: string;
+   114→    storySubtitle: string;
+   115→    storyP1: string;
+   116→    storyP2: string;
+   117→    storyP3: string;
+   118→    founderQuote: string;
+   119→    founderName: string;
+   120→    guidesUs: string;
+   121→    coreValues: string;
+   122→    values: {
+   123→      title: string;
+   124→      description: string;
+   125→    }[];
+   126→    teamTitle: string;
+   127→    teamSubtitle: string;
+   128→    yearsOfExperience: string;
+   129→    happyGuests: string;
+   130→    familyOwned: string;
+   131→    averageRating: string;
+   132→    team: {
+   133→      name: string;
+   134→      role: string;
+   135→      story: string;
+   136→    }[];
+   137→  };
+   138→  
+   139→  // Gallery Page
+   140→  gallery: {
+   141→    pageTitle: string;
+   142→    pageSubtitle: string;
+   143→    visualJourney: string;
+   144→    glimpses: string;
+   145→    all: string;
+   146→    camels: string;
+   147→    adventure: string;
+   148→    camp: string;
+   149→    nature: string;
+   150→    photos: string;
+   151→    createMemories: string;
+   152→    galleryCta: string;
+   153→    startJourney: string;
+   154→    categories: {
+   155→      camels: string;
+   156→      adventure: string;
+   157→      camp: string;
+   158→      nature: string;
+   159→    };
+   160→  };
+   161→  
+   162→  // Contact Page
+   163→  contact: {
+   164→    pageTitle: string;
+   165→    pageSubtitle: string;
+   166→    beginYourJourney: string;
+   167→    formDescription: string;
+   168→    selectExperience: string;
+   169→    notSureYet: string;
+   170→    fullName: string;
+   171→    fullNamePlaceholder: string;
+   172→    email: string;
+   173→    emailPlaceholder: string;
+   174→    phone: string;
+   175→    phonePlaceholder: string;
+   176→    preferredDate: string;
+   177→    numberOfGuests: string;
+   178→    selectGroupSize: string;
+   179→      guest: string;
+   180→      guests: string;
+   181→      group: string;
+   182→    specialRequests: string;
+   183→    specialRequestsPlaceholder: string;
+   184→    sendBookingRequest: string;
+   185→    submitAgreement: string;
+   186→    contactDirectly: string;
+   187→    phoneWhatsApp: string;
+   188→    emailAddress: string;
+   189→    location: string;
+   190→    locationDetail: string;
+   191→    hotelPickup: string;
+   192→    availability: string;
+   193→    alwaysReady: string;
+   194→    whatHappensNext: string;
+   195→    steps: string[];
+   196→    transportReminder: string;
+   197→    successTitle: string;
+   198→    successMessage: string;
+   199→    successImmediate: string;
+   200→  };
+   201→  
+   202→  // Footer
+   203→  footer: {
+   204→    tagline: string;
+   205→    experiences: string;
+   206→    navigation: string;
+   207→    contact: string;
+   208→    hotelPickup: string;
+   209→    available247: string;
+   210→    copyright: string;
+   211→    transportIncluded: string;
+   212→    quickLinks: {
+   213→      home: string;
+   214→      experiences: string;
+   215→      about: string;
+   216→      gallery: string;
+   217→      reserve: string;
+   218→    };
+   219→  };
+   220→
+   221→  // Package names (keep original for consistency)
+   222→  packageNames: {
+   223→    camelDinner: string;
+   224→    quadDinner: string;
+   225→    ultimateCombo: string;
+   226→    sunriseBreakfast: string;
+   227→    safari4x4: string;
+   228→  };
+   229→  
+   230→  packageSubtitles: {
+   231→    camelDinner: string;
+   232→    quadDinner: string;
+   233→    ultimateCombo: string;
+   234→    sunriseBreakfast: string;
+   235→    safari4x4: string;
+   236→  };
+   237→}
+   238→
+   239→export const translations: Record<Locale, Translations> = {
+   240→  en: {
+   241→    nav: {
+   242→      home: 'Home',
+   243→      experiences: 'Experiences',
+   244→      about: 'Our Story',
+   245→      gallery: 'Gallery',
+   246→      reserve: 'Reserve',
+   247→      bookNow: 'Book Now',
+   248→    },
+   249→    hero: {
+   250→      location: 'Morocco • Sahara Desert',
+   251→      title1: 'Where Golden Dunes',
+   252→      title2: 'Meet Family Dreams',
+   253→      subtitle: 'Curated desert experiences that weave together adventure, culture, and unforgettable family moments in the heart of Morocco.',
+   254→      discover: 'Discover Experiences',
+   255→      viewGallery: 'View Gallery',
+   256→      scroll: 'Scroll',
+   257→    },
+   258→    home: {
+   259→      curatedForYou: 'Curated For You',
+   260→      signatureExperiences: 'Signature Experiences',
+   261→      viewAllExperiences: 'View All Experiences',
+   262→      quote: 'The desert has a voice for those who listen—it speaks of timelessness, wonder, and the joy of shared moments under infinite stars.',
+   263→      quoteAuthor: 'Berber Proverb',
+   264→      difference: 'The Difference',
+   265→      whyChooseUs: 'Why Families Choose Us',
+   266→      values: [
+   267→        { title: 'Complimentary Transport', description: 'Luxury hotel pickup and return included in every experience' },
+   268→        { title: 'Family-Centered Design', description: 'Every activity crafted for multi-generational enjoyment and safety' },
+   269→        { title: 'Authentic Hospitality', description: 'Traditional Berber families welcome you as honored guests' },
+   270→        { title: 'Local Expertise', description: 'Guides who have walked these dunes for generations' },
+   271→      ],
+   272→      guestStories: 'Guest Stories',
+   273→      beginJourney: 'Begin Your Journey',
+   274→      ctaTitle: 'Ready to Create Timeless Memories?',
+   275→      ctaSubtitle: "Let us craft your perfect desert escape. Every detail tailored to your family's dreams.",
+   276→      reserveExperience: 'Reserve Your Experience',
+   277→    },
+   278→    tours: {
+   279→      pageTitle: 'Desert Experiences',
+   280→      pageSubtitle: 'Each experience is meticulously crafted to offer your family an authentic journey into the heart of Moroccan desert culture.',
+   281→      transportIncluded: '✦ Complimentary Hotel Transport Included in All Experiences',
+   282→      transportDetail: 'Pickup & drop-off from your accommodation',
+   283→      allExperiences: 'All Experiences',
+   284→      familyAdventures: 'Family Adventures',
+   285→      luxuryPrivate: 'Luxury & Private',
+   286→      startingFrom: 'Starting from',
+   287→      perPerson: '/ person',
+   288→      signature: 'Signature',
+   289→      luxury: 'Luxury',
+   290→      duration: 'Duration',
+   291→      difficulty: 'Difficulty',
+   292→      groupSize: 'Group Size',
+   293→      whatsIncluded: "What's Included",
+   294→      bookThisExperience: 'Book This Experience',
+   295→      customTitle: 'Something Unique in Mind?',
+   296→      customSubtitle: 'Every family is unique. Let us create a bespoke desert experience tailored precisely to your dreams and desires.',
+   297→      requestCustom: 'Request Custom Experience',
+   298→      features: {
+   299→        camelTrek: 'Sunset camel trek (1 hour)',
+   300→        traditionalDinner: 'Traditional Moroccan dinner',
+   301→        liveMusic: 'Live Berber music & entertainment',
+   302→        mintTea: 'Mint tea ceremony',
+   303→        sandboarding: 'Sandboarding',
+   304→        quadTour: 'Guided quad bike tour (1 hour)',
+   305→        safetyEquipment: 'Full safety equipment provided',
+   306→        professionalInstructor: 'Professional instructor',
+   307→        desertCampRelaxation: 'Desert camp relaxation',
+   308→        quadAdventure: 'Quad bike adventure (1 hour)',
+   309→        sunsetCamel: 'Sunset camel caravan',
+   310→        gourmetDinner: 'Gourmet traditional dinner',
+   311→        berberShow: 'Berber cultural show',
+   312→        stargazing: 'Stargazing session',
+   313→        professionalPhotography: 'Professional photography',
+   314→        preDawnDeparture: 'Pre-dawn departure from hotel',
+   315→        sunriseViewing: 'Sunrise viewing at panoramic point',
+   316→        traditionalBreakfast: 'Traditional Moroccan breakfast',
+   317→        morningCamelTrek: 'Morning camel trek',
+   318→        quadExploration: 'Quad bike exploration',
+   319→        photographyOpportunities: 'Photography opportunities',
+   320→        private4x4: 'Private 4x4 vehicle with driver',
+   321→        extendedExploration: 'Extended desert exploration (full day)',
+   322→        berberVillage: 'Visit to traditional Berber village',
+   323→        premiumDinner: 'Premium gourmet dinner',
+   324→        privateTent: 'Private luxury tent accommodation',
+   325→        vipService: 'VIP service throughout',
+   326→        photographerIncluded: 'Professional photographer included',
+   327→        customizableItinerary: 'Customizable itinerary',
+   328→      },
+   329→      packages: [
+   330→        {
+   331→          title: 'Camel Trek & Dinner',
+   332→          subtitle: 'The Classic Desert Experience',
+   333→          description: 'Experience the timeless magic of the Sahara on a traditional camel caravan. Watch the sunset paint the dunes in gold and crimson, then indulge in an authentic Berber feast under a canopy of stars.',
+   334→        },
+   335→        {
+   336→          title: 'Quad Adventure & Dinner',
+   337→          subtitle: 'Adrenaline Meets Tradition',
+   338→          description: 'Feel the thrill of conquering golden dunes on a powerful quad bike. After your desert adventure, unwind with a spectacular dinner in our exclusive desert camp.',
+   339→        },
+   340→        {
+   341→          title: 'Ultimate Desert Combo',
+   342→          subtitle: 'Quad • Camel • Dinner',
+   343→          description: 'The complete desert immersion. Begin with an exhilarating quad ride, transition to a peaceful camel trek as the sun sets, and conclude with an unforgettable evening of Berber hospitality.',
+   344→        },
+   345→        {
+   346→          title: 'Golden Sunrise Experience',
+   347→          subtitle: 'Breakfast • Quad • Camel',
+   348→          description: 'Witness the desert awaken in a blaze of golden light. This early morning adventure combines the serenity of dawn with exciting activities and a traditional breakfast in the dunes.',
+   349→        },
+   350→        {
+   351→          title: 'Royal 4x4 Safari',
+   352→          subtitle: 'The Ultimate Luxury Experience',
+   353→          description: 'Journey beyond the ordinary into the heart of the Sahara in private luxury. This exclusive expedition takes you to hidden oases, remote villages, and pristine dunes few ever witness.',
+   354→        },
+   355→      ],
+   356→    },
+   357→    about: {
+   358→      pageTitle: 'Our Story',
+   359→      pageSubtitle: 'A journey that began with a single camel and a dream to share the magic of the desert.',
+   360→      since: 'Since 2009',
+   361→      theBeginning: 'The Beginning',
+   362→      storyTitle: 'From a Single Camel to Thousands of Smiles',
+   363→      storySubtitle: '',
+   364→      storyP1: 'In 2009, Hassan El-Fassi stood at the edge of the Erg Chebbi dunes with nothing but his family\'s camel, a deep love for his homeland, and an audacious dream: to share the profound beauty of the Moroccan desert with families from around the world.',
+   365→      storyP2: 'What began as one man offering sunset camel rides has blossomed into Families Tours—a curated collection of exceptional desert experiences that have welcomed over 10,000 guests from every corner of the globe.',
+   366→      storyP3: 'Our philosophy has never wavered: every family deserves to experience the desert not as tourists, but as honored guests. This belief guides every decision we make, from the Berber families who welcome you to their camps, to the carefully crafted moments that become your most cherished memories.',
+   367→      founderQuote: "We don't just show families the desert—we help them feel its ancient rhythm, hear its whispered secrets, and carry a piece of its magic home in their hearts forever.",
+   368→      founderName: '— Hassan El-Fassi, Founder',
+   369→      guidesUs: 'What Guides Us',
+   370→      coreValues: 'Our Core Values',
+   371→      values: [
+   372→        { title: 'Family First', description: 'Every experience is designed with multi-generational enjoyment in mind. From grandparents to grandchildren, everyone finds their moment of wonder.' },
+   373→        { title: 'Authentic Connection', description: 'We facilitate genuine exchanges between your family and our Berber hosts, creating cultural bridges that last a lifetime.' },
+   374→        { title: 'Excellence Without Compromise', description: 'From the vehicles we use to the meals we serve, every detail meets the highest standards of quality and safety.' },
+   375→        { title: 'Local Empowerment', description: 'We employ and train local guides, support Berber families, and ensure tourism benefits the communities we visit.' },
+   376→        { title: 'Creating Magic', description: 'We believe in the transformative power of extraordinary experiences. Every tour is an opportunity to create lifelong memories.' },
+   377→        { title: 'Responsible Tourism', description: 'We are committed to preserving the fragile desert ecosystem and minimizing our environmental footprint.' },
+   378→      ],
+   379→      teamTitle: 'Meet Our Team',
+   380→      teamSubtitle: 'The People Behind the Magic',
+   381→      yearsOfExperience: '15+',
+   382→      happyGuests: '10K+',
+   383→      familyOwned: '100%',
+   384→      averageRating: '4.9',
+   385→      yearsOfExperienceLabel: 'Years of Experience',
+   386→      happyGuestsLabel: 'Happy Guests',
+   387→      familyOwnedLabel: 'Family Owned',
+   388→      averageRatingLabel: 'Average Rating',
+   389→      team: [
+   390→        {
+   391→          name: 'Hassan El-Fassi',
+   392→          role: 'Founder & Lead Guide',
+   393→          story: 'Born in the Atlas Mountains, Hassan has spent over 20 years guiding families through the Sahara. His warmth and expertise are the foundation of everything we do.',
+   394→        },
+   395→        {
+   396→          name: 'Fatima Benhassan',
+   397→          role: 'Experience Curator',
+   398→          story: 'Fatima ensures every detail of your journey is perfect. Her attention to detail and deep understanding of hospitality excellence set our experiences apart.',
+   399→        },
+   400→        {
+   401→          name: 'Mohammed Ait Brahim',
+   402→          role: 'Head of Operations',
+   403→          story: 'Mohammed coordinates our fleet, guides, and camp operations. His logistical mastery ensures seamless experiences for every guest.',
+   404→        },
+   405→      ],
+   406→    },
+   407→    gallery: {
+   408→      pageTitle: 'Desert Gallery',
+   409→      pageSubtitle: 'Glimpses of the magic that awaits your family',
+   410→      visualJourney: 'Visual Journey',
+   411→      glimpses: 'Glimpses of the magic that awaits your family',
+   412→      all: 'All',
+   413→      camels: 'Camels',
+   414→      adventure: 'Adventure',
+   415→      camp: 'Camp',
+   416→      nature: 'Nature',
+   417→      photos: 'photos',
+   418→      createMemories: "Ready to Create Your Own Desert Memories?",
+   419→      galleryCta: 'These moments are waiting for your family. Let us craft your perfect desert experience.',
+   420→      startJourney: 'Start Your Journey',
+   421→      categories: {
+   422→        camels: 'Camels',
+   423→        adventure: 'Adventure',
+   424→        camp: 'Camp',
+   425→        nature: 'Nature',
+   426→      },
+   427→    },
+   428→    contact: {
+   429→      pageTitle: 'Reserve Your Experience',
+   430→      pageSubtitle: 'Complete the form below and our team will craft your perfect desert escape within 24 hours.',
+   431→      beginYourJourney: 'Begin Your Journey',
+   432→      formDescription: "Complete the form below and our team will craft your perfect desert escape within 24 hours.",
+   433→      selectExperience: 'Select Your Experience',
+   434→      notSureYet: 'Not Sure Yet / Custom',
+   435→      fullName: 'Full Name *',
+   436→      fullNamePlaceholder: 'Your full name',
+   437→      email: 'Email Address *',
+   438→      emailPlaceholder: 'your@email.com',
+   439→      phone: 'Phone / WhatsApp',
+   440→      phonePlaceholder: '+212 XXX XXXXXX',
+   441→      preferredDate: 'Preferred Date',
+   442→      numberOfGuests: 'Number of Guests',
+   443→      selectGroupSize: 'Select group size',
+   444→      guest: 'Guest',
+   445→      guests: 'Guests',
+   446→      group: 'Guests (Group)',
+   447→      specialRequests: 'Special Requests or Questions',
+   448→      specialRequestsPlaceholder: "Tell us about your family's interests, any special requirements, dietary restrictions, or questions...",
+   449→      sendBookingRequest: 'Send Booking Request',
+   450→      submitAgreement: 'By submitting this form, you agree to be contacted regarding your inquiry.',
+   451→      contactDirectly: 'Contact Us Directly',
+   452→      phoneWhatsApp: 'Phone / WhatsApp',
+   453→      emailAddress: 'Email',
+   454→      location: 'Location',
+   455→      locationDetail: 'Marrakech, Morocco',
+   456→      hotelPickup: 'Hotel pickup available',
+   457→      availability: 'Availability',
+   458→      alwaysReady: 'Always ready to assist',
+   459→      whatHappensNext: 'What Happens Next?',
+   460→      steps: [
+   461→        'We receive your request and review availability',
+   462→        'Our team contacts you within 24 hours',
+   463→        'We customize details to your preferences',
+   464→        'Confirm with a small deposit & get excited!',
+   465→      ],
+   466→      transportReminder: 'Complimentary hotel transport included in all experiences',
+   467→      successTitle: 'Request Received',
+   468→      successMessage: 'Thank you for your inquiry. Our team will contact you within 24 hours to finalize your desert adventure.',
+   469→      successImmediate: 'For immediate assistance: +212 XXX XXXXXX',
+   470→    },
+   471→    footer: {
+   472→      tagline: 'Crafting extraordinary desert experiences for discerning families since 2009. Where luxury meets authentic Moroccan hospitality.',
+   473→      experiences: 'Experiences',
+   474→      navigation: 'Navigation',
+   475→      contact: 'Contact',
+   476→      hotelPickup: 'Marrakech, Morocco (Hotel pickup available)',
+   477→      available247: 'Available 24/7',
+   478→      copyright: '© 2024 Families Tours. All rights reserved.',
+   479→      transportIncluded: 'Complimentary transport included in all experiences',
+   480→      quickLinks: {
+   481→        home: 'Home',
+   482→        experiences: 'Experiences',
+   483→        about: 'Our Story',
+   484→        gallery: 'Gallery',
+   485→        reserve: 'Reserve',
+   486→      },
+   487→    },
+   488→    packageNames: {
+   489→      camelDinner: 'Camel Trek & Dinner',
+   490→      quadDinner: 'Quad Adventure & Dinner',
+   491→      ultimateCombo: 'Ultimate Desert Combo',
+   492→      sunriseBreakfast: 'Golden Sunrise Experience',
+   493→      safari4x4: 'Royal 4x4 Safari',
+   494→    },
+   495→    packageSubtitles: {
+   496→      camelDinner: 'The Classic Desert Experience',
+   497→      quadDinner: 'Adrenaline Meets Tradition',
+   498→      ultimateCombo: 'Quad • Camel • Dinner',
+   499→      sunriseBreakfast: 'Breakfast • Quad • Camel',
+   500→      safari4x4: 'The Ultimate Luxury Experience',
+   501→    },
+   502→  },
+   503→
+   504→  // French Translations
+   505→  fr: {
+   506→    nav: {
+   507→      home: 'Accueil',
+   508→      experiences: 'Expériences',
+   509→      about: 'Notre Histoire',
+   510→      gallery: 'Galerie',
+   511→      reserve: 'Réserver',
+   512→      bookNow: 'Réserver',
+   513→    },
+   514→    hero: {
+   515→      location: 'Maroc • Désert du Sahara',
+   516→      title1: 'Où les Dunes Dorées',
+   517→      title2: 'Rencontrent les Rêves Familiaux',
+   518→      subtitle: 'Expériences désertiques soigneusement élaborées, mêlant aventure, culture et moments familiaux inoubliables au cœur du Maroc.',
+   519→      discover: 'Découvrir les Expériences',
+   520→      viewGallery: 'Voir la Galerie',
+   521→      scroll: 'Défiler',
+   522→    },
+   523→    home: {
+   524→      curatedForVous: 'Sélectionné Pour Vous',
+   525→      signatureExperiences: 'Expériences Signature',
+   526→      viewAllExperiences: 'Voir Toutes les Expériences',
+   527→      quote: 'Le désert a une voix pour ceux qui écoutent — il parle de l\'intemporel, de la merveille et de la joie des moments partagés sous une infinité d\'étoiles.',
+   528→      quoteAuthor: 'Proverbe Berbère',
+   529→      difference: 'La Différence',
+   530→      whyChooseUs: 'Pourquoi les Familles Nous Choisissent',
+   531→      values: [
+   532→        { title: 'Transport Complémentaire', description: 'Prise en charge luxueuse à l\'hôtel et retour incluse dans chaque expérience' },
+   533→        { title: 'Conçu pour la Famille', description: 'Chaque activité conçue pour le plaisir intergénérationnel et la sécurité' },
+   534→        { title: 'Hospitalité Authentique', description: 'Les familles berbères traditionnelles vous accueillent comme des invités honorés' },
+   535→        { title: 'Expertise Locale', description: 'Des guides qui marchent sur ces dunes depuis des générations' },
+   536→      ],
+   537→      guestStories: 'Témoignages',
+   538→      beginJourney: 'Commencer Votre Voyage',
+   539→      ctaTitle: 'Prêt à Créer des Souvenirs Intemporels ?',
+   540→      ctaSubtitle: 'Laissez-nous façonner votre échappée désertique parfaite. Chaque détail adapté aux rêves de votre famille.',
+   541→      reserveExperience: 'Réserver Votre Expérience',
+   542→    },
+   543→    tours: {
+   544→      pageTitle: 'Expériences Désertiques',
+   545→      pageSubtitle: 'Chaque expérience est méticuleusement conçue pour offrir à votre famille un voyage authentique au cœur de la culture désertique marocaine.',
+   546→      transportIncluded: '✦ Transport Hôtelier Complémentaire Inclus dans Toutes les Expériences',
+   547→      transportDetail: 'Prise en charge & dépôt à votre hébergement',
+   548→      allExperiences: 'Toutes les Expériences',
+   549→      familyAdventures: 'Aventures Familiales',
+   550→      luxuryPrivate: 'Luxe & Privé',
+   551→      startingFrom: 'À partir de',
+   552→      perPerson: '/ personne',
+   553→      signature: 'Signature',
+   554→      luxury: 'Luxe',
+   555→      duration: 'Durée',
+   556→      difficulty: 'Difficulté',
+   557→      groupSize: 'Taille du Groupe',
+   558→      whatsIncluded: 'Ce Qui Est Inclus',
+   559→      bookThisExperience: 'Réserver Cette Expérience',
+   560→      customTitle: 'Quelque Chose d\'Unique en Tête ?',
+   561→      customSubtitle: 'Chaque famille est unique. Laissez-nous créer une expérience désertique sur mesure adaptée précisément à vos rêves et vos désirs.',
+   562→      requestCustom: 'Demander une Expérience Sur Mesure',
+   563→      features: {
+   564→        camelTrek: 'Balade à chameau au coucher de soleil (1 heure)',
+   565→        traditionalDinner: 'Dîner marocain traditionnel',
+   566→        liveMusic: 'Musique berbère live & divertissement',
+   567→        mintTea: 'Cérémonie du thé à la menthe',
+   568→        sandboarding: 'Sandboard',
+   569→        quadTour: 'Visite guidée en quad (1 heure)',
+   570→        safetyEquipment: 'Équipement de sécurité complet fourni',
+   571→        professionalInstructor: 'Instructeur professionnel',
+   572→        desertCampRelaxation: 'Détente au camp désertique',
+   573→        quadAdventure: 'Aventure en quad (1 heure)',
+   574→        sunsetCamel: 'Caravane de chameaux au coucher du soleil',
+   575→        gourmetDinner: 'Dîner gastronomique traditionnel',
+   576→        berberShow: 'Spectacle culturel berbère',
+   577→        stargazing: 'Session d\'observation des étoiles',
+   578→        professionalPhotography: 'Photographie professionnelle',
+   579→        preDawnDeparture: 'Départ avant l\'aube depuis l\'hôtel',
+   580→        sunriseViewing: 'Observation du lever du soleil depuis un point panoramique',
+   581→        traditionalBreakfast: 'Petit-déjeuner marocain traditionnel',
+   582→        morningCamelTrek: 'Balade à chameau matinale',
+   583→        quadExploration: 'Exploration en quad',
+   584→        photographyOpportunities: 'Opportunités photographiques',
+   585→        private4x4: 'Véhicule 4x4 privé avec chauffeur',
+   586→        extendedExploration: 'Exploration désertique prolongée (journée complète)',
+   587→        berberVillage: 'Visite d\'un village berbère traditionnel',
+   588→        premiumDinner: 'Dîner gastronomique premium',
+   589→        privateTent: 'Hébergement en tente de luxe privée',
+   590→        vipService: 'Service VIP tout au long',
+   591→        photographerIncluded: 'Photographe professionnel inclus',
+   592→        customizableItinerary: 'Itinéraire personnalisable',
+   593→      },
+   594→      packages: [
+   595→        {
+   596→          title: 'Balade à Chameau & Dîner',
+   597→          subtitle: 'L\'Expérience Classique du Désert',
+   598→          description: 'Découvrez la magie intemporelle du Sahara lors d\'une caravane de chameaux traditionnelle. Regardez le coucher de soleil peindre les dunes en or et cramoisi, puis régalez-vous avec un festin berbère authentique sous un ciel étoilé.',
+   599→        },
+   600→        {
+   601→          title: 'Aventure en Quad & Dîner',
+   602→          subtitle: 'Quand l\'Adrénaline Rencontre la Tradition',
+   603→          description: 'Ressentez le frisson de conquérir les dunes dorées sur un puissant quad. Après votre aventure désertique, détendez-vous avec un dîner spectaculaire dans notre camp désertique exclusif.',
+   604→        },
+   605→        {
+   606→          title: 'Combo Désert Ultime',
+   607→          subtitle: 'Quad • Chameau • Dîner',
+   608→          description: 'L\'immersion désertique complète. Commencez par une exhilarante balade en quad, passez à une paisible randonnée à chameau tandis que le soleil se couche, et concluez par une soirée inoubliable d\'hospitalité berbère.',
+   609→        },
+   610→        {
+   611→          title: 'Expérience du Lever de Soleil Doré',
+   612→          subtitle: 'Petit-déjeuner • Quad • Chameau',
+   613→          description: 'Témoin du réveil du désert dans une explosion de lumière dorée. Cette aventure matinale combine la sérénité de l\'aube avec des activités excitantes et un petit-déjeuner traditionnel dans les dunes.',
+   614→        },
+   615→        {
+   616→          title: 'Safari 4x4 Royal',
+   617→          subtitle: 'L\'Expérience Luxe Ultime',
+   618→          description: 'Voyagez au-delà de l\'ordinaire au cœur du Sahara dans un luxe privé. Cette expédition exclusive vous emmène vers des oasis cachées, des villages reculés et des dunes immaculées que peu ont le privilège de voir.',
+   619→        },
+   620→      ],
+   621→    },
+   622→    about: {
+   623→      pageTitle: 'Notre Histoire',
+   624→      pageSubtitle: 'Un voyage qui a commencé avec un seul chameau et le rêve de partager la magie du désert.',
+   625→      since: 'Depuis 2009',
+   626→      theBeginning: 'Les Débuts',
+   627→      storyTitle: 'D\'un Seul Chameau à des Milliers de Sourires',
+   628→      storySubtitle: '',
+   629→      storyP1: 'En 2009, Hassan El-Fassi se tenait au bord des dunes d\'Erg Chebbi avec seulement le chameau de sa famille, un amour profond pour sa terre natale, et un rêve audacieux : partager la beauté profonde du désert marocain avec des familles du monde entier.',
+   630→      storyP2: 'Ce qui a commencé comme un seul homme offrant des balades à chameau au coucher du soleil s\'est épanoui en Families Tours — une collection soignée d\'expériences désertiques exceptionnelles qui ont accueilli plus de 10 000 invités de chaque coin du globe.',
+   631→      storyP3: 'Notre philosophie n\'a jamais vacillé : chaque famille mérite de vivre le désert non pas comme des touristes, mais comme des invités honorés. Cette conviction guide chacune de nos décisions, des familles berbères qui vous accueillent dans leurs camps, aux moments soigneusement craftés qui deviennent vos souvenirs les plus précieux.',
+   632→      founderQuote: "Nous ne montrons pas simplement le désert aux familles — nous les aidons à ressentir son rythme ancien, à entendre ses secrets murmurés, et à emporter un peu de sa magie dans leur cœur pour toujours.",
+   633→      founderName: '— Hassan El-Fassi, Fondateur',
+   634→      guidesNous: 'Ce Qui Nous Guide',
+   635→      coreValues: 'Nos Valeurs Fondamentales',
+   636→      values: [
+   637→        { title: 'La Famille D\'Abord', description: 'Chaque expérience est conçue avec le plaisir intergénéral à l\'esprit. Des grands-parents aux petits-enfants, chacun trouve son moment d\'émerveillement.' },
+   638→        { title: 'Connexion Authentique', description: 'Nous facilitons des échanges genuins entre votre famille et nos hôtes berbères, créant des ponts culturels qui durent toute une vie.' },
+   639→        { title: 'Excellence Sans Compromis', description: 'Des véhicules que nous utilisons aux repas que nous servons, chaque détail répond aux normes les plus élevées de qualité et de sécurité.' },
+   640→        { title: 'Empouvoirement Local', description: 'Nous employons et formons des guides locaux, soutenons les familles berbères, et assurons que le tourisme bénéficie aux communautés que nous visitons.' },
+   641→        { title: 'Créer de la Magie', description: 'Nous croyons au pouvoir transformateur des expériences extraordinaires. Chaque visite est une opportunité de créer des souvenirs pour la vie.' },
+   642→        { title: 'Tourisme Responsable', description: 'Nous sommes engagés à préserver l\'écosystème désertique fragile et à minimiser notre empreinte environnementale.' },
+   643→      ],
+   644→      teamTitle: 'Rencontrez Notre Équipe',
+   645→      teamSubtitle: 'Les Personnes Derrière la Magie',
+   646→      yearsOfExperience: '15+',
+   647→      happyGuests: '10K+',
+   648→      familyOwned: '100%',
+   649→      averageRating: '4.9',
+   650→      yearsOfExperienceLabel: 'Années d\'Expérience',
+   651→      happyGuestsLabel: 'Invités Satisfaits',
+   652→      familyOwnedLabel: 'Familial',
+   653→      averageRatingLabel: 'Note Moyenne',
+   654→      team: [
+   655→        {
+   656→          name: 'Hassan El-Fassi',
+   657→          role: 'Fondateur & Guide Principal',
+   658→          story: 'Né dans l\'Atlas, Hassan passe plus de 20 ans à guider des familles à travers le Sahara. Sa chaleur et son expertise sont le fondement de tout ce que nous faisons.',
+   659→        },
+   660→        {
+   661→          name: 'Fatima Benhassan',
+   662→          role: 'Curatrice d\'Expériences',
+   663→          story: 'Fatima s\'assure que chaque détail de votre voyage est parfait. Son attention aux détails et sa compréhension profonde de l\'excellence hôtelière distinguent nos expériences.',
+   664→        },
+   665→        {
+   666→          name: 'Mohammed Ait Brahim',
+   667→          role: 'Directeur des Opérations',
+   668→          story: 'Mohammed coordonne notre flotte, nos guides et nos opérations de camp. Sa maîtrise logistique assure des expériences fluides pour chaque invité.',
+   669→        },
+   670→      ],
+   671→    },
+   672→    gallery: {
+   673→      pageTitle: 'Galerie Désert',
+   674→      pageSubtitle: 'Aperçus de la magie qui attend votre famille',
+   675→      visualJourney: 'Voyage Visuel',
+   676→      glimpses: 'Aperçus de la magie qui attend votre famille',
+   677→      all: 'Tout',
+   678→      camels: 'Chameaux',
+   679→      adventure: 'Aventure',
+   680→      camp: 'Camp',
+   681→      nature: 'Nature',
+   682→      photos: 'photos',
+   683→      createMemories: 'Prêt à Créer Vos Propres Souvenirs Désertiques ?',
+   684→      galleryCta: 'Ces moments attendent votre famille. Laissez-nous façonner votre expérience désertique parfaite.',
+   685→      startJourney: 'Commencer Votre Voyage',
+   686→      categories: {
+   687→        camels: 'Chameaux',
+   688→        adventure: 'Aventure',
+   689→        camp: 'Camp',
+   690→        nature: 'Nature',
+   691→      },
+   692→    },
+   693→    contact: {
+   694→      pageTitle: 'Réserver Votre Expérience',
+   695→      pageSubtitle: 'Remplissez le formulaire ci-dessous et notre équipe façonnera votre échappée désertique parfaite dans les 24 heures.',
+   696→      beginYourJourney: 'Commencer Votre Voyage',
+   697→      formDescription: 'Remplissez le formulaire ci-dessous et notre équipe façonnera votre échappée désertique parfaite dans les 24 heures.',
+   698→      selectExperience: 'Sélectionnez Votre Expérience',
+   699→      notSureYet: 'Pas Encore Sûr / Sur Mesure',
+   700→      fullName: 'Nom Complet *',
+   701→      fullNamePlaceholder: 'Votre nom complet',
+   702→      email: 'Adresse Email *',
+   703→      emailPlaceholder: 'votre@email.com',
+   704→      phone: 'Téléphone / WhatsApp',
+   705→      phonePlaceholder: '+212 XXX XXXXXX',
+   706→      preferredDate: 'Date Préférée',
+   707→      numberOfGuests: 'Nombre d\'Invités',
+   708→      selectGroupSize: 'Sélectionnez la taille du groupe',
+   709→      guest: 'Invité',
+   710→      guests: 'Invités',
+   711→      group: 'Invités (Groupe)',
+   712→      specialRequests: 'Demandes Spéciales ou Questions',
+   713→      specialRequestsPlaceholder: 'Parlez-nous des intérêts de votre famille, de toute exigence particulière, de restrictions alimentaires, ou questions...',
+   714→      sendBookingRequest: 'Envoyer la Demande de Réservation',
+   715→      submitAgreement: 'En soumettant ce formulaire, vous acceptez d\'être contacté concernant votre demande.',
+   716→      contactDirectly: 'Contactez-Nous Directement',
+   717→      phoneWhatsApp: 'Téléphone / WhatsApp',
+   718→      emailAddress: 'Email',
+   719→      location: 'Localisation',
+   720→      locationDetail: 'Marrakech, Maroc',
+   721→      hotelPickup: 'Prise en charge à l\'hôtel disponible',
+   722→      availability: 'Disponibilité',
+   723→      alwaysReady: 'Toujours prêt à aider',
+   724→      whatHappensNext: 'Ce Qui Se Passe Ensuite ?',
+   725→      steps: [
+   726→        'Nous recevons votre demande et vérifions la disponibilité',
+   727→        'Notre équipe vous contacte dans les 24 heures',
+   728→        'Nous personnalisons les détails selon vos préférences',
+   729→        'Confirmez avec un petit acompte et préparez-vous !',
+   730→      ],
+   731→      transportReminder: 'Transport hôtelier complémentaire inclus dans toutes les expériences',
+   732→      successTitle: 'Demande Reçue',
+   733→      successMessage: 'Merci pour votre demande. Notre équipe vous contactera dans les 24 heures pour finaliser votre aventure désertique.',
+   734→      successImmediate: 'Pour une assistance immédiate : +212 XXX XXXXXX',
+   735→    },
+   736→    footer: {
+   737→      tagline: 'Créant des expériences désertiques extraordinaires pour des familles exigeantes depuis 2009. Où le luxe rencontre l\'hospitalité marocaine authentique.',
+   738→      experiences: 'Expériences',
+   739→      navigation: 'Navigation',
+   740→      contact: 'Contact',
+   741→      hotelPickup: 'Marrakech, Maroc (Prise en charge à l\'hotel disponible)',
+   742→      available247: 'Disponible 24/7',
+   743→      copyright: '© 2024 Families Tours. Tous droits réservés.',
+   744→      transportIncluded: 'Transport complémentaire inclus dans toutes les expériences',
+   745→      quickLinks: {
+   746→        home: 'Accueil',
+   747→        experiences: 'Expériences',
+   748→        about: 'Notre Histoire',
+   749→        gallery: 'Galerie',
+   750→        reserve: 'Réserver',
+   751→      },
+   752→    },
+   753→    packageNames: {
+   754→      camelDinner: 'Balade à Chameau & Dîner',
+   755→      quadDinner: 'Aventure en Quad & Dîner',
+   756→      ultimateCombo: 'Combo Désert Ultime',
+   757→      sunriseBreakfast: 'Expérience du Lever de Soleil Doré',
+   758→      safari4x4: 'Safari 4x4 Royal',
+   759→    },
+   760→    packageSubtitles: {
+   761→      camelDinner: 'L\'Expérience Classique du Désert',
+   762→      quadDinner: 'Quand l\'Adrénaline Rencontre la Tradition',
+   763→      ultimateCombo: 'Quad • Chameau • Dîner',
+   764→      sunriseBreakfast: 'Petit-déjeuner • Quad • Chameau',
+   765→      safari4x4: 'L\'Expérience Luxe Ultime',
+   766→    },
+   767→  },
+   768→
+   769→  // Spanish Translations
+   770→  es: {
+   771→    nav: {
+   772→      home: 'Inicio',
+   773→      experiences: 'Experiencias',
+   774→      about: 'Nuestra Historia',
+   775→      gallery: 'Galería',
+   776→      reserve: 'Reservar',
+   777→      bookNow: 'Reservar Ahora',
+   778→    },
+   779→    hero: {
+   780→      location: 'Marruecos • Desierto del Sahara',
+   781→      title1: 'Donde las Dunas Doradas',
+   782→      title2: 'Encuentran los Sueños Familiares',
+   783→      subtitle: 'Experiencias desérticas cuidadosamente elaboradas que tejen aventura, cultura y momentos familiares inolvidables en el corazón de Marruecos.',
+   784→      discover: 'Descubrir Experiencias',
+   785→      viewGallery: 'Ver Galería',
+   786→      scroll: 'Desplazar',
+   787→    },
+   788→    home: {
+   789→      curatedForYou: 'Seleccionado Para Ti',
+   790→      signatureExperiences: 'Experiencias Firma',
+   791→      viewAllExperiences: 'Ver Todas las Experiencias',
+   792→      quote: 'El desierto tiene una voz para quienes escucha — habla de atemporalidad, maravilla y la alegría de los momentos compartidos bajo infinitas estrellas.',
+   793→      quoteAuthor: 'Proverbio Bereber',
+   794→      difference: 'La Diferencia',
+   795→      whyChooseUs: 'Por Qué las Familias Nos Eligen',
+   796→      values: [
+   797→        { title: 'Transporte Complementario', description: 'Recogida de lujo en el hotel e incluida en cada experiencia' },
+   798→        { title: 'Diseñado para la Familia', description: 'Cada actividad diseñada para el disfrute multigeneracional y seguridad' },
+   799→        { title: 'Hospitalidad Auténtica', description: 'Las familias bereberes tradicionales te reciben como invitados honorados' },
+   800→        { title: 'Experticia Local', description: 'Guías que han caminado por estas dunas durante generaciones' },
+   801→      ],
+   802→      guestStories: 'Historias de Invitados',
+   803→      beginJourney: 'Comenzar Tu Viaje',
+   804→      ctaTitle: '¿Listo para Crear Recuerdos Atemporales?',
+   805→      ctaSubtitle: 'Dejanos crear tu escapada desértica perfecta. Cada detalle adaptado a los sueños de tu familia.',
+   806→      reserveExperience: 'Reservar Tu Experiencia',
+   807→    },
+   808→    tours: {
+   809→      pageTitle: 'Experiencias del Desierto',
+   810→      pageSubtitle: 'Cada experiencia está meticulosamente elaborada para ofrecer a tu familia un viaje auténtico al corazón de la cultura desértica marroquí.',
+   811→      transportIncluded: '✦ Transporte Hotelero Complementario Incluido en Todas las Experiencias',
+   812→      transportDetail: 'Recogida y dejada en tu alojamiento',
+   813→      allExperiences: 'Todas las Experiencias',
+   814→      familyAdventuras: 'Aventuras Familiares',
+   815→      luxuryPrivate: 'Lujo y Privado',
+   816→      startingFrom: 'Desde',
+   817→      perPerson: '/ persona',
+   818→      signature: 'Firma',
+   819→      luxury: 'Lujo',
+   820→      duration: 'Duración',
+   821→      difficulty: 'Dificultad',
+   822→      groupSize: 'Tamaño del Grupo',
+   823→      whatsIncluded: 'Qué Está Incluido',
+   824→      bookThisExperience: 'Reservar Esta Experiencia',
+   825→      customTitle: '¿Algo Único en Mente?',
+   826→      customSubtitle: 'Cada familia es única. Dejanos crear una experiencia desértica hecha a medida adaptada precisamente a tus sueños y deseos.',
+   827→      requestCustom: 'Solicitar Experiencia Personalizada',
+   828→      features: {
+   829→        camelTrek: 'Paseo en camello al atardecer (1 hora)',
+   830→        traditionalDinner: 'Cena marroquí tradicional',
+   831→        liveMusic: 'Música bereber en vivo y entretenimiento',
+   832→        mintTea: 'Ceremonia del té de mentha',
+   833→        sandboarding: 'Sandboard',
+   834→        quadTour: 'Tour guiado en cuatrimoto (1 hora)',
+   835→        safetyEquipment: 'Equipo de seguridad completo proporcionado',
+   836→        professionalInstructor: 'Instructor profesional',
+   837→        desertCampRelaxation: 'Relajación en el campamento desértico',
+   838→        quadAdventure: 'Aventura en cuatrimoto (1 hora)',
+   839→        sunsetCamel: 'Caravana de camellos al atardecer',
+   840→        gourmetDinner: 'Cena gastronómica tradicional',
+   841→        berberShow: 'Espectáculo cultural bereber',
+   842→        stargazing: 'Sesión de observación de estrellas',
+   843→        professionalPhotography: 'Fotografía profesional',
+   844→        preDawnDeparture: 'Salida antes del amanecer desde el hotel',
+   845→        sunriseViewing: 'Observación del amanecer desde un punto panorámico',
+   846→        traditionalBreakfast: 'Desayuno marroquí tradicional',
+   847→        morningCamelTrek: 'Paseo en camello matutino',
+   848→        quadExploration: 'Exploración en cuatrimoto',
+   849→        photographyOpportunities: 'Oportunidades fotográficas',
+   850→        private4x4: 'Vehículo 4x4 privado con conductor',
+   851→        extendedExploration: 'Exploración desértica extendida (día completo)',
+   852→        berberVillage: 'Visita a un pueblo bereber tradicional',
+   853→        premiumDinner: 'Cena gourmet premium',
+   854→        privateTent: 'Alojamiento en tienda de lujo privada',
+   855→        vipService: 'Servicio VIP durante todo el recorrido',
+   856→        photographerIncluded: 'Fotógrafo profesional incluido',
+   857→        customizableItinerary: 'Itinerario personalizable',
+   858→      },
+   859→      packages: [
+   860→        {
+   861→          title: 'Paseo en Camello y Cena',
+   862→          subtitle: 'La Experiencia Clásica del Desierto',
+   863→          description: 'Experimenta la magia atemporal del Sahara en una caravana tradicional de camellos. Observa cómo el atardecer pinta las dunas de oro y carmesí, luego disfruta de un festín bereber auténtico bajo un dosel de estrellas.',
+   864→        },
+   865→        {
+   866→          title: 'Aventura en Cuatrimoto y Cena',
+   867→          title: 'Cuando la Adrenalina Encuentra la Tradición',
+   868→          description: 'Siente la emoción de conquistar las dunas doradas en una poderosa cuatrimoto. Después de tu aventura desértica, relájate con una cena espectacular en nuestro campamento desértico exclusivo.',
+   869→        },
+   870→        {
+   871→          title: 'Combo Desértico Definitivo',
+   872→          subtitle: 'Cuatrimoto • Camello • Cena',
+   873→          description: 'La inmersión desértica completa. Comienza con una emocionante paseo en cuatrimoto, transiciona a un pacífico paseo en cam mientras el sol se pone, y concluye con una inolvidable noche de hospitalidad bereber.',
+   874→        },
+   875→        {
+   876→          title: 'Experiencia del Amanecer Dorado',
+   877→          subtitle: 'Desayuno • Cuatrimoto • Camello',
+   878→          description: 'Presencia cómo el desierto se despierta en una explosión de luz dorada. Esta aventura matutina combina la serenidad del amanecer con actividades emocionantes y un desayuno tradicional en las dunas.',
+   879→        },
+   880→        {
+   881→          title: 'Safari 4x4 Real',
+   882→          subtitle: 'La Experiencia de Lujo Definitiva',
+   883→          description: 'Viaja más allá de lo ordinario hacia el corazón del Sahara en lujo privado. Esta expedición exclusiva te lleva a oasis ocultos, pueblos remotos y dunas prístinas que pocos tienen el privilegio de presenciar.',
+   884→        },
+   885→      ],
+   886→    },
+   887→    about: {
+   888→      pageTitle: 'Nuestra Historia',
+   889→      pageSubtitle: 'Un viaje que comenzó con un solo camello y el sueño de compartir la magia del desierto.',
+   890→      since: 'Desde 2009',
+   891→      theBeginning: 'El Comienzo',
+   892→      storyTitle: 'De un Solo Camello a Miles de Sonrisas',
+   893→      storySubtitle: '',
+   894→      storyP1: 'En 2009, Hassan El-Fassi estaba al borde de las dunas de Erg Chebbi con solo el camello de su familia, un amor profundo por su tierra natal, y un sueño audaz: compartir la profunda belleza del desierto marroquí con familias de todo el mundo.',
+   895→      storyP2: 'Lo que comenzó como un solo hombre ofreciendo paseos en camello al atardecer ha florecido en Families Tours — una colección curada de experiencias desérticas excepcionales que han dado la bienvenida a más de 10,000 invitados de cada rincón del globo.',
+   896→      storyP3: 'Nuestra filosofía nunca ha vacilado: cada familia merece experimentar el desierto no como turistas, sino como invitados honorados. Esta creencia guía cada decisión que tomamos, desde las familias bereberes que te dan la bienvenida a sus campamentos, hasta los momentos cuidadosamente elaborados que se convierten en tus recuerdos más preciados.',
+   897→      founderQuote: "No solo mostramos el desierto a las familias — les ayudamos a sentir su ritmo antiguo, escuchar sus secretos susurrados, y llevar un poco de su magia en sus corazones para siempre.",
+   898→      founderName: '— Hassan El-Fassi, Fundador',
+   899→      guidesUs: 'Lo Que Nos Guía',
+   900→      coreValues: 'Nuestros Valores Fundamentales',
+   901→      values: [
+   902→        { title: 'La Familia Primero', description: 'Cada experiencia está diseñada con el disfrute multigeneracional en mente. Desde abuelos hasta nietos, todos encuentran su momento de maravilla.' },
+   903→        { title: 'Conexión Auténtica', description: 'Facilitamos intercambios genuinos entre tu familia y nuestros anfitriones bereberes, creando puentes culturales que duran toda la vida.' },
+   904→        { title: 'Excelencia Sin Compromisos', description: 'Desde los vehículos que usamos hasta las comidas que servimos, cada detalle cumple con los más altos estándares de calidad y seguridad.' },
+   905→        { title: 'Empoderamiento Local', description: 'Empleamos y entrenamos guías locales, apoyamos a las familias bereberes, y aseguramos que el turismo beneficie a las comunidades que visitamos.' },
+   906→        { title: 'Crear Magia', description: 'Creemos en el poder transformador de las experiencias extraordinarias. Cada visita es una oportunidad para crear recuerdos para toda la vida.' },
+   907→        { title: 'Turismo Responsable', description: 'Estamos comprometidos a preservar el frágil ecosistema desértico y minimizar nuestra huella ambiental.' },
+   908→      ],
+   909→      teamTitle: 'Conoce Nuestro Equipo',
+   910→      teamSubtitle: 'Las Personas Detrás de la Magia',
+   911→      yearsOfExperience: '15+',
+   912→      happyGuests: '10K+',
+   913→      familyOwned: '100%',
+   914→      averageRating: '4.9',
+   915→      yearsOfExperienceLabel: 'Años de Experiencia',
+   916→      happyGuestsLabel: 'Invitos Felices',
+   917→      familyOwnedLabel: 'Familiar',
+   918→      averageRatingLabel: 'Calificación Promedio',
+   919→      team: [
+   920→        {
+   921→          name: 'Hassan El-Fassi',
+   922→          role: 'Fundador y Guía Principal',
+   923→          story: 'Nacido en el Atlas, Hassan ha pasado más de 20 años guiando familias a través del Sahara. Su calidez y experiencia son el fundamento de todo lo que hacemos.',
+   924→        },
+   925→        {
+   926→          name: 'Fatima Benhassan',
+   927→          role: 'Curadora de Experiencias',
+   928→          story: 'Fatima asegura que cada detalle de tu viaje sea perfecto. Su atención al detalle y profunda comprensión de la excelencia hospitalaria distinguen nuestras experiencias.',
+   929→        },
+   930→        {
+   931→          name: 'Mohammed Ait Brahim',
+   932→          role: 'Jefe de Operaciones',
+   933→          story: 'Mohammed coordina nuestra flota, guías y operaciones de campamento. Su dominio logístico asegura experiencias fluidas para cada invitado.',
+   934→        },
+   935→      ],
+   936→    },
+   937→    gallery: {
+   938→      pageTitle: 'Galería del Desierto',
+   939→      pageSubtitle: 'Vistazos de la magia que espera a tu familia',
+   940→      visualJourney: 'Viaje Visual',
+   941→      glimpses: 'Vistazos de la magia que espera a tu familia',
+   942→      all: 'Todo',
+   943→      camellos: 'Camellos',
+   944→      adventure: 'Aventura',
+   945→      camp: 'Campamento',
+   946→      nature: 'Naturaleza',
+   947→      photos: 'fotos',
+   948→      createMemories: '¿Listo para Crear Tus Propios Recuerdes Desérticos?',
+   949→      galleryCta: ' Estos momentos esperan a tu familia. Dejanos crear tu experiencia desértica perfecta.',
+   950→      startJourney: 'Comenzar Tu Viaje',
+   951→      categories: {
+   952→        camells: 'Camellos',
+   953→        adventure: 'Aventura',
+   954→        camp: 'Campamento',
+   955→        nature: 'Naturaleza',
+   956→      },
+   957→    },
+   958→    contact: {
+   959→      pageTitle: 'Reserva Tu Experiencia',
+   960→      pageSubtitle: 'Completa el formulario a continuación y nuestro equipo creará tu escapada desértica perfecta dentro de 24 horas.',
+   961→      beginYourJourney: 'Comenzar Tu Viaje',
+   962→      formDescription: 'Completa el formulario a continuación y nuestro equipo creará tu escapada desértica perfecta dentro de 24 horas.',
+   963→      selectExperience: 'Selecciona Tu Experiencia',
+   964→      notSureYet: 'No Seguro Aún / Personalizado',
+   965→      fullName: 'Nombre Completo *',
+   966→      fullNamePlaceholder: 'Tu nombre completo',
+   967→      email: 'Correo Electrónico *',
+   968→      emailPlaceholder: 'tu@email.com',
+   969→      phone: 'Teléfono / WhatsApp',
+   970→      phonePlaceholder: '+212 XXX XXXXXX',
+   971→      preferredDate: 'Fecha Preferida',
+   972→      numberOfGuests: 'Número de Invitados',
+   973→      selectGroupSize: 'Selecciona el tamaño del grupo',
+   974→      guest: 'Invitado',
+   975→      guests: 'Invitados',
+   976→      group: 'Invitados (Grupo)',
+   977→      specialRequests: 'Solicitudes Especiales o Preguntas',
+   978→      specialRequestsPlaceholder: 'Cuéntanos sobre los intereses de tu familia, cualquier requisito especial, restricciones dietéticas, o preguntas...',
+   979→      sendBookingRequest: 'Enviar Solicitud de Reserva',
+   980→      submitAgreement: 'Al enviar este formulario, aceptas ser contactado respecto a tu consulta.',
+   981→      contactDirectly: 'Contáctanos Directamente',
+   982→      phoneWhatsApp: 'Teléfono / WhatsApp',
+   983→      emailAddress: 'Email',
+   984→      location: 'Ubicación',
+   985→      locationDetail: 'Marrakech, Marruecos',
+   986→      hotelPickup: 'Recogida en el hotel disponible',
+   987→      availability: 'Disponibilidad',
+   988→      alwaysReady: 'Siempre listo para ayudar',
+   989→      whatHappensNext: 'Qué Pasa Después?',
+   990→      steps: [
+   991→        'Recibimos tu solicitud y revisamos disponibilidad',
+   992→        'Nuestro equipo te contacta dentro de 24 horas',
+   993→        'Personalizamos los detalles según tus preferencias',
+   994→        '¡Confirma con un pequeño depósito y prepárate!',
+   995→      ],
+   996→      transportReminder: 'Transporte hotelero complementario incluido en todas las experiencias',
+   997→      successTitle: 'Solicitud Recibida',
+   998→      successMessage: 'Gracias por tu consulta. Nuestro equipo te contactará dentro de 24 horas para finalizar tu aventura desértica.',
+   999→      successImmediate: 'Para asistencia inmediata: +212 XXX XXXXXX',
+  1000→    },
+  1001→    footer: {
+  1002→      tagline: 'Creando experiencias desérticas extraordinarias para familias exigentes desde 2009. Donde el lujo encuentra la hospitalidad marroquí auténtica.',
+  1003→      experiences: 'Experiencias',
+  1004→      navigation: 'Navegación',
+  1005→      contact: 'Contacto',
+  1006→      hotelPickup: 'Marrakech, Marruecos (Recogida en hotel disponible)',
+  1007→      available247: 'Disponible 24/7',
+  1008→      copyright: '© 2024 Families Tours. Todos los derechos reservados.',
+  1009→      transportIncluded: 'Transporte complementario incluido en todas las experiencias',
+  1010→      quickLinks: {
+  1011→        home: 'Inicio',
+  1012→        experiences: 'Experiencias',
+  1013→        about: 'Nuestra Historia',
+  1014→        gallery: 'Galería',
+  1015→        reserve: 'Reservar',
+  1016→      },
+  1017→    },
+  1018→    packageNames: {
+  1019→      camelDinner: 'Paseo en Camello y Cena',
+  1020→      quadDinner: 'Aventura en Cuatrimoto y Cena',
+  1021→      ultimateCombo: 'Combo Desértico Definitivo',
+  1022→      sunriseBreakfast: 'Experiencia del Amanecer Dorado',
+  1023→      safari4x4: 'Safari 4x4 Real',
+  1024→    },
+  1025→    packageSubtitles: {
+  1026→      camelDinner: 'La Experiencia Clásica del Desierto',
+  1027→      quadDinner: 'Cuando la Adrenalina Encuentra la Tradición',
+  1028→      ultimateCombo: 'Cuatrimoto • Camello • Cena',
+  1029→      sunriseBreakfast: 'Desayuno • Cuatrimoto • Camello',
+  1030→      safari4x4: 'La Experiencia de Lujo Definitiva',
+  1031→    },
+  1032→  },
+  1033→};
+  1034→
+  1035→// Helper function to get translation
+  1036→export function t(locale: Locale, key: string): string {
+  1037→  const keys = key.split('.');
+  1038→  let value: any = translations[locale];
+  1039→  
+  1040→  for (const k of keys) {
+  1041→    if (value && typeof value === 'object' && k in value) {
+  1042→      value = value[k];
+  1043→    } else {
+  1044→      return key; // Return key if translation not found
+  1045→    }
+  1046→  }
+  1047→  
+  1048→  return typeof value === 'string' ? value : key;
+  1049→}
+  1050→
