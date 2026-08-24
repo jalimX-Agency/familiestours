@@ -5,7 +5,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { tourPackages } from '@/lib/images';
 import { useLocale, LocaleProvider, Locale } from '@/context/LocaleContext';
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Calendar, Users } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Calendar, Users, AlertCircle, Loader2 } from 'lucide-react';
 
 function ContactContent() {
   const { locale, t } = useLocale();
@@ -15,19 +15,54 @@ function ContactContent() {
     email: '',
     phone: '',
     date: '',
-    guests: '',
+    guests: '2',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const getPackageName = (pkgId: string) => {
+    if (!pkgId) return 'Custom Experience';
+    const pkg = tourPackages.find((p) => p.id.toString() === pkgId);
+    return pkg ? pkg.title : 'Custom Experience';
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ name: '', email: '', phone: '', date: '', guests: '', message: '' });
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          packageName: getPackageName(selectedPackage),
+          customerName: formData.name,
+          email: formData.email,
+          phone: formData.phone || undefined,
+          date: formData.date || new Date().toISOString().split('T')[0],
+          guests: parseInt(formData.guests || '1', 10),
+          message: formData.message || undefined,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Failed to submit booking. Please try again.');
+      }
+
+      setIsSubmitted(true);
+      setFormData({ name: '', email: '', phone: '', date: '', guests: '2', message: '' });
       setSelectedPackage('');
-    }, 5000);
+    } catch (err: any) {
+      console.error('Submission error:', err);
+      setErrorMessage(err.message || 'Something went wrong. Please reach out to us directly via WhatsApp.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -75,10 +110,24 @@ function ContactContent() {
                   <h3 className="text-2xl font-light mb-3">{t.contact.successTitle}</h3>
                   <p className="dark:text-white/50 text-gray-600 mb-6">{t.contact.successMessage}</p>
                   <p className="text-amber-500/60 text-sm">{t.contact.successImmediate}</p>
+                  <button
+                    type="button"
+                    onClick={() => setIsSubmitted(false)}
+                    className="mt-6 px-6 py-2 border border-amber-500/50 text-amber-500 hover:bg-amber-500 hover:text-black transition-all text-xs tracking-wider uppercase"
+                  >
+                    Send Another Request
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-8">
                   
+                  {errorMessage && (
+                    <div className="p-4 border border-red-500/40 bg-red-500/10 rounded flex items-center gap-3 text-red-400 text-sm">
+                      <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                      <span>{errorMessage}</span>
+                    </div>
+                  )}
+
                   {/* Experience Selection */}
                   <div>
                     <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-4">
@@ -191,13 +240,12 @@ function ContactContent() {
                       onChange={(e) => setFormData({...formData, guests: e.target.value})}
                       className="w-full bg-transparent dark:border-b border-b dark:border-white/10 border-gray-200 py-3 dark:text-white text-gray-900 focus:border-amber-500 focus:outline-none transition-colors"
                     >
-                      <option value="" className="dark:bg-zinc-900 bg-white">{t.contact.selectGroupSize}</option>
                       {[1,2,3,4,5,6,7,8,9,10].map(n => (
                         <option key={n} value={n} className="dark:bg-zinc-900 bg-white">
                           {n} {n === 1 ? t.contact.guest : t.contact.guests}
                         </option>
                       ))}
-                      <option value="10+" className="dark:bg-zinc-900 bg-white">{t.contact.group}</option>
+                      <option value="12" className="dark:bg-zinc-900 bg-white">{t.contact.group}</option>
                     </select>
                   </div>
 
@@ -218,11 +266,18 @@ function ContactContent() {
                   {/* Submit Button */}
                   <button
                     type="submit"
-                    className="group w-full flex items-center justify-center gap-4 px-8 py-5 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-medium tracking-wider uppercase text-sm hover:from-amber-400 hover:to-amber-500 transition-all duration-500 shadow-lg shadow-amber-500/25"
+                    disabled={isSubmitting}
+                    className="group w-full flex items-center justify-center gap-4 px-8 py-5 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-medium tracking-wider uppercase text-sm hover:from-amber-400 hover:to-amber-500 transition-all duration-500 shadow-lg shadow-amber-500/25 disabled:opacity-50 cursor-pointer"
                   >
-                    <Send className="w-4 h-4" />
-                    {t.contact.sendBookingRequest}
-                    <span className="w-0 h-[1px] bg-black/30 group-hover:w-8 transition-all duration-300"></span>
+                    {isSubmitting ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        {t.contact.sendBookingRequest}
+                        <span className="w-0 h-[1px] bg-black/30 group-hover:w-8 transition-all duration-300"></span>
+                      </>
+                    )}
                   </button>
 
                   <p className="center dark:text-white/30 text-gray-400 text-xs text-center">
