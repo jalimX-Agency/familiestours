@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { sendBookingNotifications } from '@/lib/email';
 import { z } from 'zod';
 
 const bookingSchema = z.object({
@@ -28,6 +29,20 @@ export async function POST(req: NextRequest) {
         message: validatedData.message || null,
         status: 'PENDING',
       },
+    });
+
+    // Send asynchronous email notifications via Resend
+    sendBookingNotifications({
+      id: booking.id,
+      packageName: booking.packageName,
+      customerName: booking.customerName,
+      email: booking.email,
+      phone: booking.phone,
+      date: booking.date,
+      guests: booking.guests,
+      message: booking.message,
+    }).catch((emailErr) => {
+      console.error('Background email notification error:', emailErr);
     });
 
     return NextResponse.json(

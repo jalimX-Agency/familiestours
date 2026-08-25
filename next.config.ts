@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "cdn.familiestours.com",
+      },
+      {
+        protocol: "https",
         hostname: "images.familiestours.com",
       },
       {
