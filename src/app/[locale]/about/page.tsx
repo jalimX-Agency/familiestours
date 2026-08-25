@@ -21,63 +21,64 @@ function AboutContent() {
   const team = t.about.team;
 
   return (
-    <main className="min-h-screen dark:bg-black bg-white dark:text-white text-gray-900">
+    <main className="min-h-screen dark:bg-[#0c0d0f] bg-[#faf8f5] dark:text-zinc-100 text-stone-900 transition-colors duration-300">
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[55vh] min-h-[460px] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${images.camelCaravan})` }}
         >
-          <div className="absolute inset-0 dark:bg-gradient-to-b bg-gradient-to-b from-black/80 via-black/60 to-black"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/50"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40"></div>
         </div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-3 mb-6">
-            <span className="w-8 h-[1px] bg-amber-500/50"></span>
-            <span className="text-amber-500/80 text-xs tracking-[0.3em] uppercase">{t.about.since}</span>
-            <span className="w-8 h-[1px] bg-amber-500/50"></span>
+            <span className="w-8 h-[1px] bg-amber-400"></span>
+            <span className="text-amber-400 text-xs tracking-[0.35em] uppercase font-semibold drop-shadow-sm">{t.about.since}</span>
+            <span className="w-8 h-[1px] bg-amber-400"></span>
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light mb-6">
-            Our <span className="font-serif italic text-amber-500">Story</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light mb-6 text-white drop-shadow-md">
+            Our <span className="font-serif italic text-amber-400">Story</span>
           </h1>
           
-          <p className="text-lg dark:text-white/50 text-white/70 max-w-2xl mx-auto font-light">
+          <p className="text-lg text-white/90 max-w-2xl mx-auto font-light drop-shadow-sm">
             {t.about.pageSubtitle}
           </p>
         </div>
       </section>
 
       {/* Story Section */}
-      <section className="py-24 lg:py-32">
+      <section className="py-20 lg:py-28 dark:bg-[#0c0d0f] bg-[#faf8f5]">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className="relative">
-              <div className="overflow-hidden">
+              <div className="overflow-hidden rounded-2xl shadow-xl border dark:border-white/10 border-stone-200">
                 <img 
                   src={images.family} 
-                  alt="Happy family in desert"
+                  alt="Happy family in Agafay desert"
                   className="w-full aspect-[4/5] object-cover"
                 />
               </div>
-              <div className="absolute -bottom-6 -left-6 w-full h-full border border-amber-500/10 -z-10 hidden lg:block"></div>
+              <div className="absolute -bottom-5 -left-5 w-full h-full border border-amber-500/20 rounded-2xl -z-10 hidden lg:block"></div>
               
-              <div className="absolute -right-4 top-1/4 dark:bg-zinc-900/90 bg-zinc-800/90 backdrop-blur-sm dark:border border border-white/10 p-6 hidden md:block">
+              <div className="absolute -right-4 top-1/4 dark:bg-zinc-900/95 bg-white/95 backdrop-blur-md dark:border border border-stone-200 dark:border-white/10 p-6 rounded-xl shadow-xl hidden md:block">
                 <div className="text-4xl font-light text-amber-500 mb-1">15+</div>
-                <div className="dark:text-white/50 text-gray-300 text-xs tracking-wider uppercase">{t.about.yearsOfExperienceLabel}</div>
+                <div className="dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase font-semibold">{t.about.yearsOfExperienceLabel}</div>
               </div>
             </div>
 
             <div>
-              <span className="text-amber-500/80 text-xs tracking-[0.3em] uppercase block mb-6">{t.about.theBeginning}</span>
+              <span className="text-amber-500 font-semibold text-xs tracking-[0.3em] uppercase block mb-4">{t.about.theBeginning}</span>
               
-              <h2 className="text-3xl lg:text-4xl font-light mb-8 leading-tight">
+              <h2 className="text-3xl lg:text-4xl font-light mb-6 leading-tight dark:text-white text-stone-900">
                 {t.about.storyTitle}
               </h2>
               
-              <div className="space-y-6 dark:text-white/60 text-gray-600 leading-relaxed">
+              <div className="space-y-5 dark:text-zinc-300 text-stone-600 leading-relaxed text-base">
                 <p>{t.about.storyP1}</p>
                 <p>{t.about.storyP2}</p>
                 <p>{t.about.storyP3}</p>
@@ -88,38 +89,39 @@ function AboutContent() {
       </section>
 
       {/* Quote Divider */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 dark:bg-gradient-to-r bg-gradient-to-r dark:from-zinc-950 from-gray-100 dark:via-amber-950/20 via-amber-50/20 dark:to-zinc-950 to-gray-100"></div>
-        
+      <section className="py-20 relative overflow-hidden dark:bg-[#121418] bg-stone-100/80 border-y dark:border-white/5 border-stone-200/80">
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <span className="text-amber-500/40 text-7xl font-serif block mb-6">&ldquo;</span>
-          <blockquote className="text-2xl md:text-3xl font-light leading-relaxed dark:text-white/80 text-gray-700 italic">
+          <span className="text-amber-500/40 text-6xl font-serif block mb-4">&ldquo;</span>
+          <blockquote className="text-xl md:text-2xl lg:text-3xl font-light leading-relaxed dark:text-zinc-200 text-stone-800 italic">
             {t.about.founderQuote}
           </blockquote>
-          <p className="mt-8 text-amber-500/60 text-sm tracking-widest uppercase">{t.about.founderName}</p>
+          <p className="mt-6 text-amber-500 font-semibold text-xs tracking-widest uppercase">{t.about.founderName}</p>
         </div>
       </section>
 
       {/* Values Section */}
-      <section className="py-24 lg:py-32 dark:bg-zinc-950 bg-gray-50">
+      <section className="py-20 lg:py-28 dark:bg-[#0c0d0f] bg-[#faf8f5]">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="text-center mb-16 lg:mb-20">
-            <span className="text-amber-500/80 text-xs tracking-[0.3em] uppercase block mb-4">{t.about.guidesUs}</span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light">
+          <div className="text-center mb-16">
+            <span className="text-amber-500 font-semibold text-xs tracking-[0.3em] uppercase block mb-3">{t.about.guidesUs}</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light dark:text-white text-stone-900">
               {t.about.coreValues.split(' ')[0]} <span className="font-serif italic text-amber-500">{t.about.coreValues.split(' ').slice(1).join(' ')}</span>
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px dark:bg-white/5 bg-gray-200">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {values.map((value, idx) => (
-              <div key={idx} className="dark:bg-zinc-950 bg-white p-10 lg:p-12 group dark:hover:bg-zinc-900 hover:bg-gray-100 transition-colors duration-500">
-                <div className="text-amber-500/60 mb-6 group-hover:text-amber-500 transition-colors duration-300">
+              <div 
+                key={idx} 
+                className="dark:bg-zinc-900/60 bg-white p-8 lg:p-10 rounded-xl dark:border dark:border-white/10 border border-stone-200/90 shadow-sm hover:shadow-xl dark:hover:border-amber-500/40 hover:border-amber-500/40 transition-all duration-300 group"
+              >
+                <div className="text-amber-500 mb-5 group-hover:scale-110 transition-transform duration-300">
                   {value.icon}
                 </div>
-                <h3 className="text-xl font-light mb-4 group-hover:text-amber-500 transition-colors duration-300">
+                <h3 className="text-xl font-medium mb-3 dark:text-zinc-100 text-stone-900 group-hover:text-amber-500 transition-colors duration-300">
                   {value.title}
                 </h3>
-                <p className="dark:text-white/50 text-gray-600 text-sm leading-relaxed">
+                <p className="dark:text-zinc-400 text-stone-600 text-sm leading-relaxed">
                   {value.description}
                 </p>
               </div>
@@ -129,33 +131,33 @@ function AboutContent() {
       </section>
 
       {/* Team Section */}
-      <section className="py-24 lg:py-32">
+      <section className="py-20 lg:py-28 dark:bg-[#121418] bg-stone-100/70 border-t dark:border-white/5 border-stone-200/80">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="text-center mb-16 lg:mb-20">
-            <span className="text-amber-500/80 text-xs tracking-[0.3em] uppercase block mb-4">The People Behind the Magic</span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light">
+          <div className="text-center mb-16">
+            <span className="text-amber-500 font-semibold text-xs tracking-[0.3em] uppercase block mb-3">The People Behind the Magic</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light dark:text-white text-stone-900">
               Meet Our <span className="font-serif italic text-amber-500">Team</span>
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid md:grid-cols-3 gap-8">
             {team.map((member, idx) => (
-              <div key={idx} className="group">
-                <div className="aspect-[3/4] dark:bg-gradient-to-br bg-gradient-to-br dark:from-zinc-800 from-zinc-200 dark:to-zinc-900 to-zinc-400 mb-6 overflow-hidden relative">
+              <div key={idx} className="group p-6 rounded-2xl dark:bg-zinc-900/60 bg-white border dark:border-white/10 border-stone-200 shadow-md hover:shadow-xl transition-all">
+                <div className="aspect-[3/4] dark:bg-zinc-800 bg-stone-200 rounded-xl mb-6 overflow-hidden relative shadow-inner">
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-6xl font-light text-amber-500/20 group-hover:text-amber-500/30 transition-colors duration-500">
+                    <span className="text-6xl font-light text-amber-500/30 group-hover:text-amber-500/50 transition-colors duration-500">
                       {member.name.charAt(0)}
                     </span>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   
                   <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                    <p className="text-white/70 text-sm leading-relaxed">{member.story}</p>
+                    <p className="text-white/90 text-sm leading-relaxed">{member.story}</p>
                   </div>
                 </div>
                 
-                <h3 className="text-xl font-light mb-1">{member.name}</h3>
-                <p className="text-amber-500/60 text-sm">{member.role}</p>
+                <h3 className="text-xl font-medium mb-1 dark:text-white text-stone-900">{member.name}</h3>
+                <p className="text-amber-500 text-sm font-semibold">{member.role}</p>
               </div>
             ))}
           </div>
@@ -163,24 +165,24 @@ function AboutContent() {
       </section>
 
       {/* Numbers Section */}
-      <section className="py-24 dark:bg-zinc-950 bg-gray-50">
+      <section className="py-20 dark:bg-[#0c0d0f] bg-[#faf8f5] border-t dark:border-white/5 border-stone-200/80">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-            <div className="text-center">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center p-6 rounded-xl dark:bg-zinc-900/40 bg-white border dark:border-white/10 border-stone-200/80 shadow-sm">
               <div className="text-4xl lg:text-5xl font-light text-amber-500 mb-2">{t.about.yearsOfExperience}</div>
-              <div className="dark:text-white/40 text-gray-500 text-sm tracking-wider uppercase">{t.about.yearsOfExperienceLabel}</div>
+              <div className="dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase font-semibold">{t.about.yearsOfExperienceLabel}</div>
             </div>
-            <div className="text-center">
+            <div className="text-center p-6 rounded-xl dark:bg-zinc-900/40 bg-white border dark:border-white/10 border-stone-200/80 shadow-sm">
               <div className="text-4xl lg:text-5xl font-light text-amber-500 mb-2">{t.about.happyGuests}</div>
-              <div className="dark:text-white/40 text-gray-500 text-sm tracking-wider uppercase">{t.about.happyGuestsLabel}</div>
+              <div className="dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase font-semibold">{t.about.happyGuestsLabel}</div>
             </div>
-            <div className="text-center">
+            <div className="text-center p-6 rounded-xl dark:bg-zinc-900/40 bg-white border dark:border-white/10 border-stone-200/80 shadow-sm">
               <div className="text-4xl lg:text-5xl font-light text-amber-500 mb-2">{t.about.familyOwned}</div>
-              <div className="dark:text-white/40 text-gray-500 text-sm tracking-wider uppercase">{t.about.familyOwnedLabel}</div>
+              <div className="dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase font-semibold">{t.about.familyOwnedLabel}</div>
             </div>
-            <div className="text-center">
+            <div className="text-center p-6 rounded-xl dark:bg-zinc-900/40 bg-white border dark:border-white/10 border-stone-200/80 shadow-sm">
               <div className="text-4xl lg:text-5xl font-light text-amber-500 mb-2">{t.about.averageRating}</div>
-              <div className="dark:text:white/40 text-gray-500 text-sm tracking-wider uppercase">{t.about.averageRatingLabel}</div>
+              <div className="dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase font-semibold">{t.about.averageRatingLabel}</div>
             </div>
           </div>
         </div>

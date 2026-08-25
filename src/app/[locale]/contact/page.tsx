@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { tourPackages } from '@/lib/images';
+import { tourPackages, images } from '@/lib/images';
 import { useLocale, LocaleProvider, Locale } from '@/context/LocaleContext';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Calendar, Users, AlertCircle, Loader2 } from 'lucide-react';
 
@@ -66,63 +66,64 @@ function ContactContent() {
   };
 
   return (
-    <main className="min-h-screen dark:bg-black bg-white dark:text-white text-gray-900">
+    <main className="min-h-screen dark:bg-[#0c0d0f] bg-[#faf8f5] dark:text-zinc-100 text-stone-900 transition-colors duration-300">
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative h-[40vh] min-h-[350px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[48vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/9f1dfb0535e8.jpg)` }}
+          style={{ backgroundImage: `url(${images.camel})` }}
         >
-          <div className="absolute inset-0 dark:bg-gradient-to-b bg-gradient-to-b from-black/80 via-black/60 to-black"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/50"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40"></div>
         </div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-3 mb-6">
-            <span className="w-8 h-[1px] bg-amber-500/50"></span>
-            <span className="text-amber-500/80 text-xs tracking-[0.3em] uppercase">{t.contact.beginYourJourney}</span>
-            <span className="w-8 h-[1px] bg-amber-500/50"></span>
+            <span className="w-8 h-[1px] bg-amber-400"></span>
+            <span className="text-amber-400 text-xs tracking-[0.35em] uppercase font-semibold drop-shadow-sm">{t.contact.beginYourJourney}</span>
+            <span className="w-8 h-[1px] bg-amber-400"></span>
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light mb-4">
-            Reserve Your <span className="font-serif italic text-amber-500">Experience</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light mb-4 text-white drop-shadow-md">
+            Reserve Your <span className="font-serif italic text-amber-400">Experience</span>
           </h1>
           
-          <p className="dark:text-white/50 text-white/70 font-light max-w-xl mx-auto">
+          <p className="text-white/90 font-light max-w-xl mx-auto drop-shadow-sm text-base">
             {t.contact.pageSubtitle}
           </p>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="py-24 lg:py-32">
+      <section className="py-20 lg:py-28 dark:bg-[#0c0d0f] bg-[#faf8f5]">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-5 gap-16 lg:gap-20">
+          <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
             
             {/* Form Section */}
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-3 p-8 lg:p-10 rounded-2xl dark:bg-zinc-900/70 bg-white border dark:border-white/10 border-stone-200/90 shadow-xl shadow-stone-900/5">
               {isSubmitted ? (
-                <div className="dark:bg-zinc-900/50 bg-emerald-50 border dark:border-emerald-500/30 border-emerald-200 p-12 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="w-20 h-20 mx-auto mb-6 rounded-full dark:bg-emerald-500/10 bg-emerald-100 flex items-center justify-center">
+                <div className="dark:bg-emerald-950/30 bg-emerald-50/80 border dark:border-emerald-500/30 border-emerald-300/80 p-10 rounded-xl text-center animate-in fade-in duration-500">
+                  <div className="w-20 h-20 mx-auto mb-5 rounded-full dark:bg-emerald-500/15 bg-emerald-100 flex items-center justify-center shadow-inner">
                     <CheckCircle className="w-10 h-10 text-emerald-500" />
                   </div>
-                  <h3 className="text-2xl font-light mb-3">{t.contact.successTitle}</h3>
-                  <p className="dark:text-white/50 text-gray-600 mb-6">{t.contact.successMessage}</p>
-                  <p className="text-amber-500/60 text-sm">{t.contact.successImmediate}</p>
+                  <h3 className="text-2xl font-light mb-3 dark:text-white text-stone-900">{t.contact.successTitle}</h3>
+                  <p className="dark:text-zinc-300 text-stone-600 mb-6 text-sm leading-relaxed">{t.contact.successMessage}</p>
+                  <p className="text-amber-500 text-sm font-semibold">{t.contact.successImmediate}</p>
                   <button
                     type="button"
                     onClick={() => setIsSubmitted(false)}
-                    className="mt-6 px-6 py-2 border border-amber-500/50 text-amber-500 hover:bg-amber-500 hover:text-black transition-all text-xs tracking-wider uppercase"
+                    className="mt-6 px-7 py-2.5 border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black transition-all text-xs tracking-wider uppercase font-semibold rounded-sm"
                   >
                     Send Another Request
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-8">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   
                   {errorMessage && (
-                    <div className="p-4 border border-red-500/40 bg-red-500/10 rounded flex items-center gap-3 text-red-400 text-sm">
+                    <div className="p-4 border border-red-500/40 bg-red-500/10 rounded-lg flex items-center gap-3 text-red-400 text-sm">
                       <AlertCircle className="w-5 h-5 flex-shrink-0" />
                       <span>{errorMessage}</span>
                     </div>
@@ -130,20 +131,20 @@ function ContactContent() {
 
                   {/* Experience Selection */}
                   <div>
-                    <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-4">
+                    <label className="block text-xs tracking-[0.2em] uppercase font-semibold text-amber-500 mb-3">
                       {t.contact.selectExperience}
                     </label>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                       <button
                         type="button"
                         onClick={() => setSelectedPackage('')}
-                        className={`p-4 border text-left transition-all duration-300 ${
+                        className={`p-3.5 rounded-lg border text-left transition-all duration-300 ${
                           selectedPackage === '' 
-                            ? 'border-amber-500 dark:bg-amber-500/5 bg-amber-50' 
-                            : 'dark:border-white/10 border-gray-200 hover:border-gray-300'
+                            ? 'border-amber-500 dark:bg-amber-500/15 bg-amber-50 shadow-sm' 
+                            : 'dark:border-white/10 border-stone-200 hover:border-amber-500/40 dark:bg-zinc-800/40 bg-stone-50'
                         }`}
                       >
-                        <span className={`text-sm ${selectedPackage === '' ? 'text-amber-500' : 'dark:text-white/70 text-gray-700'}`}>
+                        <span className={`text-sm font-medium ${selectedPackage === '' ? 'text-amber-500 font-semibold' : 'dark:text-zinc-300 text-stone-700'}`}>
                           {t.contact.notSureYet}
                         </span>
                       </button>
@@ -152,21 +153,21 @@ function ContactContent() {
                           key={pkg.id}
                           type="button"
                           onClick={() => setSelectedPackage(pkg.id.toString())}
-                          className={`p-4 border text-left transition-all duration-300 ${
+                          className={`p-3.5 rounded-lg border text-left transition-all duration-300 ${
                             selectedPackage === pkg.id.toString() 
-                              ? 'border-amber-500 dark:bg-amber-500/5 bg-amber-50' 
-                              : 'dark:border-white/10 border-gray-200 hover:border-gray-300'
+                              ? 'border-amber-500 dark:bg-amber-500/15 bg-amber-50 shadow-sm' 
+                              : 'dark:border-white/10 border-stone-200 hover:border-amber-500/40 dark:bg-zinc-800/40 bg-stone-50'
                           }`}
                         >
-                          <div className="flex justify-between items-start gap-2">
-                            <span className={`text-sm ${selectedPackage === pkg.id.toString() ? 'text-amber-500' : 'dark:text-white/70 text-gray-700'}`}>
+                          <div className="flex justify-between items-center gap-2">
+                            <span className={`text-sm font-medium ${selectedPackage === pkg.id.toString() ? 'text-amber-500 font-semibold' : 'dark:text-zinc-300 text-stone-700'}`}>
                               {pkg.id === 1 ? t.packageNames.camelDinner : 
                                pkg.id === 2 ? t.packageNames.quadDinner : 
                                pkg.id === 3 ? t.packageNames.ultimateCombo : 
                                pkg.id === 4 ? t.packageNames.sunriseBreakfast : 
                                t.packageNames.safari4x4}
                             </span>
-                            <span className="text-xs dark:text-white/40 text-gray-500 whitespace-nowrap">{pkg.price} MAD</span>
+                            <span className="text-xs font-semibold text-amber-500 whitespace-nowrap">{pkg.price} MAD</span>
                           </div>
                         </button>
                       ))}
@@ -174,9 +175,9 @@ function ContactContent() {
                   </div>
 
                   {/* Name & Email */}
-                  <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="grid sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-3">
+                      <label className="block text-xs tracking-[0.2em] uppercase dark:text-zinc-400 text-stone-600 font-medium mb-2">
                         {t.contact.fullName}
                       </label>
                       <input
@@ -185,11 +186,11 @@ function ContactContent() {
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
                         placeholder={t.contact.fullNamePlaceholder}
-                        className="w-full bg-transparent dark:border-b border-b dark:border-white/10 border-gray-200 py-3 dark:text-white text-gray-900 dark:placeholder:text-white/30 placeholder:text-gray-400 focus:border-amber-500 focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-lg dark:bg-zinc-800/60 bg-stone-50 border dark:border-white/15 border-stone-300 dark:text-white text-stone-900 dark:placeholder:text-zinc-500 placeholder:text-stone-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 focus:outline-none transition-all text-sm"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-3">
+                      <label className="block text-xs tracking-[0.2em] uppercase dark:text-zinc-400 text-stone-600 font-medium mb-2">
                         {t.contact.email}
                       </label>
                       <input
@@ -198,15 +199,15 @@ function ContactContent() {
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
                         placeholder={t.contact.emailPlaceholder}
-                        className="w-full bg-transparent dark:border-b border-b dark:border-white/10 border-gray-200 py-3 dark:text-white text-gray-900 dark:placeholder:text-white/30 placeholder:text-gray-400 focus:border-amber-500 focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-lg dark:bg-zinc-800/60 bg-stone-50 border dark:border-white/15 border-stone-300 dark:text-white text-stone-900 dark:placeholder:text-zinc-500 placeholder:text-stone-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 focus:outline-none transition-all text-sm"
                       />
                     </div>
                   </div>
 
                   {/* Phone & Date */}
-                  <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="grid sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-3">
+                      <label className="block text-xs tracking-[0.2em] uppercase dark:text-zinc-400 text-stone-600 font-medium mb-2">
                         {t.contact.phone}
                       </label>
                       <input
@@ -214,31 +215,31 @@ function ContactContent() {
                         value={formData.phone}
                         onChange={(e) => setFormData({...formData, phone: e.target.value})}
                         placeholder={t.contact.phonePlaceholder}
-                        className="w-full bg-transparent dark:border-b border-b dark:border-white/10 border-gray-200 py-3 dark:text-white text-gray-900 dark:placeholder:text-white/30 placeholder:text-gray-400 focus:border-amber-500 focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-lg dark:bg-zinc-800/60 bg-stone-50 border dark:border-white/15 border-stone-300 dark:text-white text-stone-900 dark:placeholder:text-zinc-500 placeholder:text-stone-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 focus:outline-none transition-all text-sm"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-3">
+                      <label className="block text-xs tracking-[0.2em] uppercase dark:text-zinc-400 text-stone-600 font-medium mb-2">
                         {t.contact.preferredDate}
                       </label>
                       <input
                         type="date"
                         value={formData.date}
                         onChange={(e) => setFormData({...formData, date: e.target.value})}
-                        className="w-full bg-transparent dark:border-b border-b dark:border-white/10 border-gray-200 py-3 dark:text-white text-gray-900 focus:border-amber-500 focus:outline-none transition-colors [color-scheme:auto]"
+                        className="w-full px-4 py-3 rounded-lg dark:bg-zinc-800/60 bg-stone-50 border dark:border-white/15 border-stone-300 dark:text-white text-stone-900 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 focus:outline-none transition-all text-sm [color-scheme:auto]"
                       />
                     </div>
                   </div>
 
                   {/* Guests */}
                   <div>
-                    <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-3">
+                    <label className="block text-xs tracking-[0.2em] uppercase dark:text-zinc-400 text-stone-600 font-medium mb-2">
                       {t.contact.numberOfGuests}
                     </label>
                     <select
                       value={formData.guests}
                       onChange={(e) => setFormData({...formData, guests: e.target.value})}
-                      className="w-full bg-transparent dark:border-b border-b dark:border-white/10 border-gray-200 py-3 dark:text-white text-gray-900 focus:border-amber-500 focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 rounded-lg dark:bg-zinc-800 bg-stone-50 border dark:border-white/15 border-stone-300 dark:text-white text-stone-900 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 focus:outline-none transition-all text-sm"
                     >
                       {[1,2,3,4,5,6,7,8,9,10].map(n => (
                         <option key={n} value={n} className="dark:bg-zinc-900 bg-white">
@@ -251,7 +252,7 @@ function ContactContent() {
 
                   {/* Message */}
                   <div>
-                    <label className="block text-xs tracking-[0.2em] uppercase dark:text-white/50 text-gray-500 mb-3">
+                    <label className="block text-xs tracking-[0.2em] uppercase dark:text-zinc-400 text-stone-600 font-medium mb-2">
                       {t.contact.specialRequests}
                     </label>
                     <textarea
@@ -259,7 +260,7 @@ function ContactContent() {
                       value={formData.message}
                       onChange={(e) => setFormData({...formData, message: e.target.value})}
                       placeholder={t.contact.specialRequestsPlaceholder}
-                      className="w-full bg-transparent dark:border border dark:border-white/10 border-gray-200 p-4 dark:text-white text-gray-900 dark:placeholder:text-white/30 placeholder:text-gray-400 focus:border-amber-500 focus:outline-none transition-colors resize-none"
+                      className="w-full px-4 py-3 rounded-lg dark:bg-zinc-800/60 bg-stone-50 border dark:border-white/15 border-stone-300 dark:text-white text-stone-900 dark:placeholder:text-zinc-500 placeholder:text-stone-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 focus:outline-none transition-all resize-none text-sm"
                     ></textarea>
                   </div>
 
@@ -267,7 +268,7 @@ function ContactContent() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="group w-full flex items-center justify-center gap-4 px-8 py-5 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-medium tracking-wider uppercase text-sm hover:from-amber-400 hover:to-amber-500 transition-all duration-500 shadow-lg shadow-amber-500/25 disabled:opacity-50 cursor-pointer"
+                    className="group w-full flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold tracking-wider uppercase text-sm hover:from-amber-400 hover:to-amber-500 transition-all duration-300 shadow-xl shadow-amber-500/30 disabled:opacity-50 cursor-pointer rounded-lg"
                   >
                     {isSubmitting ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
@@ -275,12 +276,11 @@ function ContactContent() {
                       <>
                         <Send className="w-4 h-4" />
                         {t.contact.sendBookingRequest}
-                        <span className="w-0 h-[1px] bg-black/30 group-hover:w-8 transition-all duration-300"></span>
                       </>
                     )}
                   </button>
 
-                  <p className="center dark:text-white/30 text-gray-400 text-xs text-center">
+                  <p className="dark:text-zinc-500 text-stone-500 text-xs text-center">
                     {t.contact.submitAgreement}
                   </p>
                 </form>
@@ -288,70 +288,70 @@ function ContactContent() {
             </div>
 
             {/* Sidebar */}
-            <div className="lg:col-span-2 space-y-12">
+            <div className="lg:col-span-2 space-y-8">
               
-              {/* Contact Info */}
-              <div>
-                <h3 className="text-xs tracking-[0.2em] uppercase text-amber-500 mb-8">{t.contact.contactDirectly}</h3>
+              {/* Contact Info Card */}
+              <div className="p-8 rounded-2xl dark:bg-zinc-900/60 bg-white border dark:border-white/10 border-stone-200/90 shadow-lg shadow-stone-900/5">
+                <h3 className="text-xs tracking-[0.25em] uppercase font-bold text-amber-500 mb-6">{t.contact.contactDirectly}</h3>
                 
-                <div className="space-y-8">
+                <div className="space-y-6">
                   <div className="flex items-start gap-4 group">
-                    <div className="w-12 h-12 dark:border border rounded-full flex items-center justify-center flex-shrink-0 dark:border-white/10 border-gray-200 group-hover:border-amber-500/50 transition-colors">
-                      <Phone className="w-5 h-5 dark:text-white/50 text-gray-500 group-hover:text-amber-500 transition-colors" />
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 dark:bg-amber-500/10 bg-amber-50 border dark:border-amber-500/30 border-amber-200">
+                      <Phone className="w-5 h-5 text-amber-500" />
                     </div>
                     <div>
-                      <p className="dark:text-white/40 text-gray-500 text-xs tracking-wider uppercase mb-1">{t.contact.phoneWhatsApp}</p>
-                      <a href="tel:+212XXXXXXXXX" className="dark:text-white hover:text-amber-500 text-gray-700 hover:text-amber-500 transition-colors">
+                      <p className="dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase font-semibold mb-0.5">{t.contact.phoneWhatsApp}</p>
+                      <a href="tel:+212XXXXXXXXX" className="dark:text-white hover:text-amber-500 text-stone-800 hover:text-amber-500 transition-colors font-medium text-sm">
                         +212 XXX XXXXXX
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4 group">
-                    <div className="w-12 h-12 dark:border border rounded-full flex items-center justify-center flex-shrink-0 dark:border-white/10 border-gray-200 group-hover:border-amber-500/50 transition-colors">
-                      <Mail className="w-5 h-5 dark:text-white/50 text-gray-500 group-hover:text-amber-500 transition-colors" />
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 dark:bg-amber-500/10 bg-amber-50 border dark:border-amber-500/30 border-amber-200">
+                      <Mail className="w-5 h-5 text-amber-500" />
                     </div>
                     <div>
-                      <p className="dark:text-white/40 text-gray-500 text-xs tracking-wider uppercase mb-1">{t.contact.emailAddress}</p>
-                      <a href="mailto:info@familiestours.com" className="dark:text-white hover:text-amber-500 text-gray-700 hover:text-amber-500 transition-colors">
+                      <p className="dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase font-semibold mb-0.5">{t.contact.emailAddress}</p>
+                      <a href="mailto:info@familiestours.com" className="dark:text-white hover:text-amber-500 text-stone-800 hover:text-amber-500 transition-colors font-medium text-sm">
                         info@familiestours.com
                       </a>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4 group">
-                    <div className="w-12 h-12 dark:border border rounded-full flex items-center justify-center flex-shrink-0 dark:border-white/10 border-gray-200 group-hover:border-amber-500/50 transition-colors">
-                      <MapPin className="w-5 h-5 dark:text-white/50 text-gray-500 group-hover:text-amber-500 transition-colors" />
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 dark:bg-amber-500/10 bg-amber-50 border dark:border-amber-500/30 border-amber-200">
+                      <MapPin className="w-5 h-5 text-amber-500" />
                     </div>
                     <div>
-                      <p className="dark:text-white/40 text-gray-500 text-xs tracking-wider uppercase mb-1">{t.contact.location}</p>
-                      <p className="dark:text-white text-gray-700">{t.contact.locationDetail}</p>
-                      <p className="dark:text-white/50 text-gray-500 text-sm mt-1">{t.contact.hotelPickup}</p>
+                      <p className="dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase font-semibold mb-0.5">{t.contact.location}</p>
+                      <p className="dark:text-white text-stone-800 font-medium text-sm">{t.contact.locationDetail}</p>
+                      <p className="dark:text-zinc-400 text-stone-500 text-xs mt-0.5">{t.contact.hotelPickup}</p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4 group">
-                    <div className="w-12 h-12 dark:border border rounded-full flex items-center justify-center flex-shrink-0 dark:border-white/10 border-gray-200 group-hover:border-amber-500/50 transition-colors">
-                      <Clock className="w-5 h-5 dark:text-white/50 text-gray-500 group-hover:text-amber-500 transition-colors" />
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 dark:bg-amber-500/10 bg-amber-50 border dark:border-amber-500/30 border-amber-200">
+                      <Clock className="w-5 h-5 text-amber-500" />
                     </div>
                     <div>
-                      <p className="dark:text-white/40 text-gray-500 text-xs tracking-wider uppercase mb-1">{t.contact.availability}</p>
-                      <p className="dark:text-white text-gray-700">{t.contact.available247}</p>
+                      <p className="dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase font-semibold mb-0.5">{t.contact.availability}</p>
+                      <p className="dark:text-white text-stone-800 font-medium text-sm">{t.contact.available247}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Quick Info Box */}
-              <div className="dark:border border dark:border-amber-400/20 border-amber-200 dark:bg-amber-400/5 bg-amber-50 p-8">
-                <h4 className="font-light text-lg mb-4 flex items-center gap-3">
+              <div className="rounded-2xl border dark:border-amber-500/30 border-amber-300 dark:bg-amber-500/5 bg-amber-50/90 p-6 shadow-sm">
+                <h4 className="font-semibold text-base mb-3 flex items-center gap-2.5 dark:text-amber-400 text-amber-900">
                   <Calendar className="w-5 h-5 text-amber-500" />
                   {t.contact.whatHappensNext}
                 </h4>
-                <ol className="space-y-4 text-sm dark:text-white/60 text-gray-600">
+                <ol className="space-y-2.5 text-sm dark:text-zinc-300 text-stone-700">
                   {t.contact.steps.map((step, idx) => (
-                    <li key={idx} className="flex gap-3">
-                      <span className="text-amber-500 font-medium">0{idx + 1}</span>
+                    <li key={idx} className="flex gap-2.5">
+                      <span className="text-amber-500 font-bold">0{idx + 1}</span>
                       <span>{step}</span>
                     </li>
                   ))}
@@ -359,9 +359,9 @@ function ContactContent() {
               </div>
 
               {/* Transport Reminder */}
-              <div className="dark:border-l-2 border-l-2 dark:border-emerald-500/50 border-emerald-400 pl-6 py-1">
-                <p className="dark:text-emerald-400/80 text-emerald-600 text-sm flex items-center gap-2">
-                  <Users className="w-4 h-4" />
+              <div className="rounded-xl border-l-4 dark:border-emerald-500 border-emerald-600 dark:bg-emerald-950/20 bg-emerald-50 p-4 shadow-sm">
+                <p className="dark:text-emerald-300 text-emerald-800 text-sm flex items-center gap-2 font-medium">
+                  <Users className="w-4 h-4 text-emerald-500" />
                   {t.contact.transportReminder}
                 </p>
               </div>

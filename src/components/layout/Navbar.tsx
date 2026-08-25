@@ -31,7 +31,6 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   
-  // Use useSyncExternalStore to detect if we're on the client
   const mounted = useSyncExternalStore(
     emptySubscribe,
     () => true,
@@ -40,13 +39,12 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 40);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Get current path without locale
   const currentPath = pathname.replace(`/${locale}`, '') || '/';
 
   return (
@@ -54,8 +52,8 @@ export default function Navbar() {
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled 
-            ? 'dark:bg-black/95 bg-white/95 backdrop-blur-md dark:shadow-2xl shadow-lg shadow-black/5 border-b dark:border-white/5 border-gray-200/50' 
-            : 'bg-transparent'
+            ? 'dark:bg-zinc-950/95 bg-white/95 backdrop-blur-md dark:shadow-2xl shadow-lg shadow-black/5 border-b dark:border-white/10 border-stone-200/80' 
+            : 'bg-gradient-to-b from-black/60 via-black/20 to-transparent'
         }`}
       >
         <nav className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -63,14 +61,20 @@ export default function Navbar() {
             {/* Logo */}
             <Link href={`/${locale}`} className="flex items-center gap-3 group">
               <div className="relative">
-                <div className="w-10 h-10 lg:w-12 lg:h-12 border border-amber-500/50 rounded-full flex items-center justify-center group-hover:bg-amber-500/10 transition-all duration-300">
+                <div className="w-10 h-10 lg:w-12 lg:h-12 border border-amber-500/60 rounded-full flex items-center justify-center group-hover:bg-amber-500/15 transition-all duration-300 shadow-sm">
                   <span className="text-amber-500 font-serif text-xl lg:text-2xl font-bold">F</span>
                 </div>
                 <div className="absolute inset-0 w-10 h-10 lg:w-12 lg:h-12 border border-amber-500/30 rounded-full animate-ping opacity-20"></div>
               </div>
               <div className="hidden sm:block">
-                <h1 className="dark:text-white text-gray-900 font-light text-lg lg:text-xl tracking-widest uppercase">Families Tours</h1>
-                <p className="text-amber-500/80 text-[10px] lg:text-xs tracking-[0.3em] uppercase">familiestours.com</p>
+                <h1 className={`font-light text-lg lg:text-xl tracking-widest uppercase transition-colors ${
+                  isScrolled ? 'dark:text-white text-stone-900' : 'text-white drop-shadow-sm'
+                }`}>
+                  Families Tours
+                </h1>
+                <p className="text-amber-500 text-[10px] lg:text-xs tracking-[0.3em] uppercase font-medium">
+                  familiestours.com
+                </p>
               </div>
             </Link>
 
@@ -80,14 +84,16 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={`/${locale}${link.href}`}
-                  className={`relative px-5 py-2 text-sm tracking-wider transition-all duration-300 group ${
+                  className={`relative px-5 py-2 text-sm tracking-wider transition-all duration-300 font-medium ${
                     currentPath === link.href 
                       ? 'text-amber-500' 
-                      : 'dark:text-white/70 text-gray-600 hover:dark:text-white hover:text-gray-900'
+                      : isScrolled
+                        ? 'dark:text-zinc-300 text-stone-700 hover:dark:text-white hover:text-stone-950'
+                        : 'text-white/90 hover:text-white drop-shadow-sm'
                   }`}
                 >
                   {(t as any)[link.labelKey.split('.')[0]][link.labelKey.split('.')[1]] || link.labelKey}
-                  <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[1px] bg-amber-500 transition-all duration-300 ${
+                  <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-amber-500 transition-all duration-300 ${
                     currentPath === link.href ? 'w-full' : 'w-0 group-hover:w-full'
                   }`}></span>
                 </Link>
@@ -96,12 +102,16 @@ export default function Navbar() {
               {/* Theme Toggle */}
               <button
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="p-2 dark:text-white/70 text-gray-600 hover:text-amber-500 transition-colors ml-2"
+                className={`p-2.5 rounded-full transition-all ml-2 ${
+                  isScrolled
+                    ? 'dark:text-zinc-300 text-stone-700 hover:text-amber-500 dark:hover:bg-white/5 hover:bg-stone-100'
+                    : 'text-white/90 hover:text-amber-400 hover:bg-white/10'
+                }`}
                 aria-label="Toggle theme"
               >
                 {mounted && (
                   theme === 'dark' 
-                    ? <Sun className="w-5 h-5" /> 
+                    ? <Sun className="w-5 h-5 text-amber-400" /> 
                     : <Moon className="w-5 h-5" />
                 )}
                 {!mounted && <Moon className="w-5 h-5" />}
@@ -111,14 +121,18 @@ export default function Navbar() {
               <div className="relative ml-2">
                 <button
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-2 text-sm dark:text-white/70 text-gray-600 hover:dark:text-white hover:text-gray-900 transition-colors"
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-md text-sm font-medium transition-all ${
+                    isScrolled
+                      ? 'dark:text-zinc-300 text-stone-700 hover:dark:text-white hover:text-stone-950 dark:hover:bg-white/5 hover:bg-stone-100'
+                      : 'text-white hover:text-amber-400 hover:bg-white/10'
+                  }`}
                 >
-                  <Globe className="w-4 h-4" />
+                  <Globe className="w-4 h-4 text-amber-500" />
                   <span>{localeNames[locale]}</span>
                 </button>
                 
                 {isLangMenuOpen && (
-                  <div className="absolute top-full right-0 mt-2 dark:bg-zinc-900 bg-white border dark:border-white/10 border-gray-200 overflow-hidden shadow-xl rounded-lg">
+                  <div className="absolute top-full right-0 mt-2 dark:bg-zinc-900 bg-white border dark:border-white/10 border-stone-200 overflow-hidden shadow-2xl rounded-xl py-1 min-w-[130px] z-50">
                     {locales.map((loc) => (
                       <button
                         key={loc}
@@ -126,10 +140,10 @@ export default function Navbar() {
                           switchLocale(loc);
                           setIsLangMenuOpen(false);
                         }}
-                        className={`block w-full px-6 py-3 text-left text-sm tracking-wider transition-colors ${
+                        className={`block w-full px-5 py-2.5 text-left text-sm tracking-wider font-medium transition-colors ${
                           locale === loc 
-                            ? 'text-amber-500 dark:bg-amber-500/10 bg-amber-50' 
-                            : 'dark:text-white/70 text-gray-600 hover:dark:text-white hover:text-gray-900 dark:hover:bg-white/5 hover:bg-gray-50'
+                            ? 'text-amber-500 dark:bg-amber-500/15 bg-amber-50/80 font-semibold' 
+                            : 'dark:text-zinc-300 text-stone-700 hover:dark:text-white hover:text-stone-950 dark:hover:bg-white/5 hover:bg-stone-50'
                         }`}
                       >
                         {loc === 'en' ? 'English' : loc === 'fr' ? 'Français' : 'Español'}
@@ -141,7 +155,7 @@ export default function Navbar() {
 
               <Link 
                 href={`/${locale}/contact`}
-                className="ml-4 px-8 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-medium text-sm tracking-wider uppercase hover:from-amber-400 hover:to-amber-500 transition-all duration-300 shadow-lg shadow-amber-500/25"
+                className="ml-4 px-7 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold text-sm tracking-wider uppercase hover:from-amber-400 hover:to-amber-500 transition-all duration-300 shadow-md shadow-amber-500/30 rounded-sm"
               >
                 {t.nav.bookNow}
               </Link>
@@ -149,8 +163,11 @@ export default function Navbar() {
 
             {/* Mobile Menu Button */}
             <button 
-              className="lg:hidden dark:text-white p-2 text-gray-900"
+              className={`lg:hidden p-2 rounded-lg transition-colors ${
+                isScrolled ? 'dark:text-white text-stone-900' : 'text-white'
+              }`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -159,17 +176,19 @@ export default function Navbar() {
       </header>
 
       {/* Mobile Menu */}
-      <div className={`lg:hidden fixed inset-0 z-40 dark:bg-black/98 bg-white/98 backdrop-blur-xl transition-all duration-500 ${
+      <div className={`lg:hidden fixed inset-0 z-40 dark:bg-zinc-950/98 bg-white/98 backdrop-blur-2xl transition-all duration-500 ${
         isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
       }`}>
-        <div className="flex flex-col items-center justify-center h-full gap-8">
+        <div className="flex flex-col items-center justify-center h-full gap-8 px-6 text-center">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={`/${locale}${link.href}`}
               onClick={() => setIsMobileMenuOpen(false)}
               className={`text-2xl md:text-3xl font-light tracking-widest uppercase transition-colors ${
-                currentPath === link.href ? 'text-amber-500' : 'dark:text-white/80 text-gray-700 hover:dark:text-white hover:text-gray-900'
+                currentPath === link.href 
+                  ? 'text-amber-500 font-normal' 
+                  : 'dark:text-zinc-200 text-stone-800 hover:dark:text-white hover:text-stone-950'
               }`}
             >
               {(t as any)[link.labelKey.split('.')[0]][link.labelKey.split('.')[1]] || link.labelKey}
@@ -180,16 +199,17 @@ export default function Navbar() {
           <div className="flex items-center gap-6 mt-4">
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="w-12 h-12 rounded-full border dark:border-white/20 border-gray-300 flex items-center justify-center dark:text-white/60 text-gray-600 hover:border-amber-500 hover:text-amber-500 transition-all"
+              className="w-12 h-12 rounded-full border dark:border-white/20 border-stone-300 flex items-center justify-center dark:text-zinc-300 text-stone-700 hover:border-amber-500 hover:text-amber-500 transition-all shadow-sm"
+              aria-label="Toggle theme"
             >
               {mounted && (
                 theme === 'dark' 
-                  ? <Sun className="w-5 h-5" /> 
+                  ? <Sun className="w-5 h-5 text-amber-400" /> 
                   : <Moon className="w-5 h-5" />
               )}
             </button>
             
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               {locales.map((loc) => (
                 <button
                   key={loc}
@@ -199,8 +219,8 @@ export default function Navbar() {
                   }}
                   className={`w-12 h-12 rounded-full border flex items-center justify-center text-sm font-medium transition-all ${
                     locale === loc 
-                      ? 'border-amber-500 text-amber-500 dark:bg-amber-500/10 bg-amber-50' 
-                      : 'dark:border-white/20 border-gray-300 dark:text-white/60 text-gray-600 hover:border-amber-500/50'
+                      ? 'border-amber-500 text-amber-500 dark:bg-amber-500/15 bg-amber-50 font-semibold' 
+                      : 'dark:border-white/20 border-stone-300 dark:text-zinc-300 text-stone-700 hover:border-amber-500/50'
                   }`}
                 >
                   {localeNames[loc]}
@@ -212,7 +232,7 @@ export default function Navbar() {
           <Link 
             href={`/${locale}/contact`}
             onClick={() => setIsMobileMenuOpen(false)}
-            className="mt-4 px-10 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-medium tracking-wider uppercase"
+            className="mt-4 px-10 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold tracking-wider uppercase shadow-lg shadow-amber-500/25"
           >
             {t.nav.bookNow}
           </Link>
@@ -221,3 +241,4 @@ export default function Navbar() {
     </>
   );
 }
+
