@@ -1,33 +1,35 @@
-// Real images from image search - Luxury Desert Tours
+const CDN_BASE = process.env.NEXT_PUBLIC_CDN_URL || 'https://cdn.familiestours.com';
+
+// Official Cloudflare R2 Images for Families Tours
 export const images = {
   // Hero & Background
-  hero: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/699188f13359.jpg',
-  heroOverlay: 'https://z-cdn.chatglm.cn/image-search-mpt/images-ppt/c7fda9914ca7.jpg',
-  
+  hero: `${CDN_BASE}/tours/hero.jpg`,
+  heroOverlay: `${CDN_BASE}/tours/camel-caravan.jpg`,
+
   // Experiences
-  camel: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c2d90656f1b2.jpg',
-  quad: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/8236d9fe6f52.jpg',
-  safari4x4: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/40ff8f0c0e1c.jpg',
-  camp: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/8fb99c4ca27a.jpg',
-  family: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/53f19f3f0722.jpg',
-  sunrise: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/9f1dfb0535e8.jpg',
-  tent: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/1da183b5d52d.jpg',
-  camelCaravan: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c7fda9914ca7.jpg',
-  quadFamily: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/e66d590d1cad.jpg',
-  dinner: 'https://z-cdn.chatglm.cn/image-search-mpt/images-ppt/027a1bb77aa1.jpg',
-  
+  camel: `${CDN_BASE}/tours/camel.jpg`,
+  quad: `${CDN_BASE}/tours/quad.jpg`,
+  safari4x4: `${CDN_BASE}/tours/safari4x4.jpg`,
+  camp: `${CDN_BASE}/tours/camp.jpg`,
+  family: `${CDN_BASE}/tours/family.jpg`,
+  sunrise: `${CDN_BASE}/tours/sunrise.jpg`,
+  tent: `${CDN_BASE}/tours/tent.jpg`,
+  camelCaravan: `${CDN_BASE}/tours/camel-caravan.jpg`,
+  quadFamily: `${CDN_BASE}/tours/quad-family.jpg`,
+  dinner: `${CDN_BASE}/tours/camp.jpg`,
+
   // Gallery
   gallery: [
-    { src: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c7fda9914ca7.jpg', alt: 'Camel caravan at sunset', category: 'camels' },
-    { src: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/8fb99c4ca27a.jpg', alt: 'Desert camp at night', category: 'camp' },
-    { src: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/8236d9fe6f52.jpg', alt: 'Quad biking on dunes', category: 'adventure' },
-    { src: 'https://z-cdn.chatglm.cn/image-search-mp/images-ppt/53f19f3f0722.jpg', alt: 'Family enjoying the desert', category: 'family' },
-    { src: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/1da183b5d52d.jpg', alt: 'Luxury desert tent', category: 'accommodation' },
-    { src: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/9f1dfb0535e8.jpg', alt: 'Desert sunrise', category: 'nature' },
-    { src: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c2d90656f1b2.jpg', alt: 'Camel ride experience', category: 'camels' },
-    { src: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/e66d590d1cad.jpg', alt: 'Family quad adventure', category: 'adventure' },
-    { src: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/40ff8f0c0e1c.jpg', alt: '4x4 desert safari', category: 'safari' },
-    { src: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/6f7bd0704347.jpg', alt: 'Desert camels resting', category: 'camels' },
+    { src: `${CDN_BASE}/tours/camel-caravan.jpg`, alt: 'Camel caravan at sunset', category: 'camels' },
+    { src: `${CDN_BASE}/tours/camp.jpg`, alt: 'Desert camp at night', category: 'camp' },
+    { src: `${CDN_BASE}/tours/quad.jpg`, alt: 'Quad biking on dunes', category: 'adventure' },
+    { src: `${CDN_BASE}/tours/family.jpg`, alt: 'Family enjoying the desert', category: 'family' },
+    { src: `${CDN_BASE}/tours/tent.jpg`, alt: 'Luxury desert tent', category: 'accommodation' },
+    { src: `${CDN_BASE}/tours/sunrise.jpg`, alt: 'Desert sunrise', category: 'nature' },
+    { src: `${CDN_BASE}/tours/camel.jpg`, alt: 'Camel ride experience', category: 'camels' },
+    { src: `${CDN_BASE}/tours/quad-family.jpg`, alt: 'Family quad adventure', category: 'adventure' },
+    { src: `${CDN_BASE}/tours/safari4x4.jpg`, alt: '4x4 desert safari', category: 'safari' },
+    { src: `${CDN_BASE}/gallery/gallery-camels-1.jpg`, alt: 'Desert camels resting', category: 'camels' },
   ],
 };
 

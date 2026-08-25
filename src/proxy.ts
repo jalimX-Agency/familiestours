@@ -7,9 +7,10 @@ const defaultLocale = 'en';
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Ignore API routes, static files, and Next.js internals
+  // Ignore API routes, admin routes, static files, and Next.js internals
   if (
     pathname.startsWith('/api') ||
+    pathname.startsWith('/admin') ||
     pathname.startsWith('/_next') ||
     pathname.startsWith('/favicon.ico') ||
     pathname.includes('.')
@@ -35,5 +36,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)'],
+  matcher: ['/((?!api|admin|_next/static|_next/image|favicon.ico|.*\\..*).*)'],
 };
