@@ -402,16 +402,27 @@ export default function AdminDashboard() {
   // Authentication Gate Screen
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen dark:bg-[#090a0c] bg-stone-100 flex items-center justify-center p-6 text-stone-900 dark:text-white transition-colors duration-300">
+      <div className="min-h-screen dark:bg-[#090a0c] bg-[#f8f7f4] flex items-center justify-center p-6 text-stone-900 dark:text-white transition-colors duration-300 relative">
+        {/* Theme Toggle Button on Login Screen */}
+        <div className="absolute top-6 right-6">
+          <button
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            className="p-3 rounded-full border dark:border-white/15 border-stone-300 dark:text-zinc-300 text-stone-700 hover:text-amber-500 dark:bg-zinc-900 bg-white shadow-sm transition-all"
+            aria-label="Toggle Theme"
+          >
+            {theme === 'dark' ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5" />}
+          </button>
+        </div>
+
         <div className="w-full max-w-md dark:bg-[#121418] bg-white border dark:border-white/10 border-stone-300/80 p-8 sm:p-10 rounded-2xl shadow-2xl">
           <div className="text-center mb-8">
             <div className="w-16 h-16 border-2 border-amber-500 rounded-full flex items-center justify-center mx-auto mb-4 bg-amber-500/10 shadow-lg shadow-amber-500/20">
               <Lock className="w-7 h-7 text-amber-500" />
             </div>
             <h1 className="text-2xl font-light tracking-wider dark:text-white text-stone-900">
-              Families Tours <span className="font-serif italic text-amber-500">Management</span>
+              Families Tours <span className="font-serif italic text-amber-500">Admin</span>
             </h1>
-            <p className="text-xs uppercase tracking-widest text-amber-500/80 mt-1 font-semibold">Secure Admin Portal</p>
+            <p className="text-xs uppercase tracking-widest text-amber-500/90 mt-1.5 font-bold">Management Portal</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-5">
@@ -425,7 +436,7 @@ export default function AdminDashboard() {
                   value={pinInput}
                   onChange={(e) => setPinInput(e.target.value)}
                   placeholder="Enter PIN (e.g. families2026)"
-                  className="w-full dark:bg-zinc-900/80 bg-stone-50 border dark:border-white/15 border-stone-300 rounded-xl px-4 py-3.5 text-center text-lg tracking-widest focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all font-mono"
+                  className="w-full dark:bg-zinc-900/80 bg-stone-50 border dark:border-white/15 border-stone-300 rounded-xl px-4 py-3.5 text-center text-lg tracking-widest focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all font-mono dark:text-white text-stone-900"
                   autoFocus
                 />
               </div>
@@ -445,8 +456,8 @@ export default function AdminDashboard() {
           </form>
 
           <div className="mt-8 pt-6 border-t dark:border-white/5 border-stone-200 text-center">
-            <p className="text-[11px] dark:text-zinc-500 text-stone-400">
-              Protected by Neon PostgreSQL SSL & Cloudflare Edge
+            <p className="text-[11px] dark:text-zinc-500 text-stone-400 font-medium">
+              Families Tours Marrakech • Encrypted Management Portal
             </p>
           </div>
         </div>
@@ -494,7 +505,7 @@ export default function AdminDashboard() {
               </div>
               <div>
                 <h2 className="text-sm font-semibold tracking-wider uppercase dark:text-white text-stone-900">Families Tours</h2>
-                <p className="text-[10px] text-amber-500 font-medium tracking-widest uppercase">Admin SaaS Portal</p>
+                <p className="text-[10px] text-amber-500 font-medium tracking-widest uppercase">Management Portal</p>
               </div>
             </div>
             <button
@@ -512,8 +523,8 @@ export default function AdminDashboard() {
               { id: 'bookings', label: 'Reservations Pipeline', icon: <Calendar className="w-4 h-4" />, badge: stats.pending > 0 ? stats.pending : undefined },
               { id: 'new-booking', label: 'New Reservation', icon: <Plus className="w-4 h-4" /> },
               { id: 'tours', label: 'Tours & Experiences', icon: <Compass className="w-4 h-4" /> },
-              { id: 'media', label: 'Cloudflare R2 Studio', icon: <ImageIcon className="w-4 h-4" />, badge: r2Images.length },
-              { id: 'settings', label: 'System & Health', icon: <Settings className="w-4 h-4" /> },
+              { id: 'media', label: 'Media & Photo Studio', icon: <ImageIcon className="w-4 h-4" />, badge: r2Images.length },
+              { id: 'settings', label: 'Settings & Security', icon: <Settings className="w-4 h-4" /> },
             ].map((item) => {
               const isActive = activeTab === item.id;
               return (
@@ -555,26 +566,26 @@ export default function AdminDashboard() {
           {/* Live Status Indicators */}
           <div className="p-3 rounded-xl dark:bg-zinc-900/60 bg-stone-100/80 border dark:border-white/5 border-stone-200/60 text-[11px] space-y-1.5">
             <div className="flex items-center justify-between">
-              <span className="dark:text-zinc-400 text-stone-500 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                Neon PostgreSQL
+              <span className="dark:text-zinc-400 text-stone-600 font-medium flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Reservation System
               </span>
-              <span className="text-emerald-500 font-semibold text-[10px]">Online</span>
+              <span className="text-emerald-600 dark:text-emerald-400 font-semibold text-[10px]">Active</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="dark:text-zinc-400 text-stone-500 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                Cloudflare R2
+              <span className="dark:text-zinc-400 text-stone-600 font-medium flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                Photo Storage Cloud
               </span>
-              <span className="text-emerald-500 font-semibold text-[10px]">Connected</span>
+              <span className="text-emerald-600 dark:text-emerald-400 font-semibold text-[10px]">Ready</span>
             </div>
           </div>
 
           <div className="flex items-center justify-between pt-1">
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2.5 rounded-xl border dark:border-white/10 border-stone-300 dark:text-zinc-300 text-stone-700 hover:text-amber-500 transition-colors"
-              title="Toggle Theme"
+              className="p-2.5 rounded-xl border dark:border-white/10 border-stone-300 dark:text-zinc-300 text-stone-700 hover:text-amber-500 hover:border-amber-500 dark:bg-zinc-900 bg-stone-50 shadow-sm transition-colors"
+              title="Toggle Light / Dark Mode"
             >
               {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
             </button>
@@ -607,8 +618,8 @@ export default function AdminDashboard() {
                 {activeTab === 'bookings' && 'Reservations & Booking Management'}
                 {activeTab === 'new-booking' && 'Add Manual Reservation'}
                 {activeTab === 'tours' && 'Tour Packages & Live Pricing'}
-                {activeTab === 'media' && 'Cloudflare R2 Media & Assets'}
-                {activeTab === 'settings' && 'System Configuration & Security'}
+                {activeTab === 'media' && 'Media & Photo Assets Library'}
+                {activeTab === 'settings' && 'Settings & Account Security'}
               </h1>
               <p className="text-xs dark:text-zinc-400 text-stone-500 hidden sm:block">
                 Welcome back. Live operational sync is active.
@@ -1250,7 +1261,7 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* TAB 5: CLOUDFLARE R2 MEDIA STUDIO */}
+        {/* TAB 5: MEDIA & PHOTO ASSETS STUDIO */}
         {activeTab === 'media' && (
           <div className="p-6 lg:p-8 space-y-8 max-w-7xl">
             {/* Upload Box */}
@@ -1258,10 +1269,10 @@ export default function AdminDashboard() {
               <div>
                 <h2 className="text-lg font-light flex items-center gap-2 dark:text-white text-stone-900">
                   <Upload className="w-5 h-5 text-amber-500" />
-                  Upload Media directly to Cloudflare R2
+                  Upload Photos & Media Assets
                 </h2>
                 <p className="text-xs dark:text-zinc-400 text-stone-500 mt-1">
-                  Files are automatically optimized and served instantly through <code className="text-amber-500">https://cdn.familiestours.com</code>
+                  Uploaded photos are automatically optimized and served with high-speed CDN delivery on your website.
                 </p>
               </div>
 
@@ -1273,12 +1284,12 @@ export default function AdminDashboard() {
                   <select
                     value={uploadCategory}
                     onChange={(e) => setUploadCategory(e.target.value)}
-                    className="w-full dark:bg-zinc-900 bg-stone-50 border dark:border-white/15 border-stone-300 rounded-xl px-4 py-3 text-xs dark:text-white text-stone-900 focus:outline-none focus:border-amber-500"
+                    className="w-full dark:bg-zinc-900 bg-stone-50 border dark:border-white/15 border-stone-300 rounded-xl px-4 py-3 text-xs dark:text-white text-stone-900 focus:outline-none focus:border-amber-500 font-medium"
                   >
                     <option value="Camels">Camels (Camel Treks)</option>
                     <option value="Adventure">Adventure (Quads & 4x4)</option>
                     <option value="Camp">Camp (Agafay Desert Tents & Dinners)</option>
-                    <option value="Nature">Nature (Sunrises & Terrain)</option>
+                    <option value="Nature">Nature (Sunrises & Stone Hills)</option>
                     <option value="General">General Assets</option>
                   </select>
                 </div>
@@ -1301,7 +1312,7 @@ export default function AdminDashboard() {
                     disabled={!uploadFile || isUploading}
                     className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg shadow-amber-500/20 hover:from-amber-400 hover:to-amber-500 transition-all disabled:opacity-40 cursor-pointer"
                   >
-                    {isUploading ? 'Uploading to R2...' : 'Upload Image'}
+                    {isUploading ? 'Uploading Photo...' : 'Upload Photo'}
                   </button>
                 </div>
               </form>
@@ -1311,8 +1322,8 @@ export default function AdminDashboard() {
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                  <h3 className="text-base font-semibold dark:text-white text-stone-900">Cloudflare R2 Bucket Assets ({filteredR2Images.length})</h3>
-                  <p className="text-xs dark:text-zinc-400 text-stone-500">Live storage in bucket: familiestours</p>
+                  <h3 className="text-base font-semibold dark:text-white text-stone-900">Photo Library & Gallery Assets ({filteredR2Images.length})</h3>
+                  <p className="text-xs dark:text-zinc-400 text-stone-500">Live high-speed cloud storage</p>
                 </div>
 
                 <div className="flex gap-2 overflow-x-auto pb-1">
@@ -1334,7 +1345,7 @@ export default function AdminDashboard() {
 
               {isLoadingImages ? (
                 <div className="text-center py-20 dark:text-zinc-500 text-stone-400 text-sm">
-                  Loading assets from Cloudflare R2...
+                  Loading photo library...
                 </div>
               ) : filteredR2Images.length === 0 ? (
                 <div className="text-center py-16 p-8 rounded-2xl dark:bg-[#121418] bg-white border dark:border-white/10 border-stone-200/90 text-stone-400 text-xs">
@@ -1376,7 +1387,7 @@ export default function AdminDashboard() {
                             className="flex-1 py-1.5 px-2 bg-amber-500/10 hover:bg-amber-500 hover:text-black border border-amber-500/30 rounded-lg text-[10px] font-semibold text-amber-500 flex items-center justify-center gap-1 transition-all cursor-pointer"
                           >
                             <Copy className="w-3 h-3" />
-                            <span>{copiedKey === img.key ? 'Copied!' : 'Copy CDN URL'}</span>
+                            <span>{copiedKey === img.key ? 'Copied!' : 'Copy Link'}</span>
                           </button>
 
                           <a
@@ -1398,14 +1409,14 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* TAB 6: SETTINGS & SYSTEM HEALTH */}
+        {/* TAB 6: SETTINGS & SYSTEM INTEGRATIONS */}
         {activeTab === 'settings' && (
           <div className="p-6 lg:p-8 space-y-6 max-w-4xl">
             <div className="p-8 rounded-2xl dark:bg-[#121418] bg-white border dark:border-white/10 border-stone-200/90 shadow-xl space-y-6">
               <div>
-                <h2 className="text-xl font-light dark:text-white text-stone-900">System Infrastructure & Environment</h2>
+                <h2 className="text-xl font-light dark:text-white text-stone-900">System Integrations & Health</h2>
                 <p className="text-xs dark:text-zinc-400 text-stone-500 mt-1">
-                  Active connection statuses and configuration verification.
+                  Active connection statuses for website operations.
                 </p>
               </div>
 
@@ -1416,12 +1427,12 @@ export default function AdminDashboard() {
                       <Check className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="text-xs font-semibold dark:text-white text-stone-900">Neon PostgreSQL Database</h4>
-                      <p className="text-[11px] dark:text-zinc-400 text-stone-500">Connection string active via Prisma ORM</p>
+                      <h4 className="text-xs font-semibold dark:text-white text-stone-900">Online Reservation System</h4>
+                      <p className="text-[11px] dark:text-zinc-400 text-stone-500">Stores client bookings and inquiries in real-time</p>
                     </div>
                   </div>
                   <span className="px-2.5 py-1 bg-emerald-500/15 text-emerald-500 rounded-full text-[10px] font-bold uppercase tracking-wider">
-                    Connected
+                    Active
                   </span>
                 </div>
 
@@ -1431,12 +1442,12 @@ export default function AdminDashboard() {
                       <Check className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="text-xs font-semibold dark:text-white text-stone-900">Cloudflare R2 Object Storage</h4>
-                      <p className="text-[11px] dark:text-zinc-400 text-stone-500">Bucket: familiestours (cdn.familiestours.com)</p>
+                      <h4 className="text-xs font-semibold dark:text-white text-stone-900">Photo & Video Cloud Storage</h4>
+                      <p className="text-[11px] dark:text-zinc-400 text-stone-500">Fast global delivery of Agafay tour media</p>
                     </div>
                   </div>
                   <span className="px-2.5 py-1 bg-emerald-500/15 text-emerald-500 rounded-full text-[10px] font-bold uppercase tracking-wider">
-                    Connected
+                    Active
                   </span>
                 </div>
 
@@ -1446,12 +1457,12 @@ export default function AdminDashboard() {
                       <Check className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="text-xs font-semibold dark:text-white text-stone-900">Resend Email Delivery API</h4>
-                      <p className="text-[11px] dark:text-zinc-400 text-stone-500">Automated reservation notices to clients & agency</p>
+                      <h4 className="text-xs font-semibold dark:text-white text-stone-900">Automated Email Notifications</h4>
+                      <p className="text-[11px] dark:text-zinc-400 text-stone-500">Instant confirmation emails to clients and agency managers</p>
                     </div>
                   </div>
                   <span className="px-2.5 py-1 bg-emerald-500/15 text-emerald-500 rounded-full text-[10px] font-bold uppercase tracking-wider">
-                    Ready
+                    Active
                   </span>
                 </div>
               </div>
