@@ -416,13 +416,18 @@ export default function AdminDashboard() {
 
         <div className="w-full max-w-md dark:bg-[#121418] bg-white border dark:border-white/10 border-stone-300/80 p-8 sm:p-10 rounded-2xl shadow-2xl">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 border-2 border-amber-500 rounded-full flex items-center justify-center mx-auto mb-4 bg-amber-500/10 shadow-lg shadow-amber-500/20">
-              <Lock className="w-7 h-7 text-amber-500" />
+            <div className="flex justify-center mb-5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo.png"
+                alt="Families Tours"
+                className="h-20 w-auto object-contain drop-shadow-md"
+              />
             </div>
-            <h1 className="text-2xl font-light tracking-wider dark:text-white text-stone-900">
-              Families Tours <span className="font-serif italic text-amber-500">Admin</span>
+            <h1 className="text-xl font-light tracking-wider dark:text-white text-stone-900">
+              Admin <span className="font-serif italic text-amber-500">Management Portal</span>
             </h1>
-            <p className="text-xs uppercase tracking-widest text-amber-500/90 mt-1.5 font-bold">Management Portal</p>
+            <p className="text-xs uppercase tracking-widest text-amber-500/90 mt-1 font-bold">Secure Access</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-5">
@@ -498,14 +503,17 @@ export default function AdminDashboard() {
       }`}>
         <div>
           {/* Logo Brand */}
-          <div className="p-6 border-b dark:border-white/10 border-stone-200/80 flex items-center justify-between">
-            <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 border border-amber-500/60 rounded-full flex items-center justify-center bg-amber-500/10 shadow-sm">
-                <span className="text-amber-500 font-serif font-bold text-lg">F</span>
-              </div>
+          <div className="p-5 border-b dark:border-white/10 border-stone-200/80 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo.png"
+                alt="Families Tours"
+                className="h-10 w-auto object-contain"
+              />
               <div>
-                <h2 className="text-sm font-semibold tracking-wider uppercase dark:text-white text-stone-900">Families Tours</h2>
-                <p className="text-[10px] text-amber-500 font-medium tracking-widest uppercase">Management Portal</p>
+                <h2 className="text-xs font-semibold tracking-wider uppercase dark:text-white text-stone-900 leading-tight">Families Tours</h2>
+                <p className="text-[9px] text-amber-500 font-medium tracking-widest uppercase">Admin Portal</p>
               </div>
             </div>
             <button

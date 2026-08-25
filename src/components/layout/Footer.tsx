@@ -12,14 +12,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <Link href={`/${locale}`} className="inline-flex items-center gap-3 mb-6 group">
-              <div className="w-12 h-12 border border-amber-500/60 rounded-full flex items-center justify-center group-hover:bg-amber-500/10 transition-colors">
-                <span className="text-amber-500 font-serif text-2xl font-bold">F</span>
-              </div>
-              <div>
-                <h2 className="dark:text-white text-stone-900 font-light text-lg tracking-widest uppercase">Families Tours</h2>
-                <p className="text-amber-500 text-[10px] tracking-[0.3em] uppercase font-medium">familiestours.com</p>
-              </div>
+            <Link href={`/${locale}`} className="inline-block mb-6 group">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo.png"
+                alt="Families Tours"
+                className="h-16 sm:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              />
             </Link>
             <p className="dark:text-zinc-400 text-stone-600 text-sm leading-relaxed mb-8">
               {t.footer.tagline}

@@ -58,23 +58,17 @@ export default function Navbar() {
       >
         <nav className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-between h-20 lg:h-24">
-            {/* Logo */}
-            <Link href={`/${locale}`} className="flex items-center gap-3 group">
-              <div className="relative">
-                <div className="w-10 h-10 lg:w-12 lg:h-12 border border-amber-500/60 rounded-full flex items-center justify-center group-hover:bg-amber-500/15 transition-all duration-300 shadow-sm">
-                  <span className="text-amber-500 font-serif text-xl lg:text-2xl font-bold">F</span>
-                </div>
-                <div className="absolute inset-0 w-10 h-10 lg:w-12 lg:h-12 border border-amber-500/30 rounded-full animate-ping opacity-20"></div>
-              </div>
-              <div className="hidden sm:block">
-                <h1 className={`font-light text-lg lg:text-xl tracking-widest uppercase transition-colors ${
-                  isScrolled ? 'dark:text-white text-stone-900' : 'text-white drop-shadow-sm'
-                }`}>
-                  Families Tours
-                </h1>
-                <p className="text-amber-500 text-[10px] lg:text-xs tracking-[0.3em] uppercase font-medium">
-                  familiestours.com
-                </p>
+            {/* Official Logo */}
+            <Link href={`/${locale}`} className="flex items-center gap-3 group py-1">
+              <div className="relative flex items-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logo.png"
+                  alt="Families Tours Marrakech"
+                  className={`h-11 sm:h-12 lg:h-14 w-auto object-contain transition-all duration-300 group-hover:scale-105 ${
+                    !isScrolled ? 'drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)]' : 'drop-shadow-sm'
+                  }`}
+                />
               </div>
             </Link>
 
