@@ -26,13 +26,31 @@ function HomeContent() {
       
       {/* Hero Section - Cinematic Full Screen */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${images.hero})` }}
-        >
+        {/* Video Background - Performance Optimized */}
+        <div className="absolute inset-0">
+          <video
+            className="absolute inset-0 w-full h-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="none"
+            poster={`${process.env.NEXT_PUBLIC_CDN_URL || 'https://cdn.familiestours.com'}/videos/hero-poster.jpg`}
+          >
+            <source
+              src={`${process.env.NEXT_PUBLIC_CDN_URL || 'https://cdn.familiestours.com'}/videos/hero.mp4`}
+              type="video/mp4"
+            />
+            {/* Fallback for browsers that don't support video */}
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${images.hero})` }}
+            />
+          </video>
           <div className="absolute inset-0 dark:bg-gradient-to-b bg-gradient-to-b from-black/70 via-black/50 to-black"></div>
           <div className="absolute inset-0 dark:bg-gradient-to-r bg-gradient-to-r from-black/60 via-transparent to-black/60"></div>
         </div>
+
         
         <div className="absolute top-1/4 left-10 w-px h-32 dark:bg-gradient-to-b bg-gradient-to-b from-transparent via-amber-500/50 to-transparent hidden lg:block"></div>
         <div className="absolute bottom-1/4 right-10 w-px h-32 dark:bg-gradient-to-b bg-gradient-to-b from-transparent via-amber-500/50 to-transparent hidden lg:block"></div>
