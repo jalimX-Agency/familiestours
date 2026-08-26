@@ -301,8 +301,8 @@ function ContactContent() {
                     </div>
                     <div>
                       <p className="dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase font-semibold mb-0.5">{t.contact.phoneWhatsApp}</p>
-                      <a href="tel:+212XXXXXXXXX" className="dark:text-white hover:text-amber-500 text-stone-800 hover:text-amber-500 transition-colors font-medium text-sm">
-                        +212 XXX XXXXXX
+                      <a href="tel:+212631024326" className="dark:text-white hover:text-amber-500 text-stone-800 hover:text-amber-500 transition-colors font-medium text-sm font-mono">
+                        +212 631-024326
                       </a>
                     </div>
                   </div>

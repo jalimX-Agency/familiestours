@@ -6,23 +6,23 @@ import { useLocale } from '@/context/LocaleContext';
 import { MessageCircle, X, Send, Sparkles } from 'lucide-react';
 
 const whatsappConfig = {
-  phone: '+212600000000', // Agency WhatsApp number
+  phone: '+212631024326', // Agency WhatsApp number
   agencyName: 'Families Tours',
 };
 
 const widgetCopy = {
   en: {
-    title: 'Chat with Desert Specialist',
+    title: 'Chat with Agafay Specialist',
     subtitle: 'Typically replies in minutes',
-    greeting: 'Salam & Welcome! How can we help you plan your Moroccan desert experience today?',
+    greeting: 'Salam & Welcome! How can we help you plan your Agafay Desert experience today?',
     cta: 'Start WhatsApp Chat',
-    placeholder: 'Ask about tours, private camps...',
+    placeholder: 'Ask about tours, private camps, camel rides...',
     badge: 'Online Now',
   },
   fr: {
     title: 'Conseiller Spécialiste du Désert',
     subtitle: 'Réponse en quelques minutes',
-    greeting: 'Salam & Bienvenue ! Comment pouvons-nous vous aider à organiser votre séjour dans le désert marocain ?',
+    greeting: 'Salam & Bienvenue ! Comment pouvons-nous vous aider à organiser votre séjour dans le désert d\'Agafay ?',
     cta: 'Discuter sur WhatsApp',
     placeholder: 'Posez vos questions sur les circuits...',
     badge: 'En ligne',
@@ -30,7 +30,7 @@ const widgetCopy = {
   es: {
     title: 'Especialista en el Desierto',
     subtitle: 'Responde en minutos',
-    greeting: '¡Salam y bienvenidos! ¿Cómo podemos ayudarle a planificar su aventura en el desierto de Marruecos?',
+    greeting: '¡Salam y bienvenidos! ¿Cómo podemos ayudarle a planificar su aventura en el desierto de Agafay?',
     cta: 'Chatear por WhatsApp',
     placeholder: 'Pregunte sobre tours, campamentos...',
     badge: 'En línea',
@@ -55,7 +55,7 @@ export default function WhatsAppWidget() {
   }, []);
 
   const getContextMessage = () => {
-    let context = 'Moroccan Desert Experience';
+    let context = 'Agafay Desert Experience';
     if (pathname.includes('/tours')) context = 'Desert Tours & Excursions';
     if (pathname.includes('/contact')) context = 'Tour Reservation & Booking';
     if (pathname.includes('/gallery')) context = 'Desert Photos & Camp Details';
@@ -117,8 +117,9 @@ export default function WhatsAppWidget() {
           <div className="bg-gradient-to-r from-zinc-900 to-zinc-950 p-4 border-b border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-10 h-10 rounded-full border border-amber-500/50 bg-amber-500/10 flex items-center justify-center font-serif text-amber-500 font-bold">
-                  F
+                <div className="w-10 h-10 rounded-full border border-amber-500/50 bg-amber-500/10 flex items-center justify-center p-1">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/logo.png" alt="Families Tours" className="w-full h-full object-contain" />
                 </div>
                 <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full ring-2 ring-zinc-900"></span>
               </div>
@@ -143,7 +144,7 @@ export default function WhatsAppWidget() {
             <div className="bg-zinc-900/90 border border-white/5 p-3.5 rounded-xl text-xs text-white/80 leading-relaxed">
               <p>{copy.greeting}</p>
               <div className="mt-2.5 pt-2 border-t border-white/5 text-[10px] text-amber-400/80">
-                ✨ Free luxury pickup included in all Merzouga bookings
+                ✨ Free luxury pickup included from your Marrakech accommodation
               </div>
             </div>
 

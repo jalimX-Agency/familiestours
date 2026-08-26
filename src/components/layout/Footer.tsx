@@ -20,17 +20,9 @@ export default function Footer() {
                 className="h-16 sm:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               />
             </Link>
-            <p className="dark:text-zinc-400 text-stone-600 text-sm leading-relaxed mb-8">
+            <p className="dark:text-zinc-400 text-stone-600 text-sm leading-relaxed mb-4">
               {t.footer.tagline}
             </p>
-            <div className="flex gap-3">
-              <a href="#" className="w-10 h-10 border dark:border-white/15 border-stone-300 rounded-full flex items-center justify-center hover:border-amber-500 hover:text-amber-500 transition-all duration-300 dark:text-zinc-400 text-stone-600 dark:hover:bg-white/5 hover:bg-stone-200" aria-label="Instagram">
-                <Instagram className="w-4 h-4" />
-              </a>
-              <a href="#" className="w-10 h-10 border dark:border-white/15 border-stone-300 rounded-full flex items-center justify-center hover:border-amber-500 hover:text-amber-500 transition-all duration-300 dark:text-zinc-400 text-stone-600 dark:hover:bg-white/5 hover:bg-stone-200" aria-label="Facebook">
-                <Facebook className="w-4 h-4" />
-              </a>
-            </div>
           </div>
 
           {/* Experiences Column */}
@@ -96,8 +88,8 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3.5">
                 <Phone className="w-4 h-4 text-amber-500 flex-shrink-0" />
-                <a href="tel:+212XXXXXXXXX" className="dark:text-zinc-400 text-stone-600 hover:dark:text-white hover:text-stone-950 text-sm transition-colors font-medium">
-                  +212 XXX XXXXXX
+                <a href="tel:+212631024326" className="dark:text-zinc-400 text-stone-600 hover:dark:text-white hover:text-stone-950 text-sm transition-colors font-medium font-mono">
+                  +212 631-024326
                 </a>
               </li>
               <li className="flex items-center gap-3.5">

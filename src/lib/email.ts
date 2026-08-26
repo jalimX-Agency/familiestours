@@ -124,7 +124,7 @@ export async function sendBookingNotifications(data: BookingEmailData) {
                   <!-- Footer -->
                   <tr>
                     <td style="padding: 24px 40px; background-color: #0e0e0e; border-top: 1px solid #1f1f1f; text-align: center;">
-                      <p style="margin: 0 0 6px; font-size: 12px; color: #525252;">Families Tours &bull; Merzouga Desert, Morocco</p>
+                      <p style="margin: 0 0 6px; font-size: 12px; color: #525252;">Families Tours &bull; Agafay Desert, Marrakech, Morocco</p>
                       <p style="margin: 0; font-size: 11px; color: #404040;">&copy; ${new Date().getFullYear()} Families Tours. All rights reserved.</p>
                     </td>
                   </tr>

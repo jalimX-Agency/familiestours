@@ -1131,7 +1131,7 @@ export default function AdminDashboard() {
                       type="tel"
                       value={newBookingForm.phone}
                       onChange={(e) => setNewBookingForm({ ...newBookingForm, phone: e.target.value })}
-                      placeholder="+33 6 12 34 56 78"
+                      placeholder="+212 631-024326"
                       className="w-full dark:bg-zinc-900 bg-stone-50 border dark:border-white/15 border-stone-300 rounded-xl px-4 py-3 text-sm dark:text-white text-stone-900 focus:outline-none focus:border-amber-500 font-mono"
                     />
                   </div>
