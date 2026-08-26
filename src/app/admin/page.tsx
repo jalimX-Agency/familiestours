@@ -9,52 +9,40 @@
                Amber #d97706 (functional accent — pending/CTAs only)
                Emerald #059669 (confirmed/success)  Red #dc2626 (cancelled/error)
   Grid        : 56px icon-rail + flexible main. 8px base unit.
-  Containers  : No rounded-card soup. Cells defined by hairline borders (#222)
-               and background tone shifts. No drop-shadows as decoration.
-  Motion      : 150ms ease-out — utility transitions only. No decorative animation.
+  Containers  : No rounded-card soup. Cells defined by hairline borders.
+               Modals for all detail/edit/upload actions.
+  Motion      : 150ms ease-out — utility transitions only.
   Rules       : No gradient backgrounds. No emoji. No left-accent-border cards.
                No icon-per-bullet. Numbers in DM Mono always.
+               Bookings are READ-ONLY from admin — only the website form creates them.
   ─────────────────────────────────────────────────────────
 */
 
-import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   LayoutDashboard,
   CalendarDays,
-  Plus,
   Compass,
   Image as ImageIcon,
   Settings,
   LogOut,
   RefreshCw,
   Search,
-  Filter,
   Download,
-  Eye,
   Phone,
   Mail,
   MessageSquare,
   Trash2,
-  CheckCircle,
-  XCircle,
-  Clock,
-  AlertCircle,
   Upload,
   Copy,
-  ChevronRight,
   Sun,
   Moon,
   Menu,
   X,
-  Users,
-  TrendingUp,
-  DollarSign,
   Check,
-  MapPin,
-  Send,
-  ChevronDown,
   ArrowUpRight,
   Inbox,
+  ExternalLink,
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { tourPackages } from '@/lib/images';
@@ -81,27 +69,26 @@ interface R2Object {
   url: string;
 }
 
-type TabType = 'overview' | 'bookings' | 'new-booking' | 'tours' | 'media' | 'settings';
+type TabType = 'overview' | 'bookings' | 'tours' | 'media' | 'settings';
 
-// ─── Status helpers ───────────────────────────────────────
+// ─── Status meta ──────────────────────────────────────────
 const STATUS_META: Record<string, { label: string; dot: string; text: string; bg: string }> = {
-  PENDING:   { label: 'Pending',   dot: 'bg-amber-500',  text: 'text-amber-600 dark:text-amber-400',  bg: 'bg-amber-50  dark:bg-amber-950/40' },
-  CONFIRMED: { label: 'Confirmed', dot: 'bg-emerald-500',text: 'text-emerald-700 dark:text-emerald-400',bg: 'bg-emerald-50 dark:bg-emerald-950/40' },
-  COMPLETED: { label: 'Completed', dot: 'bg-sky-500',    text: 'text-sky-700 dark:text-sky-400',     bg: 'bg-sky-50 dark:bg-sky-950/40' },
-  CANCELLED: { label: 'Cancelled', dot: 'bg-red-500',    text: 'text-red-600 dark:text-red-400',     bg: 'bg-red-50 dark:bg-red-950/40' },
+  PENDING:   { label: 'Pending',   dot: 'bg-amber-500',   text: 'text-amber-600 dark:text-amber-400',   bg: 'bg-amber-50 dark:bg-amber-950/40' },
+  CONFIRMED: { label: 'Confirmed', dot: 'bg-emerald-500', text: 'text-emerald-700 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/40' },
+  COMPLETED: { label: 'Completed', dot: 'bg-sky-500',     text: 'text-sky-700 dark:text-sky-400',       bg: 'bg-sky-50 dark:bg-sky-950/40' },
+  CANCELLED: { label: 'Cancelled', dot: 'bg-red-500',     text: 'text-red-600 dark:text-red-400',       bg: 'bg-red-50 dark:bg-red-950/40' },
 };
 
 function StatusBadge({ status }: { status: string }) {
   const m = STATUS_META[status] || STATUS_META.PENDING;
   return (
     <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold tracking-wide font-mono ${m.text} ${m.bg}`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${m.dot}`} />
+      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${m.dot}`} />
       {m.label}
     </span>
   );
 }
 
-// ─── Format helpers ───────────────────────────────────────
 function fmtDate(d: string) {
   return new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 }
@@ -109,16 +96,14 @@ function fmtRevenue(n: number) {
   return n.toLocaleString('en-US');
 }
 
-// ─── Stat Cell — used in Overview ─────────────────────────
-function StatCell({
-  label, value, sub, accent = false, mono = true,
-}: {
-  label: string; value: string | number; sub?: string; accent?: boolean; mono?: boolean;
+// ─── Stat Cell ────────────────────────────────────────────
+function StatCell({ label, value, sub, accent = false }: {
+  label: string; value: string | number; sub?: string; accent?: boolean;
 }) {
   return (
     <div className="p-6 border-r border-b dark:border-white/[0.06] border-stone-200 last:border-r-0 flex flex-col gap-1 min-w-0">
       <span className="text-[10px] uppercase tracking-[0.18em] font-semibold dark:text-zinc-500 text-stone-400">{label}</span>
-      <span className={`text-3xl leading-none mt-1 ${mono ? 'font-mono' : 'font-light'} ${accent ? 'text-amber-600 dark:text-amber-400' : 'dark:text-white text-stone-900'}`}>
+      <span className={`text-3xl leading-none mt-1 font-mono ${accent ? 'text-amber-600 dark:text-amber-400' : 'dark:text-white text-stone-900'}`}>
         {value}
       </span>
       {sub && <span className="text-[11px] dark:text-zinc-600 text-stone-400 mt-0.5">{sub}</span>}
@@ -126,7 +111,294 @@ function StatCell({
   );
 }
 
-// ─── Main Component ────────────────────────────────────────
+// ─── Modal Backdrop ───────────────────────────────────────
+function Modal({ onClose, children }: { onClose: () => void; children: React.ReactNode }) {
+  // Close on Escape
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
+      {/* Sheet */}
+      <div
+        className="relative z-10 w-full max-w-lg dark:bg-[#0f1115] bg-white border dark:border-white/[0.08] border-stone-200 shadow-2xl max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-150"
+        onClick={e => e.stopPropagation()}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// ─── Booking Detail Modal ─────────────────────────────────
+function BookingModal({
+  booking,
+  onClose,
+  onStatusChange,
+  onDelete,
+}: {
+  booking: Booking;
+  onClose: () => void;
+  onStatusChange: (id: string, status: string) => void;
+  onDelete: (id: string) => void;
+}) {
+  const waMsg = encodeURIComponent(
+    `Hello ${booking.customerName}, regarding your ${booking.packageName} reservation on ${fmtDate(booking.date)}.`
+  );
+  const waPhone = (booking.phone || '').replace(/[^0-9]/g, '');
+
+  return (
+    <Modal onClose={onClose}>
+      {/* Header */}
+      <div className="flex items-start justify-between px-6 py-5 border-b dark:border-white/[0.06] border-stone-200">
+        <div>
+          <p className="text-[15px] font-semibold dark:text-white text-stone-900 leading-tight">{booking.customerName}</p>
+          <p className="text-[10px] font-mono dark:text-zinc-600 text-stone-400 mt-1">{booking.id.slice(0, 16)}…</p>
+        </div>
+        <button onClick={onClose} className="p-1 dark:text-zinc-500 text-stone-400 hover:dark:text-zinc-100 hover:text-stone-900 transition-colors flex-shrink-0 ml-4">
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+
+      <div className="px-6 py-5 space-y-7">
+        {/* Status control */}
+        <div>
+          <p className="text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-3">Change Status</p>
+          <div className="flex flex-wrap gap-2">
+            {['PENDING', 'CONFIRMED', 'COMPLETED', 'CANCELLED'].map(s => (
+              <button
+                key={s}
+                onClick={() => onStatusChange(booking.id, s)}
+                className={`h-8 px-4 text-[11px] font-mono tracking-wide border transition-colors ${
+                  booking.status === s
+                    ? s === 'CANCELLED'
+                      ? 'border-red-500 bg-red-600 text-white'
+                      : s === 'CONFIRMED' || s === 'COMPLETED'
+                      ? 'border-emerald-600 bg-emerald-600 text-white'
+                      : 'border-amber-500 bg-amber-600 text-white'
+                    : 'dark:border-white/10 border-stone-300 dark:text-zinc-400 text-stone-500 hover:border-amber-500 dark:hover:text-zinc-100'
+                }`}
+              >
+                {s.charAt(0) + s.slice(1).toLowerCase()}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Booking details */}
+        <div className="space-y-0 border dark:border-white/[0.06] border-stone-200">
+          {[
+            { label: 'Experience',  value: booking.packageName, mono: false },
+            { label: 'Tour Date',   value: fmtDate(booking.date), mono: true },
+            { label: 'Guests',      value: `${booking.guests} person${booking.guests !== 1 ? 's' : ''}`, mono: true },
+            { label: 'Status',      value: null },
+            { label: 'Booked On',   value: fmtDate(booking.createdAt), mono: true },
+          ].map(({ label, value, mono }) => (
+            <div key={label} className="flex items-center justify-between px-4 py-3.5 border-b dark:border-white/[0.06] border-stone-200 last:border-0 gap-4">
+              <span className="text-[11px] font-mono dark:text-zinc-600 text-stone-400 flex-shrink-0">{label}</span>
+              {label === 'Status'
+                ? <StatusBadge status={booking.status} />
+                : <span className={`text-[13px] dark:text-zinc-200 text-stone-800 text-right ${mono ? 'font-mono' : ''}`}>{value}</span>
+              }
+            </div>
+          ))}
+        </div>
+
+        {/* Contact actions */}
+        <div>
+          <p className="text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-3">Contact Customer</p>
+          <div className="space-y-2.5">
+            <a
+              href={`mailto:${booking.email}`}
+              className="flex items-center gap-3 h-9 px-4 border dark:border-white/10 border-stone-300 text-[12px] font-mono dark:text-zinc-300 text-stone-700 hover:border-amber-500 hover:dark:text-zinc-100 transition-colors"
+            >
+              <Mail className="w-3.5 h-3.5 dark:text-zinc-500 text-stone-400 flex-shrink-0" />
+              {booking.email}
+            </a>
+            {booking.phone && (
+              <>
+                <a
+                  href={`tel:${booking.phone}`}
+                  className="flex items-center gap-3 h-9 px-4 border dark:border-white/10 border-stone-300 text-[12px] font-mono dark:text-zinc-300 text-stone-700 hover:border-amber-500 hover:dark:text-zinc-100 transition-colors"
+                >
+                  <Phone className="w-3.5 h-3.5 dark:text-zinc-500 text-stone-400 flex-shrink-0" />
+                  {booking.phone}
+                </a>
+                {waPhone && (
+                  <a
+                    href={`https://wa.me/${waPhone}?text=${waMsg}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 h-9 px-4 border border-emerald-600/60 text-[12px] font-mono text-emerald-600 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white transition-colors"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    Message on WhatsApp
+                    <ExternalLink className="w-3 h-3 ml-auto opacity-60" />
+                  </a>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Notes */}
+        {booking.message && (
+          <div>
+            <p className="text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-2">Customer Notes</p>
+            <p className="text-[13px] dark:text-zinc-400 text-stone-600 leading-relaxed border dark:border-white/[0.06] border-stone-200 px-4 py-3">
+              {booking.message}
+            </p>
+          </div>
+        )}
+
+        {/* Danger zone */}
+        <div className="pt-2 border-t dark:border-white/[0.06] border-stone-200">
+          <button
+            onClick={() => { onDelete(booking.id); onClose(); }}
+            className="flex items-center gap-2 text-[11px] font-mono text-red-500/50 hover:text-red-500 transition-colors"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            Delete this reservation permanently
+          </button>
+        </div>
+      </div>
+    </Modal>
+  );
+}
+
+// ─── Upload Modal ─────────────────────────────────────────
+function UploadModal({
+  onClose,
+  onUploaded,
+  showToast,
+}: {
+  onClose: () => void;
+  onUploaded: () => void;
+  showToast: (text: string, type?: 'success' | 'info' | 'error') => void;
+}) {
+  const [category, setCategory] = useState('Camels');
+  const [file, setFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!file) return;
+    setIsUploading(true);
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('category', category);
+    try {
+      const res = await fetch('/api/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (data.success) {
+        showToast('Photo uploaded successfully', 'success');
+        onUploaded();
+        onClose();
+      } else {
+        showToast(data.error || 'Upload failed', 'error');
+      }
+    } catch {
+      showToast('Upload error', 'error');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const CATS = ['Camels', 'Quad', 'Camp', 'Dinner', 'Sunrise', 'Safari4x4', 'Family', 'Gallery'];
+
+  return (
+    <Modal onClose={onClose}>
+      <div className="flex items-center justify-between px-6 py-5 border-b dark:border-white/[0.06] border-stone-200">
+        <p className="text-[14px] font-semibold dark:text-white text-stone-900">Upload Photo</p>
+        <button onClick={onClose} className="p-1 dark:text-zinc-500 text-stone-400 hover:dark:text-zinc-100 hover:text-stone-900 transition-colors">
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+
+      <form onSubmit={handleSubmit} className="px-6 py-5 space-y-5">
+        {/* Category */}
+        <div>
+          <label className="block text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-2">Category</label>
+          <div className="grid grid-cols-4 gap-2">
+            {CATS.map(c => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => setCategory(c)}
+                className={`h-8 text-[11px] font-mono border transition-colors ${
+                  category === c
+                    ? 'border-amber-500 bg-amber-600 text-white'
+                    : 'dark:border-white/10 border-stone-300 dark:text-zinc-400 text-stone-500 hover:border-amber-500'
+                }`}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* File drop zone */}
+        <div>
+          <label className="block text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-2">File</label>
+          <label
+            className={`flex flex-col items-center justify-center h-32 border-2 border-dashed cursor-pointer transition-colors ${
+              file
+                ? 'dark:border-amber-600/50 border-amber-400/50 dark:bg-amber-950/10 bg-amber-50/50'
+                : 'dark:border-white/10 border-stone-300 hover:dark:border-white/20 hover:border-stone-400'
+            }`}
+          >
+            <input
+              type="file"
+              accept="image/*"
+              onChange={e => setFile(e.target.files?.[0] || null)}
+              className="sr-only"
+            />
+            {file ? (
+              <>
+                <Check className="w-5 h-5 text-amber-500 mb-2" />
+                <p className="text-[12px] font-mono dark:text-zinc-300 text-stone-700 text-center px-4 truncate max-w-full">{file.name}</p>
+                <p className="text-[11px] font-mono dark:text-zinc-600 text-stone-400 mt-1">{(file.size / 1024).toFixed(0)} KB</p>
+              </>
+            ) : (
+              <>
+                <Upload className="w-5 h-5 dark:text-zinc-600 text-stone-400 mb-2" />
+                <p className="text-[12px] font-mono dark:text-zinc-500 text-stone-400">Click to choose a file</p>
+                <p className="text-[10px] font-mono dark:text-zinc-700 text-stone-300 mt-1">JPG, PNG, WebP</p>
+              </>
+            )}
+          </label>
+        </div>
+
+        <div className="flex gap-3 pt-1">
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 h-10 border dark:border-white/10 border-stone-300 text-[12px] font-mono dark:text-zinc-400 text-stone-500 hover:dark:border-white/20 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={!file || isUploading}
+            className="flex-1 h-10 bg-amber-600 hover:bg-amber-500 disabled:opacity-40 text-white text-[12px] font-mono tracking-wide transition-colors"
+          >
+            {isUploading ? 'Uploading…' : 'Upload Photo'}
+          </button>
+        </div>
+      </form>
+    </Modal>
+  );
+}
+
+// ─── Main Component ───────────────────────────────────────
 export default function AdminDashboard() {
   const { theme, setTheme } = useTheme();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -148,29 +420,16 @@ export default function AdminDashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [packageFilter, setPackageFilter] = useState('ALL');
+
+  // Modals
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [showUploadModal, setShowUploadModal] = useState(false);
 
   // Media
   const [r2Images, setR2Images] = useState<R2Object[]>([]);
   const [isLoadingImages, setIsLoadingImages] = useState(false);
-  const [uploadCategory, setUploadCategory] = useState('Camels');
-  const [uploadFile, setUploadFile] = useState<File | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
   const [mediaFilterCategory, setMediaFilterCategory] = useState('ALL');
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
-
-  // New booking form
-  const [newBookingForm, setNewBookingForm] = useState({
-    packageName: tourPackages[0]?.title || 'Camel Trek & Dinner',
-    customerName: '',
-    email: '',
-    phone: '',
-    date: new Date().toISOString().split('T')[0],
-    guests: 2,
-    message: '',
-    status: 'CONFIRMED' as const,
-  });
-  const [isCreatingBooking, setIsCreatingBooking] = useState(false);
 
   // ── Auth ──
   useEffect(() => {
@@ -229,7 +488,8 @@ export default function AdminDashboard() {
     });
     if (res.ok) {
       setBookings(prev => prev.map(b => b.id === id ? { ...b, status: newStatus as any } : b));
-      if (selectedBooking?.id === id) setSelectedBooking(prev => prev ? { ...prev, status: newStatus as any } : null);
+      // Update modal's booking too
+      setSelectedBooking(prev => prev?.id === id ? { ...prev, status: newStatus as any } : prev);
       showToast(`Marked as ${newStatus}`, 'success');
     } else {
       showToast('Update failed', 'error');
@@ -241,52 +501,8 @@ export default function AdminDashboard() {
     const res = await fetch(`/api/admin/bookings/${id}`, { method: 'DELETE' });
     if (res.ok) {
       setBookings(prev => prev.filter(b => b.id !== id));
-      if (selectedBooking?.id === id) setSelectedBooking(null);
       showToast('Reservation deleted', 'info');
     }
-  };
-
-  const handleCreateManualBooking = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsCreatingBooking(true);
-    try {
-      const res = await fetch('/api/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newBookingForm),
-      });
-      const data = await res.json();
-      if (data.success) {
-        showToast('Reservation created', 'success');
-        setNewBookingForm({
-          packageName: tourPackages[0]?.title || 'Camel Trek & Dinner',
-          customerName: '', email: '', phone: '',
-          date: new Date().toISOString().split('T')[0],
-          guests: 2, message: '', status: 'CONFIRMED',
-        });
-        fetchBookings();
-        setActiveTab('bookings');
-      } else {
-        showToast(data.error || 'Failed to create', 'error');
-      }
-    } catch { showToast('Error creating reservation', 'error'); }
-    finally { setIsCreatingBooking(false); }
-  };
-
-  const handleUploadImage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!uploadFile) return;
-    setIsUploading(true);
-    const fd = new FormData();
-    fd.append('file', uploadFile);
-    fd.append('category', uploadCategory);
-    try {
-      const res = await fetch('/api/upload', { method: 'POST', body: fd });
-      const data = await res.json();
-      if (data.success) { showToast('Photo uploaded', 'success'); setUploadFile(null); fetchR2Images(); }
-      else showToast(data.error || 'Upload failed', 'error');
-    } catch { showToast('Upload error', 'error'); }
-    finally { setIsUploading(false); }
   };
 
   const copyToClipboard = (text: string, key: string) => {
@@ -321,7 +537,7 @@ export default function AdminDashboard() {
     showToast('CSV exported', 'success');
   };
 
-  // ── Derived data ──
+  // ── Derived ──
   const filteredBookings = useMemo(() => bookings.filter(b => {
     const ms = statusFilter === 'ALL' || b.status === statusFilter;
     const mp = packageFilter === 'ALL' || b.packageName.toLowerCase().includes(packageFilter.toLowerCase());
@@ -358,14 +574,13 @@ export default function AdminDashboard() {
     return { total, pending, confirmed, completed, cancelled, totalGuests, estimatedRevenue, todayDepartures, tomorrowDepartures, packageCounts };
   }, [bookings]);
 
-  // ── Nav items ──
+  // ── Nav items (no "new-booking") ──
   const navItems = [
-    { id: 'overview',     label: 'Overview',      icon: LayoutDashboard },
-    { id: 'bookings',     label: 'Reservations',  icon: CalendarDays,  badge: stats.pending > 0 ? stats.pending : undefined },
-    { id: 'new-booking',  label: 'New Booking',   icon: Plus },
-    { id: 'tours',        label: 'Tours',          icon: Compass },
-    { id: 'media',        label: 'Media',          icon: ImageIcon,     badge: r2Images.length || undefined },
-    { id: 'settings',     label: 'Settings',       icon: Settings },
+    { id: 'overview',  label: 'Overview',     icon: LayoutDashboard },
+    { id: 'bookings',  label: 'Reservations', icon: CalendarDays,    badge: stats.pending > 0 ? stats.pending : undefined },
+    { id: 'tours',     label: 'Tours',        icon: Compass },
+    { id: 'media',     label: 'Media',        icon: ImageIcon,       badge: r2Images.length || undefined },
+    { id: 'settings',  label: 'Settings',     icon: Settings },
   ] as const;
 
   // ─────────────────────────────────────────────────────
@@ -374,7 +589,6 @@ export default function AdminDashboard() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center dark:bg-[#0a0b0d] bg-[#f6f5f2] p-6 transition-colors">
-        {/* Theme toggle */}
         <button
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           className="fixed top-6 right-6 w-9 h-9 flex items-center justify-center border dark:border-white/10 border-stone-300 rounded-full dark:text-zinc-400 text-stone-500 hover:text-amber-600 transition-colors"
@@ -383,7 +597,6 @@ export default function AdminDashboard() {
         </button>
 
         <div className="w-full max-w-sm">
-          {/* Wordmark */}
           <div className="text-center mb-12">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.png" alt="Families Tours" className="h-16 w-auto mx-auto mb-6 object-contain" />
@@ -392,7 +605,6 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="block text-[10px] tracking-[0.2em] uppercase font-mono dark:text-zinc-500 text-stone-400 mb-2.5">
@@ -414,7 +626,6 @@ export default function AdminDashboard() {
                 <p className="text-[11px] text-red-500 font-mono mt-2 text-center">Invalid code — try again</p>
               )}
             </div>
-
             <button
               type="submit"
               className="w-full mt-6 py-3 text-[11px] tracking-[0.2em] uppercase font-semibold font-mono bg-amber-600 hover:bg-amber-500 text-white transition-colors"
@@ -434,11 +645,9 @@ export default function AdminDashboard() {
   // ─────────────────────────────────────────────────────
   // MAIN DASHBOARD
   // ─────────────────────────────────────────────────────
-
   const tabTitle: Record<TabType, string> = {
     overview: 'Overview',
     bookings: 'Reservations',
-    'new-booking': 'New Booking',
     tours: 'Tour Packages',
     media: 'Photo Library',
     settings: 'Settings',
@@ -446,6 +655,23 @@ export default function AdminDashboard() {
 
   return (
     <div className="flex min-h-screen dark:bg-[#0a0b0d] bg-[#f6f5f2] dark:text-zinc-100 text-stone-900 transition-colors">
+
+      {/* ── Modals ── */}
+      {selectedBooking && (
+        <BookingModal
+          booking={selectedBooking}
+          onClose={() => setSelectedBooking(null)}
+          onStatusChange={handleStatusChange}
+          onDelete={handleDeleteBooking}
+        />
+      )}
+      {showUploadModal && (
+        <UploadModal
+          onClose={() => setShowUploadModal(false)}
+          onUploaded={fetchR2Images}
+          showToast={showToast}
+        />
+      )}
 
       {/* ── Toast ── */}
       {toast && (
@@ -455,24 +681,20 @@ export default function AdminDashboard() {
             : toast.type === 'error' ? 'dark:bg-red-950/80 bg-red-50 border-red-300 dark:border-red-800 text-red-700 dark:text-red-300'
             : 'dark:bg-zinc-900 bg-white border-stone-300 dark:border-white/10 dark:text-zinc-300 text-stone-600'
           }`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${toast.type === 'success' ? 'bg-emerald-500' : toast.type === 'error' ? 'bg-red-500' : 'bg-amber-500'}`} />
+            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${toast.type === 'success' ? 'bg-emerald-500' : toast.type === 'error' ? 'bg-red-500' : 'bg-amber-500'}`} />
             {toast.text}
           </div>
         </div>
       )}
 
-      {/* ── Mobile nav overlay ── */}
+      {/* ── Mobile overlay ── */}
       {mobileNavOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 z-40 lg:hidden"
-          onClick={() => setMobileNavOpen(false)}
-        />
+        <div className="fixed inset-0 bg-black/60 z-40 lg:hidden" onClick={() => setMobileNavOpen(false)} />
       )}
 
       {/* ── Sidebar / Nav Rail ── */}
       <aside className={`
-        fixed lg:sticky top-0 left-0 h-screen z-50
-        flex flex-col
+        fixed lg:sticky top-0 left-0 h-screen z-50 flex flex-col
         dark:bg-[#0f1115] bg-white
         dark:border-r dark:border-white/[0.06] border-r border-stone-200
         transition-all duration-200 ease-out
@@ -483,18 +705,15 @@ export default function AdminDashboard() {
         <div className="flex items-center h-14 px-3.5 border-b dark:border-white/[0.06] border-stone-200 gap-3 overflow-hidden flex-shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.png" alt="FT" className="w-7 h-7 object-contain flex-shrink-0" />
-          <span className="text-[11px] tracking-[0.18em] uppercase font-semibold dark:text-zinc-300 text-stone-700 whitespace-nowrap opacity-0 group-hover/sidebar:opacity-100 lg:group-hover/sidebar:opacity-100 transition-opacity duration-150">
+          <span className="text-[11px] tracking-[0.18em] uppercase font-semibold dark:text-zinc-300 text-stone-700 whitespace-nowrap opacity-0 group-hover/sidebar:opacity-100 transition-opacity duration-150">
             Families Tours
           </span>
-          <button
-            onClick={() => setMobileNavOpen(false)}
-            className="ml-auto lg:hidden text-stone-400"
-          >
+          <button onClick={() => setMobileNavOpen(false)} className="ml-auto lg:hidden text-stone-400">
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Nav items */}
+        {/* Nav */}
         <nav className="flex-1 py-3 px-2 space-y-0.5 overflow-y-auto">
           {navItems.map(({ id, label, icon: Icon, badge }) => {
             const active = activeTab === id;
@@ -502,13 +721,11 @@ export default function AdminDashboard() {
               <button
                 key={id}
                 onClick={() => { setActiveTab(id as TabType); setMobileNavOpen(false); }}
-                className={`
-                  relative w-full flex items-center gap-3 h-9 px-2.5 text-left transition-colors
-                  ${active
+                className={`relative w-full flex items-center gap-3 h-9 px-2.5 text-left transition-colors ${
+                  active
                     ? 'bg-amber-600 text-white'
                     : 'dark:text-zinc-400 text-stone-500 hover:dark:text-zinc-100 hover:text-stone-900 hover:dark:bg-white/5 hover:bg-stone-100'
-                  }
-                `}
+                }`}
               >
                 <Icon className="w-4 h-4 flex-shrink-0" />
                 <span className="text-[12px] font-medium whitespace-nowrap opacity-0 group-hover/sidebar:opacity-100 transition-opacity duration-150 overflow-hidden">
@@ -549,26 +766,19 @@ export default function AdminDashboard() {
         </div>
       </aside>
 
-      {/* ── Main Content ── */}
+      {/* ── Main ── */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
 
         {/* Topbar */}
         <header className="sticky top-0 z-30 h-14 flex items-center justify-between px-5 dark:bg-[#0a0b0d]/95 bg-[#f6f5f2]/95 backdrop-blur-md border-b dark:border-white/[0.06] border-stone-200 flex-shrink-0">
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => setMobileNavOpen(true)}
-              className="lg:hidden text-stone-400 dark:text-zinc-500"
-            >
+            <button onClick={() => setMobileNavOpen(true)} className="lg:hidden text-stone-400 dark:text-zinc-500">
               <Menu className="w-5 h-5" />
             </button>
             <div className="flex items-center gap-2.5">
-              <span className="text-[10px] font-mono tracking-[0.2em] uppercase dark:text-zinc-600 text-stone-300">
-                Families Tours
-              </span>
+              <span className="text-[10px] font-mono tracking-[0.2em] uppercase dark:text-zinc-600 text-stone-300">Families Tours</span>
               <span className="text-stone-300 dark:text-zinc-700">/</span>
-              <span className="text-[12px] font-medium dark:text-zinc-200 text-stone-700">
-                {tabTitle[activeTab]}
-              </span>
+              <span className="text-[12px] font-medium dark:text-zinc-200 text-stone-700">{tabTitle[activeTab]}</span>
             </div>
           </div>
 
@@ -580,13 +790,14 @@ export default function AdminDashboard() {
               <RefreshCw className={`w-3.5 h-3.5 ${isLoadingBookings ? 'animate-spin text-amber-500' : ''}`} />
               <span className="hidden sm:inline">Sync</span>
             </button>
-            {activeTab !== 'new-booking' && (
+            {/* Upload shortcut in topbar when on media tab */}
+            {activeTab === 'media' && (
               <button
-                onClick={() => setActiveTab('new-booking')}
+                onClick={() => setShowUploadModal(true)}
                 className="flex items-center gap-1.5 h-8 px-3 bg-amber-600 hover:bg-amber-500 text-white text-[11px] font-mono transition-colors"
               >
-                <Plus className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">New Booking</span>
+                <Upload className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Upload</span>
               </button>
             )}
           </div>
@@ -597,7 +808,7 @@ export default function AdminDashboard() {
         ════════════════════════════════════════════════ */}
         {activeTab === 'overview' && (
           <div className="flex-1 overflow-y-auto">
-            {/* KPI row — borderless grid of stat cells */}
+            {/* KPI row */}
             <div className="grid grid-cols-2 lg:grid-cols-4 border-b dark:border-white/[0.06] border-stone-200">
               <StatCell label="Est. Revenue" value={`${fmtRevenue(stats.estimatedRevenue)} MAD`} sub="Active & completed tours" accent />
               <StatCell label="Pending Action" value={stats.pending} sub="Awaiting confirmation" />
@@ -605,9 +816,8 @@ export default function AdminDashboard() {
               <StatCell label="Total Guests" value={stats.totalGuests} sub={`${stats.total} reservations total`} />
             </div>
 
-            {/* Body — two-column layout */}
             <div className="grid lg:grid-cols-3">
-              {/* Departures feed */}
+              {/* Departures */}
               <div className="lg:col-span-2 border-r dark:border-white/[0.06] border-stone-200">
                 <div className="flex items-center justify-between px-6 py-4 border-b dark:border-white/[0.06] border-stone-200">
                   <div>
@@ -629,7 +839,6 @@ export default function AdminDashboard() {
                   </div>
                 ) : (
                   <div>
-                    {/* Today */}
                     {stats.todayDepartures.length > 0 && (
                       <>
                         <div className="px-6 py-2 border-b dark:border-white/[0.06] border-stone-200 dark:bg-white/[0.015] bg-stone-100/60">
@@ -637,26 +846,23 @@ export default function AdminDashboard() {
                             Today — {stats.todayDepartures.length} departure{stats.todayDepartures.length !== 1 ? 's' : ''}
                           </span>
                         </div>
-                        {stats.todayDepartures.map((b) => (
-                          <div key={b.id} className="flex items-center justify-between px-6 py-4 border-b dark:border-white/[0.06] border-stone-200 hover:dark:bg-white/[0.02] hover:bg-stone-100/50 transition-colors">
+                        {stats.todayDepartures.map(b => (
+                          <div
+                            key={b.id}
+                            onClick={() => setSelectedBooking(b)}
+                            className="flex items-center justify-between px-6 py-4 border-b dark:border-white/[0.06] border-stone-200 hover:dark:bg-white/[0.02] hover:bg-stone-100/50 transition-colors cursor-pointer"
+                          >
                             <div className="min-w-0">
                               <p className="text-[13px] font-medium dark:text-white text-stone-900 truncate">{b.customerName}</p>
                               <p className="text-[11px] font-mono dark:text-zinc-500 text-stone-400 mt-0.5">{b.packageName} · {b.guests} guests</p>
                             </div>
                             <div className="flex items-center gap-3 flex-shrink-0 ml-4">
                               <StatusBadge status={b.status} />
-                              <button
-                                onClick={() => { setSelectedBooking(b); setActiveTab('bookings'); }}
-                                className="text-[11px] font-mono text-amber-600 hover:text-amber-500 transition-colors"
-                              >
-                                View
-                              </button>
                             </div>
                           </div>
                         ))}
                       </>
                     )}
-                    {/* Tomorrow */}
                     {stats.tomorrowDepartures.length > 0 && (
                       <>
                         <div className="px-6 py-2 border-b dark:border-white/[0.06] border-stone-200 dark:bg-white/[0.015] bg-stone-100/60">
@@ -664,20 +870,18 @@ export default function AdminDashboard() {
                             Tomorrow — {stats.tomorrowDepartures.length} departure{stats.tomorrowDepartures.length !== 1 ? 's' : ''}
                           </span>
                         </div>
-                        {stats.tomorrowDepartures.map((b) => (
-                          <div key={b.id} className="flex items-center justify-between px-6 py-4 border-b dark:border-white/[0.06] border-stone-200 hover:dark:bg-white/[0.02] hover:bg-stone-100/50 transition-colors">
+                        {stats.tomorrowDepartures.map(b => (
+                          <div
+                            key={b.id}
+                            onClick={() => setSelectedBooking(b)}
+                            className="flex items-center justify-between px-6 py-4 border-b dark:border-white/[0.06] border-stone-200 hover:dark:bg-white/[0.02] hover:bg-stone-100/50 transition-colors cursor-pointer"
+                          >
                             <div className="min-w-0">
                               <p className="text-[13px] font-medium dark:text-white text-stone-900 truncate">{b.customerName}</p>
                               <p className="text-[11px] font-mono dark:text-zinc-500 text-stone-400 mt-0.5">{b.packageName} · {b.guests} guests</p>
                             </div>
                             <div className="flex items-center gap-3 flex-shrink-0 ml-4">
                               <StatusBadge status={b.status} />
-                              <button
-                                onClick={() => { setSelectedBooking(b); setActiveTab('bookings'); }}
-                                className="text-[11px] font-mono text-amber-600 hover:text-amber-500 transition-colors"
-                              >
-                                View
-                              </button>
                             </div>
                           </div>
                         ))}
@@ -710,10 +914,7 @@ export default function AdminDashboard() {
                               <span className="text-[11px] font-mono dark:text-zinc-500 text-stone-400">{count} · {pct}%</span>
                             </div>
                             <div className="h-1 dark:bg-white/[0.06] bg-stone-200">
-                              <div
-                                className="h-full bg-amber-600 transition-all duration-500"
-                                style={{ width: `${pct}%` }}
-                              />
+                              <div className="h-full bg-amber-600 transition-all duration-500" style={{ width: `${pct}%` }} />
                             </div>
                           </div>
                         );
@@ -721,7 +922,6 @@ export default function AdminDashboard() {
                   </div>
                 )}
 
-                {/* Status breakdown */}
                 <div className="border-t dark:border-white/[0.06] border-stone-200 px-5 py-4 space-y-2.5">
                   <h3 className="text-[10px] tracking-[0.2em] uppercase font-semibold dark:text-zinc-500 text-stone-400 mb-3">Status Breakdown</h3>
                   {[
@@ -751,7 +951,6 @@ export default function AdminDashboard() {
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Filters bar */}
             <div className="flex flex-wrap items-center gap-3 px-5 py-3 border-b dark:border-white/[0.06] border-stone-200 flex-shrink-0">
-              {/* Search */}
               <div className="relative flex-1 min-w-48">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 dark:text-zinc-600 text-stone-400" />
                 <input
@@ -761,8 +960,6 @@ export default function AdminDashboard() {
                   className="w-full pl-8 pr-3 h-8 text-[12px] font-mono bg-transparent border dark:border-white/10 border-stone-300 dark:text-zinc-200 text-stone-800 placeholder:dark:text-zinc-600 placeholder:text-stone-400 focus:outline-none focus:border-amber-500 transition-colors"
                 />
               </div>
-
-              {/* Status filter */}
               <select
                 value={statusFilter}
                 onChange={e => setStatusFilter(e.target.value)}
@@ -774,8 +971,6 @@ export default function AdminDashboard() {
                   </option>
                 ))}
               </select>
-
-              {/* Package filter */}
               <select
                 value={packageFilter}
                 onChange={e => setPackageFilter(e.target.value)}
@@ -786,8 +981,6 @@ export default function AdminDashboard() {
                   <option key={p.id} value={p.title} className="dark:bg-zinc-900 bg-white">{p.title}</option>
                 ))}
               </select>
-
-              {/* Actions */}
               <button
                 onClick={exportToCSV}
                 className="flex items-center gap-1.5 h-8 px-3 border dark:border-white/10 border-stone-300 text-[11px] font-mono dark:text-zinc-400 text-stone-500 hover:border-amber-500 hover:text-amber-600 transition-colors"
@@ -795,302 +988,65 @@ export default function AdminDashboard() {
                 <Download className="w-3.5 h-3.5" />
                 Export CSV
               </button>
-
               <span className="text-[11px] font-mono dark:text-zinc-600 text-stone-400 ml-auto">
                 {filteredBookings.length} of {bookings.length}
               </span>
             </div>
 
-            {/* Two-pane layout */}
-            <div className="flex-1 flex overflow-hidden">
-              {/* Reservations table */}
-              <div className={`flex-1 overflow-y-auto ${selectedBooking ? 'hidden lg:block lg:max-w-[55%]' : ''}`}>
-                {isLoadingBookings ? (
-                  <div className="flex items-center justify-center h-full">
-                    <RefreshCw className="w-5 h-5 animate-spin text-amber-500" />
-                  </div>
-                ) : filteredBookings.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center h-full gap-3">
-                    <Inbox className="w-8 h-8 dark:text-zinc-700 text-stone-300" />
-                    <p className="text-[12px] font-mono dark:text-zinc-600 text-stone-400">No reservations found</p>
-                  </div>
-                ) : (
-                  <table className="w-full border-collapse text-[12px]">
-                    <thead>
-                      <tr className="border-b dark:border-white/[0.06] border-stone-200 dark:bg-white/[0.015] bg-stone-100/50">
-                        <th className="text-left px-5 py-2.5 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal">Customer</th>
-                        <th className="text-left px-3 py-2.5 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal hidden md:table-cell">Package</th>
-                        <th className="text-left px-3 py-2.5 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal hidden lg:table-cell">Date</th>
-                        <th className="text-center px-3 py-2.5 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal hidden sm:table-cell">Guests</th>
-                        <th className="text-left px-3 py-2.5 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredBookings.map(b => (
-                        <tr
-                          key={b.id}
-                          onClick={() => setSelectedBooking(selectedBooking?.id === b.id ? null : b)}
-                          className={`border-b dark:border-white/[0.04] border-stone-100 cursor-pointer transition-colors ${
-                            selectedBooking?.id === b.id
-                              ? 'dark:bg-amber-950/20 bg-amber-50/60'
-                              : 'hover:dark:bg-white/[0.02] hover:bg-stone-100/50'
-                          }`}
-                        >
-                          <td className="px-5 py-3.5">
-                            <p className="font-medium dark:text-white text-stone-900 truncate max-w-32">{b.customerName}</p>
-                            <p className="font-mono dark:text-zinc-600 text-stone-400 text-[11px] truncate">{b.email}</p>
-                          </td>
-                          <td className="px-3 py-3.5 hidden md:table-cell">
-                            <span className="dark:text-zinc-300 text-stone-600 truncate max-w-28 block">{b.packageName}</span>
-                          </td>
-                          <td className="px-3 py-3.5 font-mono dark:text-zinc-400 text-stone-500 hidden lg:table-cell">
-                            {fmtDate(b.date)}
-                          </td>
-                          <td className="px-3 py-3.5 font-mono text-center hidden sm:table-cell dark:text-zinc-400 text-stone-500">
-                            {b.guests}
-                          </td>
-                          <td className="px-3 py-3.5">
-                            <StatusBadge status={b.status} />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </div>
-
-              {/* Detail panel */}
-              {selectedBooking && (
-                <div className={`${selectedBooking ? 'flex-1 lg:flex-none lg:w-[380px]' : 'hidden'} border-l dark:border-white/[0.06] border-stone-200 overflow-y-auto flex-shrink-0`}>
-                  {/* Panel header */}
-                  <div className="flex items-center justify-between px-5 py-3.5 border-b dark:border-white/[0.06] border-stone-200 sticky top-0 dark:bg-[#0a0b0d] bg-[#f6f5f2] z-10">
-                    <div>
-                      <p className="text-[13px] font-semibold dark:text-white text-stone-900">{selectedBooking.customerName}</p>
-                      <p className="text-[10px] font-mono dark:text-zinc-600 text-stone-400">{selectedBooking.id.slice(0, 12)}…</p>
-                    </div>
-                    <button onClick={() => setSelectedBooking(null)} className="text-stone-400 hover:text-stone-700 dark:hover:text-zinc-200 transition-colors">
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  {/* Panel body */}
-                  <div className="px-5 py-5 space-y-6">
-                    {/* Status change */}
-                    <div>
-                      <p className="text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-2.5">Status</p>
-                      <div className="flex flex-wrap gap-2">
-                        {['PENDING', 'CONFIRMED', 'COMPLETED', 'CANCELLED'].map(s => (
-                          <button
-                            key={s}
-                            onClick={() => handleStatusChange(selectedBooking.id, s)}
-                            className={`h-7 px-3 text-[10px] font-mono tracking-wide border transition-colors ${
-                              selectedBooking.status === s
-                                ? 'border-amber-500 bg-amber-600 text-white'
-                                : 'dark:border-white/10 border-stone-300 dark:text-zinc-400 text-stone-500 hover:border-amber-500'
-                            }`}
-                          >
-                            {s.charAt(0) + s.slice(1).toLowerCase()}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Info rows */}
-                    {[
-                      { label: 'Package',   value: selectedBooking.packageName },
-                      { label: 'Date',      value: fmtDate(selectedBooking.date), mono: true },
-                      { label: 'Guests',    value: `${selectedBooking.guests} person${selectedBooking.guests !== 1 ? 's' : ''}`, mono: true },
-                      { label: 'Booked',    value: fmtDate(selectedBooking.createdAt), mono: true },
-                    ].map(({ label, value, mono }) => (
-                      <div key={label} className="border-b dark:border-white/[0.06] border-stone-200 pb-3 last:border-0">
-                        <p className="text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-1">{label}</p>
-                        <p className={`text-[13px] dark:text-zinc-200 text-stone-800 ${mono ? 'font-mono' : ''}`}>{value}</p>
-                      </div>
-                    ))}
-
-                    {/* Contact */}
-                    <div>
-                      <p className="text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-3">Contact</p>
-                      <div className="space-y-2.5">
-                        <a href={`mailto:${selectedBooking.email}`} className="flex items-center gap-2.5 text-[12px] font-mono dark:text-zinc-300 text-stone-600 hover:text-amber-600 transition-colors">
-                          <Mail className="w-3.5 h-3.5 flex-shrink-0 dark:text-zinc-600 text-stone-400" />
-                          {selectedBooking.email}
-                        </a>
-                        {selectedBooking.phone && (
-                          <>
-                            <a href={`tel:${selectedBooking.phone}`} className="flex items-center gap-2.5 text-[12px] font-mono dark:text-zinc-300 text-stone-600 hover:text-amber-600 transition-colors">
-                              <Phone className="w-3.5 h-3.5 flex-shrink-0 dark:text-zinc-600 text-stone-400" />
-                              {selectedBooking.phone}
-                            </a>
-                            <a
-                              href={`https://wa.me/${selectedBooking.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hello ${selectedBooking.customerName}, regarding your ${selectedBooking.packageName} reservation on ${fmtDate(selectedBooking.date)}.`)}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-2 h-7 px-3 text-[11px] font-mono border border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white transition-colors"
-                            >
-                              <MessageSquare className="w-3 h-3" />
-                              WhatsApp
-                            </a>
-                          </>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Notes */}
-                    {selectedBooking.message && (
-                      <div>
-                        <p className="text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-1.5">Customer Notes</p>
-                        <p className="text-[12px] dark:text-zinc-400 text-stone-600 leading-relaxed">{selectedBooking.message}</p>
-                      </div>
-                    )}
-
-                    {/* Delete */}
-                    <button
-                      onClick={() => handleDeleteBooking(selectedBooking.id)}
-                      className="flex items-center gap-2 text-[11px] font-mono text-red-500/60 hover:text-red-500 transition-colors mt-2"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                      Delete Reservation
-                    </button>
-                  </div>
+            {/* Table — full width, rows open modal on click */}
+            <div className="flex-1 overflow-y-auto">
+              {isLoadingBookings ? (
+                <div className="flex items-center justify-center h-full">
+                  <RefreshCw className="w-5 h-5 animate-spin text-amber-500" />
                 </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* ════════════════════════════════════════════════
-            TAB: NEW BOOKING
-        ════════════════════════════════════════════════ */}
-        {activeTab === 'new-booking' && (
-          <div className="flex-1 overflow-y-auto">
-            <div className="max-w-2xl mx-auto px-5 py-10">
-              <div className="mb-8">
-                <h2 className="text-[11px] tracking-[0.2em] uppercase font-semibold dark:text-zinc-400 text-stone-400">Manual Entry</h2>
-                <p className="text-sm dark:text-white text-stone-900 mt-1">Create a walk-in or phone booking</p>
-              </div>
-
-              <form onSubmit={handleCreateManualBooking} className="space-y-6">
-                {/* Package */}
-                <div>
-                  <label className="block text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-2">Experience *</label>
-                  <select
-                    required
-                    value={newBookingForm.packageName}
-                    onChange={e => setNewBookingForm({ ...newBookingForm, packageName: e.target.value })}
-                    className="w-full h-11 px-3 text-[13px] font-mono bg-transparent border dark:border-white/10 border-stone-300 dark:text-zinc-200 text-stone-800 focus:outline-none focus:border-amber-500 transition-colors"
-                  >
-                    {tourPackages.map(p => (
-                      <option key={p.id} value={p.title} className="dark:bg-zinc-900 bg-white">
-                        {p.title} — {p.price} MAD/person
-                      </option>
-                    ))}
-                  </select>
+              ) : filteredBookings.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-full gap-3">
+                  <Inbox className="w-8 h-8 dark:text-zinc-700 text-stone-300" />
+                  <p className="text-[12px] font-mono dark:text-zinc-600 text-stone-400">No reservations found</p>
                 </div>
-
-                {/* Customer name */}
-                <div>
-                  <label className="block text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-2">Customer Name *</label>
-                  <input
-                    required
-                    type="text"
-                    value={newBookingForm.customerName}
-                    onChange={e => setNewBookingForm({ ...newBookingForm, customerName: e.target.value })}
-                    placeholder="Full name"
-                    className="w-full h-11 px-3 text-[13px] bg-transparent border dark:border-white/10 border-stone-300 dark:text-zinc-200 text-stone-800 placeholder:dark:text-zinc-700 placeholder:text-stone-300 focus:outline-none focus:border-amber-500 transition-colors"
-                  />
-                </div>
-
-                {/* Email */}
-                <div>
-                  <label className="block text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-2">Email Address *</label>
-                  <input
-                    required
-                    type="email"
-                    value={newBookingForm.email}
-                    onChange={e => setNewBookingForm({ ...newBookingForm, email: e.target.value })}
-                    placeholder="customer@email.com"
-                    className="w-full h-11 px-3 text-[13px] font-mono bg-transparent border dark:border-white/10 border-stone-300 dark:text-zinc-200 text-stone-800 placeholder:dark:text-zinc-700 placeholder:text-stone-300 focus:outline-none focus:border-amber-500 transition-colors"
-                  />
-                </div>
-
-                {/* Phone + Guests + Date */}
-                <div className="grid sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-2">Phone / WhatsApp</label>
-                    <input
-                      type="tel"
-                      value={newBookingForm.phone}
-                      onChange={e => setNewBookingForm({ ...newBookingForm, phone: e.target.value })}
-                      placeholder="+212 631-024326"
-                      className="w-full h-11 px-3 text-[13px] font-mono bg-transparent border dark:border-white/10 border-stone-300 dark:text-zinc-200 text-stone-800 placeholder:dark:text-zinc-700 placeholder:text-stone-300 focus:outline-none focus:border-amber-500 transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-2">Tour Date *</label>
-                    <input
-                      required
-                      type="date"
-                      value={newBookingForm.date}
-                      onChange={e => setNewBookingForm({ ...newBookingForm, date: e.target.value })}
-                      className="w-full h-11 px-3 text-[13px] font-mono bg-transparent border dark:border-white/10 border-stone-300 dark:text-zinc-200 text-stone-800 focus:outline-none focus:border-amber-500 transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-2">Guests *</label>
-                    <input
-                      required
-                      type="number"
-                      min={1}
-                      max={20}
-                      value={newBookingForm.guests}
-                      onChange={e => setNewBookingForm({ ...newBookingForm, guests: parseInt(e.target.value) || 1 })}
-                      className="w-full h-11 px-3 text-[13px] font-mono bg-transparent border dark:border-white/10 border-stone-300 dark:text-zinc-200 text-stone-800 focus:outline-none focus:border-amber-500 transition-colors"
-                    />
-                  </div>
-                </div>
-
-                {/* Status */}
-                <div>
-                  <label className="block text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-2">Initial Status</label>
-                  <div className="flex gap-2 flex-wrap">
-                    {['PENDING', 'CONFIRMED'].map(s => (
-                      <button
-                        key={s}
-                        type="button"
-                        onClick={() => setNewBookingForm({ ...newBookingForm, status: s as any })}
-                        className={`h-8 px-4 text-[11px] font-mono border transition-colors ${
-                          newBookingForm.status === s
-                            ? 'border-amber-500 bg-amber-600 text-white'
-                            : 'dark:border-white/10 border-stone-300 dark:text-zinc-400 text-stone-500'
-                        }`}
+              ) : (
+                <table className="w-full border-collapse text-[12px]">
+                  <thead className="sticky top-0 z-10">
+                    <tr className="border-b dark:border-white/[0.06] border-stone-200 dark:bg-[#0a0b0d] bg-[#f6f5f2]">
+                      <th className="text-left px-5 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal">Customer</th>
+                      <th className="text-left px-3 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal hidden md:table-cell">Package</th>
+                      <th className="text-left px-3 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal hidden lg:table-cell">Tour Date</th>
+                      <th className="text-center px-3 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal hidden sm:table-cell">Guests</th>
+                      <th className="text-left px-3 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal">Status</th>
+                      <th className="text-right px-5 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredBookings.map(b => (
+                      <tr
+                        key={b.id}
+                        onClick={() => setSelectedBooking(b)}
+                        className="border-b dark:border-white/[0.04] border-stone-100 cursor-pointer hover:dark:bg-white/[0.025] hover:bg-stone-50/80 transition-colors"
                       >
-                        {s.charAt(0) + s.slice(1).toLowerCase()}
-                      </button>
+                        <td className="px-5 py-3.5">
+                          <p className="font-medium dark:text-white text-stone-900 truncate max-w-36">{b.customerName}</p>
+                          <p className="font-mono dark:text-zinc-600 text-stone-400 text-[11px] truncate">{b.email}</p>
+                        </td>
+                        <td className="px-3 py-3.5 hidden md:table-cell">
+                          <span className="dark:text-zinc-300 text-stone-600 truncate max-w-28 block">{b.packageName}</span>
+                        </td>
+                        <td className="px-3 py-3.5 font-mono dark:text-zinc-400 text-stone-500 hidden lg:table-cell whitespace-nowrap">
+                          {fmtDate(b.date)}
+                        </td>
+                        <td className="px-3 py-3.5 font-mono text-center hidden sm:table-cell dark:text-zinc-400 text-stone-500">
+                          {b.guests}
+                        </td>
+                        <td className="px-3 py-3.5">
+                          <StatusBadge status={b.status} />
+                        </td>
+                        <td className="px-5 py-3.5 text-right">
+                          <span className="text-[11px] font-mono text-amber-600 dark:text-amber-500">Open →</span>
+                        </td>
+                      </tr>
                     ))}
-                  </div>
-                </div>
-
-                {/* Notes */}
-                <div>
-                  <label className="block text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-2">Notes / Special Requests</label>
-                  <textarea
-                    rows={3}
-                    value={newBookingForm.message}
-                    onChange={e => setNewBookingForm({ ...newBookingForm, message: e.target.value })}
-                    placeholder="Dietary requirements, special occasions, preferences…"
-                    className="w-full px-3 py-2.5 text-[13px] bg-transparent border dark:border-white/10 border-stone-300 dark:text-zinc-200 text-stone-800 placeholder:dark:text-zinc-700 placeholder:text-stone-300 focus:outline-none focus:border-amber-500 transition-colors resize-none"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isCreatingBooking}
-                  className="w-full h-11 bg-amber-600 hover:bg-amber-500 disabled:opacity-50 text-white text-[11px] font-mono tracking-[0.18em] uppercase transition-colors"
-                >
-                  {isCreatingBooking ? 'Creating…' : 'Create Reservation'}
-                </button>
-              </form>
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         )}
@@ -1100,46 +1056,36 @@ export default function AdminDashboard() {
         ════════════════════════════════════════════════ */}
         {activeTab === 'tours' && (
           <div className="flex-1 overflow-y-auto">
-            <div className="border-b dark:border-white/[0.06] border-stone-200">
-              <table className="w-full border-collapse text-[12px]">
-                <thead>
-                  <tr className="border-b dark:border-white/[0.06] border-stone-200 dark:bg-white/[0.015] bg-stone-100/50">
-                    <th className="text-left px-5 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal">#</th>
-                    <th className="text-left px-3 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal">Experience</th>
-                    <th className="text-right px-3 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal">Price / person</th>
-                    <th className="text-left px-3 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal hidden md:table-cell">Duration</th>
-                    <th className="text-left px-3 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal hidden lg:table-cell">Capacity</th>
-                    <th className="text-right px-5 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal">Bookings</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tourPackages.map((pkg, idx) => {
-                    const pkgBookings = bookings.filter(b => b.packageName.toLowerCase() === pkg.title.toLowerCase()).length;
-                    return (
-                      <tr key={pkg.id} className="border-b dark:border-white/[0.04] border-stone-100 hover:dark:bg-white/[0.015] hover:bg-stone-50 transition-colors">
-                        <td className="px-5 py-4 font-mono dark:text-zinc-700 text-stone-300 text-[11px]">0{idx + 1}</td>
-                        <td className="px-3 py-4">
-                          <p className="font-medium dark:text-white text-stone-900">{pkg.title}</p>
-                          <p className="text-[11px] dark:text-zinc-500 text-stone-400 mt-0.5">{pkg.subtitle}</p>
-                        </td>
-                        <td className="px-3 py-4 text-right font-mono font-semibold text-amber-600 dark:text-amber-400">
-                          {pkg.price} MAD
-                        </td>
-                        <td className="px-3 py-4 font-mono dark:text-zinc-400 text-stone-500 text-[11px] hidden md:table-cell">
-                          {pkg.duration}
-                        </td>
-                        <td className="px-3 py-4 dark:text-zinc-400 text-stone-500 text-[11px] hidden lg:table-cell">
-                          {pkg.groupSize}
-                        </td>
-                        <td className="px-5 py-4 text-right font-mono dark:text-zinc-300 text-stone-700">
-                          {pkgBookings}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+            <table className="w-full border-collapse text-[12px]">
+              <thead>
+                <tr className="border-b dark:border-white/[0.06] border-stone-200 dark:bg-white/[0.015] bg-stone-100/50">
+                  <th className="text-left px-5 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal">#</th>
+                  <th className="text-left px-3 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal">Experience</th>
+                  <th className="text-right px-3 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal">Price / person</th>
+                  <th className="text-left px-3 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal hidden md:table-cell">Duration</th>
+                  <th className="text-left px-3 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal hidden lg:table-cell">Capacity</th>
+                  <th className="text-right px-5 py-3 text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 font-normal">Bookings</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tourPackages.map((pkg, idx) => {
+                  const pkgBookings = bookings.filter(b => b.packageName.toLowerCase() === pkg.title.toLowerCase()).length;
+                  return (
+                    <tr key={pkg.id} className="border-b dark:border-white/[0.04] border-stone-100 hover:dark:bg-white/[0.015] hover:bg-stone-50 transition-colors">
+                      <td className="px-5 py-4 font-mono dark:text-zinc-700 text-stone-300 text-[11px]">0{idx + 1}</td>
+                      <td className="px-3 py-4">
+                        <p className="font-medium dark:text-white text-stone-900">{pkg.title}</p>
+                        <p className="text-[11px] dark:text-zinc-500 text-stone-400 mt-0.5">{pkg.subtitle}</p>
+                      </td>
+                      <td className="px-3 py-4 text-right font-mono font-semibold text-amber-600 dark:text-amber-400">{pkg.price} MAD</td>
+                      <td className="px-3 py-4 font-mono dark:text-zinc-400 text-stone-500 text-[11px] hidden md:table-cell">{pkg.duration}</td>
+                      <td className="px-3 py-4 dark:text-zinc-400 text-stone-500 text-[11px] hidden lg:table-cell">{pkg.groupSize}</td>
+                      <td className="px-5 py-4 text-right font-mono dark:text-zinc-300 text-stone-700">{pkgBookings}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         )}
 
@@ -1148,44 +1094,8 @@ export default function AdminDashboard() {
         ════════════════════════════════════════════════ */}
         {activeTab === 'media' && (
           <div className="flex-1 overflow-y-auto">
-            {/* Upload form */}
-            <div className="border-b dark:border-white/[0.06] border-stone-200 px-5 py-5">
-              <p className="text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-4">Upload New Photo</p>
-              <form onSubmit={handleUploadImage} className="flex flex-wrap items-end gap-3">
-                <div>
-                  <label className="block text-[10px] font-mono dark:text-zinc-600 text-stone-400 mb-1.5">Category</label>
-                  <select
-                    value={uploadCategory}
-                    onChange={e => setUploadCategory(e.target.value)}
-                    className="h-9 px-3 text-[12px] font-mono bg-transparent border dark:border-white/10 border-stone-300 dark:text-zinc-300 text-stone-600 focus:outline-none focus:border-amber-500 transition-colors"
-                  >
-                    {['Camels', 'Quad', 'Camp', 'Dinner', 'Sunrise', 'Safari4x4', 'Family', 'Gallery'].map(c => (
-                      <option key={c} value={c} className="dark:bg-zinc-900 bg-white">{c}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-[10px] font-mono dark:text-zinc-600 text-stone-400 mb-1.5">File</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={e => setUploadFile(e.target.files?.[0] || null)}
-                    className="text-[11px] font-mono dark:text-zinc-400 text-stone-500 file:h-9 file:px-3 file:border file:dark:border-white/10 file:border-stone-300 file:text-[11px] file:font-mono file:bg-transparent file:dark:text-zinc-400 file:text-stone-500 file:cursor-pointer"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={!uploadFile || isUploading}
-                  className="h-9 px-4 bg-amber-600 hover:bg-amber-500 disabled:opacity-40 text-white text-[11px] font-mono transition-colors flex items-center gap-2"
-                >
-                  <Upload className="w-3.5 h-3.5" />
-                  {isUploading ? 'Uploading…' : 'Upload'}
-                </button>
-              </form>
-            </div>
-
-            {/* Filter */}
-            <div className="flex items-center gap-3 px-5 py-3 border-b dark:border-white/[0.06] border-stone-200">
+            {/* Category filter bar */}
+            <div className="flex flex-wrap items-center gap-2 px-5 py-3 border-b dark:border-white/[0.06] border-stone-200">
               {['ALL', 'Camels', 'Quad', 'Camp', 'Dinner', 'Sunrise', 'Safari', 'Gallery'].map(cat => (
                 <button
                   key={cat}
@@ -1210,21 +1120,32 @@ export default function AdminDashboard() {
                 <RefreshCw className="w-5 h-5 animate-spin text-amber-500" />
               </div>
             ) : filteredR2Images.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-20 gap-3">
+              <div className="flex flex-col items-center justify-center py-24 gap-4">
                 <ImageIcon className="w-8 h-8 dark:text-zinc-700 text-stone-300" />
                 <p className="text-[12px] font-mono dark:text-zinc-600 text-stone-400">No photos in this category</p>
+                <button
+                  onClick={() => setShowUploadModal(true)}
+                  className="flex items-center gap-2 h-8 px-4 bg-amber-600 hover:bg-amber-500 text-white text-[11px] font-mono transition-colors"
+                >
+                  <Upload className="w-3.5 h-3.5" />
+                  Upload First Photo
+                </button>
               </div>
             ) : (
-              <div className="p-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+              <div className="p-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+                {/* Upload tile */}
+                <button
+                  onClick={() => setShowUploadModal(true)}
+                  className="aspect-square border-2 border-dashed dark:border-white/10 border-stone-300 flex flex-col items-center justify-center gap-2 hover:border-amber-500 hover:dark:text-zinc-100 hover:text-stone-900 dark:text-zinc-600 text-stone-400 transition-colors"
+                >
+                  <Upload className="w-5 h-5" />
+                  <span className="text-[10px] font-mono">Upload</span>
+                </button>
+
                 {filteredR2Images.map(img => (
                   <div key={img.key} className="group relative aspect-square border dark:border-white/[0.06] border-stone-200 overflow-hidden dark:bg-zinc-900 bg-stone-100">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={img.url}
-                      alt={img.key}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
+                    <img src={img.url} alt={img.key} className="w-full h-full object-cover" loading="lazy" />
                     <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-2">
                       <p className="text-[9px] font-mono text-white/70 text-center truncate w-full">{img.key.split('/').pop()}</p>
                       <button
@@ -1253,7 +1174,6 @@ export default function AdminDashboard() {
                 <p className="text-sm dark:text-white text-stone-900">Configuration & account security</p>
               </div>
 
-              {/* Contact info */}
               <div className="border dark:border-white/[0.06] border-stone-200">
                 <div className="px-5 py-4 border-b dark:border-white/[0.06] border-stone-200">
                   <p className="text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400">Agency Contact</p>
@@ -1270,7 +1190,6 @@ export default function AdminDashboard() {
                 ))}
               </div>
 
-              {/* Theme */}
               <div className="border dark:border-white/[0.06] border-stone-200">
                 <div className="px-5 py-4 border-b dark:border-white/[0.06] border-stone-200">
                   <p className="text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400">Appearance</p>
@@ -1287,7 +1206,6 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              {/* Session */}
               <div className="border dark:border-white/[0.06] border-stone-200">
                 <div className="px-5 py-4 border-b dark:border-white/[0.06] border-stone-200">
                   <p className="text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400">Session</p>
@@ -1305,7 +1223,7 @@ export default function AdminDashboard() {
               </div>
 
               <p className="text-[10px] font-mono dark:text-zinc-700 text-stone-300 text-center">
-                Families Tours Admin · Marrakech · v2.0
+                Families Tours Admin · Marrakech · v2.1
               </p>
             </div>
           </div>
