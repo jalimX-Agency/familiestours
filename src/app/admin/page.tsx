@@ -317,12 +317,41 @@ function TourModal({
     difficulty: tour?.difficulty || 'Easy',
     groupSize: tour?.groupSize || 'Up to 12 guests',
     description: tour?.description || '',
-    mainImage: tour?.mainImage || 'https://cdn.familiestours.com/tours/camel.jpg',
+    mainImage: tour?.mainImage || '',
     features: (tour?.features || []).join('\n'),
     highlight: tour?.highlight || false,
     signature: tour?.signature || false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [isDraggingOver, setIsDraggingOver] = useState(false);
+
+  const handleImageUpload = async (file: File) => {
+    setImageFile(file);
+    setIsUploadingImage(true);
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('category', 'Tours');
+    try {
+      const res = await fetch('/api/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (data.success && data.url) {
+        setFormData(prev => ({ ...prev, mainImage: data.url }));
+      }
+    } catch {
+      // silent — user can retry
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDraggingOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file && file.type.startsWith('image/')) handleImageUpload(file);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -425,15 +454,82 @@ function TourModal({
           </div>
         </div>
 
+        {/* Cover Image — Drag & Drop Upload */}
         <div>
-          <label className="block text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-1.5">Cover Image URL</label>
-          <input
-            type="url"
-            value={formData.mainImage || ''}
-            onChange={e => setFormData({ ...formData, mainImage: e.target.value })}
-            placeholder="https://cdn.familiestours.com/tours/camel.jpg"
-            className="w-full h-10 px-3 text-[12px] font-mono bg-transparent border dark:border-white/10 border-stone-300 dark:text-zinc-200 text-stone-800 focus:outline-none focus:border-amber-500 transition-colors"
-          />
+          <label className="block text-[10px] font-mono tracking-widests uppercase dark:text-zinc-600 text-stone-400 mb-1.5">Cover Image</label>
+
+          {/* Drop zone */}
+          <div
+            onDragOver={e => { e.preventDefault(); setIsDraggingOver(true); }}
+            onDragLeave={() => setIsDraggingOver(false)}
+            onDrop={handleDrop}
+            className={`relative border-2 border-dashed transition-colors ${
+              isDraggingOver
+                ? 'border-amber-500 dark:bg-amber-950/10 bg-amber-50/50'
+                : formData.mainImage
+                ? 'border-emerald-600/40 dark:border-emerald-600/40'
+                : 'dark:border-white/10 border-stone-300 hover:dark:border-white/25 hover:border-stone-400'
+            }`}
+          >
+            {/* Preview when image is set */}
+            {formData.mainImage ? (
+              <div className="relative group h-36">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={formData.mainImage}
+                  alt="Cover preview"
+                  className="w-full h-full object-cover"
+                />
+                {/* Overlay on hover */}
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+                  <label className="cursor-pointer flex items-center gap-2 h-8 px-4 bg-amber-600 hover:bg-amber-500 text-white text-[11px] font-mono transition-colors">
+                    <Upload className="w-3.5 h-3.5" />
+                    {isUploadingImage ? 'Uploading…' : 'Replace Image'}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="sr-only"
+                      onChange={e => { const f = e.target.files?.[0]; if (f) handleImageUpload(f); }}
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => { setImageFile(null); setFormData(prev => ({ ...prev, mainImage: '' })); }}
+                    className="text-[10px] font-mono text-white/60 hover:text-white transition-colors"
+                  >
+                    Remove
+                  </button>
+                </div>
+                {isUploadingImage && (
+                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                    <RefreshCw className="w-6 h-6 text-amber-400 animate-spin" />
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Empty drop zone */
+              <label className="flex flex-col items-center justify-center h-36 cursor-pointer">
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="sr-only"
+                  onChange={e => { const f = e.target.files?.[0]; if (f) handleImageUpload(f); }}
+                />
+                {isUploadingImage ? (
+                  <>
+                    <RefreshCw className="w-6 h-6 text-amber-500 animate-spin mb-2" />
+                    <p className="text-[12px] font-mono dark:text-zinc-400 text-stone-500">{imageFile?.name || 'Uploading…'}</p>
+                  </>
+                ) : (
+                  <>
+                    <Upload className="w-6 h-6 dark:text-zinc-600 text-stone-400 mb-2" />
+                    <p className="text-[12px] font-mono dark:text-zinc-500 text-stone-400">Drop image here or click to browse</p>
+                    <p className="text-[10px] font-mono dark:text-zinc-700 text-stone-300 mt-1">JPG, PNG, WebP — uploaded to CDN</p>
+                  </>
+                )}
+              </label>
+            )}
+          </div>
         </div>
 
         <div>
