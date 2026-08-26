@@ -1113,6 +1113,26 @@ export default function AdminDashboard() {
     setTimeout(() => setCopiedKey(null), 2000);
   };
 
+  const handleDeleteImage = async (key: string) => {
+    if (!confirm('Are you sure you want to delete this image permanently?')) return;
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key })
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('Image deleted', 'success');
+        fetchR2Images();
+      } else {
+        showToast(data.error || 'Failed to delete image', 'error');
+      }
+    } catch {
+      showToast('Error deleting image', 'error');
+    }
+  };
+
   const exportToCSV = () => {
     if (!bookings.length) { showToast('No bookings to export', 'info'); return; }
     const headers = ['ID', 'Customer', 'Email', 'Phone', 'Package', 'Date', 'Guests', 'Status', 'Created', 'Notes'];
@@ -1960,13 +1980,21 @@ export default function AdminDashboard() {
                     <img src={img.url} alt={img.key} className="w-full h-full object-cover" loading="lazy" />
                     <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-2">
                       <p className="text-[9px] font-mono text-white/70 text-center truncate w-full">{img.key.split('/').pop()}</p>
-                      <button
-                        onClick={() => copyToClipboard(img.url, img.key)}
-                        className="flex items-center gap-1.5 h-7 px-3 text-[10px] font-mono bg-amber-600 text-white"
-                      >
-                        {copiedKey === img.key ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                        {copiedKey === img.key ? 'Copied' : 'Copy URL'}
-                      </button>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => copyToClipboard(img.url, img.key)}
+                          className="flex items-center gap-1.5 h-7 px-3 text-[10px] font-mono bg-amber-600 text-white"
+                        >
+                          {copiedKey === img.key ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                          {copiedKey === img.key ? 'Copied' : 'Copy'}
+                        </button>
+                        <button
+                          onClick={() => handleDeleteImage(img.key)}
+                          className="flex items-center justify-center w-7 h-7 bg-red-600/80 hover:bg-red-600 text-white transition-colors"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}

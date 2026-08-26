@@ -40,32 +40,8 @@ function GalleryContent() {
     <main className="min-h-screen dark:bg-[#0c0d0f] bg-[#faf8f5] dark:text-zinc-100 text-stone-900 transition-colors duration-300">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="relative h-[48vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${images.camp})` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/50"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40"></div>
-        </div>
-        
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <div className="inline-flex items-center gap-3 mb-6">
-            <span className="w-8 h-[1px] bg-amber-400"></span>
-            <span className="text-amber-400 text-xs tracking-[0.35em] uppercase font-semibold drop-shadow-sm">{t.gallery.visualJourney}</span>
-            <span className="w-8 h-[1px] bg-amber-400"></span>
-          </div>
-          
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light mb-4 text-white drop-shadow-md">
-            Desert <span className="font-serif italic text-amber-400">Gallery</span>
-          </h1>
-          
-          <p className="text-white/90 font-light max-w-xl mx-auto drop-shadow-sm text-base">
-            {t.gallery.glimpses}
-          </p>
-        </div>
-      </section>
+      {/* Minimal Header spacing for fixed navbar */}
+      <div className="pt-24 lg:pt-32"></div>
 
       {/* Filter Bar */}
       <section className="sticky top-20 lg:top-24 z-30 dark:bg-zinc-950/95 bg-white/95 backdrop-blur-xl dark:border-b border-b dark:border-white/10 border-stone-200 shadow-sm">
