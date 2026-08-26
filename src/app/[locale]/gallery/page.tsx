@@ -1,25 +1,59 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import Image from 'next/image';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { images } from '@/lib/images';
 import { useLocale, LocaleProvider } from '@/context/LocaleContext';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
+
+interface GalleryImage {
+  src: string;
+  alt: string;
+  category: string;
+}
 
 function GalleryContent() {
   const { t, locale } = useLocale();
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedImage, setSelectedImage] = useState<typeof images.gallery[0] | null>(null);
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const categories = ['All', 'Camels', 'Adventure', 'Camp', 'Nature'];
+  useEffect(() => {
+    async function loadImages() {
+      try {
+        const res = await fetch('/api/upload?category=Gallery');
+        const data = await res.json();
+        if (data.success && data.objects) {
+          const mapped = data.objects.map((obj: any) => ({
+            src: obj.url,
+            alt: obj.altText || obj.key.split('/').pop(),
+            category: obj.category || 'Gallery'
+          }));
+          setGalleryImages(mapped);
+        }
+      } catch (err) {
+        console.error('Failed to load gallery images', err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadImages();
+  }, []);
+
+  const categories = useMemo(() => {
+    const cats = new Set(galleryImages.map(img => img.category));
+    return ['All', ...Array.from(cats)];
+  }, [galleryImages]);
 
   const filteredImages = selectedCategory === 'All' 
-    ? images.gallery 
-    : images.gallery.filter(img => img.category.toLowerCase() === selectedCategory.toLowerCase());
+    ? galleryImages 
+    : galleryImages.filter(img => img.category.toLowerCase() === selectedCategory.toLowerCase());
 
-  const openLightbox = (img: typeof images.gallery[0], idx: number) => {
+  const openLightbox = (img: GalleryImage, idx: number) => {
     setSelectedImage(img);
     setSelectedIndex(idx);
   };
@@ -47,23 +81,29 @@ function GalleryContent() {
       <section className="sticky top-20 lg:top-24 z-30 dark:bg-zinc-950/95 bg-white/95 backdrop-blur-xl dark:border-b border-b dark:border-white/10 border-stone-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-4 flex items-center justify-between">
           <div className="flex gap-2 overflow-x-auto">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2 text-xs tracking-wider uppercase whitespace-nowrap rounded-full transition-all duration-300 font-semibold ${
-                  selectedCategory === cat 
-                    ? 'bg-amber-500 text-black shadow-md shadow-amber-500/20' 
-                    : 'dark:text-zinc-400 text-stone-600 hover:dark:text-white hover:text-stone-950 dark:hover:bg-white/5 hover:bg-stone-100'
-                }`}
-              >
-                {cat === 'All' ? t.gallery.all : 
-                 cat === 'Camels' ? t.gallery.categories.camels :
-                 cat === 'Adventure' ? t.gallery.categories.adventure :
-                 cat === 'Camp' ? t.gallery.categories.camp :
-                 t.gallery.categories.nature}
-              </button>
-            ))}
+            {categories.map((cat) => {
+              // Translate common categories if they exist in translations, otherwise use the raw category name
+              let displayName = cat;
+              if (cat === 'All') displayName = t.gallery.all;
+              else if (cat.toLowerCase() === 'camels' && t.gallery.categories.camels) displayName = t.gallery.categories.camels;
+              else if (cat.toLowerCase() === 'adventure' && t.gallery.categories.adventure) displayName = t.gallery.categories.adventure;
+              else if (cat.toLowerCase() === 'camp' && t.gallery.categories.camp) displayName = t.gallery.categories.camp;
+              else if (cat.toLowerCase() === 'nature' && t.gallery.categories.nature) displayName = t.gallery.categories.nature;
+
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-5 py-2 text-xs tracking-wider uppercase whitespace-nowrap rounded-full transition-all duration-300 font-semibold ${
+                    selectedCategory === cat 
+                      ? 'bg-amber-500 text-black shadow-md shadow-amber-500/20' 
+                      : 'dark:text-zinc-400 text-stone-600 hover:dark:text-white hover:text-stone-950 dark:hover:bg-white/5 hover:bg-stone-100'
+                  }`}
+                >
+                  {displayName}
+                </button>
+              );
+            })}
           </div>
           
           <span className="hidden md:block dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase font-medium">
@@ -73,33 +113,46 @@ function GalleryContent() {
       </section>
 
       {/* Gallery Grid */}
-      <section className="py-16 lg:py-24 dark:bg-[#0c0d0f] bg-[#faf8f5]">
+      <section className="py-16 lg:py-24 dark:bg-[#0c0d0f] bg-[#faf8f5] min-h-[50vh]">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-5 space-y-5">
-            {filteredImages.map((image, idx) => (
-              <div
-                key={idx}
-                onClick={() => openLightbox(image, idx)}
-                className="break-inside-avoid group cursor-pointer relative overflow-hidden rounded-xl border dark:border-white/10 border-stone-200/80 shadow-md shadow-stone-900/5 hover:shadow-2xl transition-all duration-500"
-              >
-                <div className={`${idx % 5 === 0 ? 'row-span-2' : ''}`}>
-                  <img 
-                    src={image.src} 
-                    alt={image.alt}
-                    className="w-full object-cover transition-all duration-700 group-hover:scale-108"
-                    loading="lazy"
-                  />
-                </div>
-                
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent transition-all duration-300 flex items-end p-5 opacity-0 group-hover:opacity-100">
-                  <div>
-                    <p className="text-white font-medium text-sm drop-shadow-sm">{image.alt}</p>
-                    <p className="text-amber-400 text-xs uppercase tracking-wider mt-1 font-semibold">{image.category}</p>
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center py-20 gap-4">
+              <RefreshCw className="w-8 h-8 text-amber-500 animate-spin" />
+              <p className="text-sm font-mono dark:text-zinc-500 text-stone-500 uppercase tracking-widest">Loading Gallery...</p>
+            </div>
+          ) : filteredImages.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <p className="text-lg dark:text-zinc-400 text-stone-500 font-light">No images found in this category.</p>
+            </div>
+          ) : (
+            <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-5 space-y-5">
+              {filteredImages.map((image, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => openLightbox(image, idx)}
+                  className="break-inside-avoid group cursor-pointer relative overflow-hidden rounded-xl border dark:border-white/10 border-stone-200/80 shadow-md shadow-stone-900/5 hover:shadow-2xl transition-all duration-500"
+                >
+                  <div className="relative">
+                    <Image 
+                      src={image.src} 
+                      alt={image.alt}
+                      width={800}
+                      height={800}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="w-full h-auto object-cover transition-all duration-700 group-hover:scale-108"
+                    />
+                  </div>
+                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent transition-all duration-300 flex items-end p-5 opacity-0 group-hover:opacity-100">
+                    <div>
+                      <p className="text-white font-medium text-sm drop-shadow-sm truncate max-w-[200px]">{image.alt}</p>
+                      <p className="text-amber-400 text-xs uppercase tracking-wider mt-1 font-semibold">{image.category}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -134,14 +187,17 @@ function GalleryContent() {
           </button>
 
           <div 
-            className="max-w-5xl max-h-[80vh] relative text-center"
+            className="max-w-5xl w-full max-h-[80vh] relative text-center flex flex-col items-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <img 
-              src={selectedImage.src} 
-              alt={selectedImage.alt}
-              className="max-w-full max-h-[72vh] object-contain rounded-lg shadow-2xl mx-auto"
-            />
+            <div className="relative w-full h-[60vh] md:h-[70vh]">
+              <Image 
+                src={selectedImage.src} 
+                alt={selectedImage.alt}
+                fill
+                className="object-contain rounded-lg shadow-2xl"
+              />
+            </div>
             
             <div className="mt-4">
               <p className="text-white font-medium text-lg drop-shadow-sm">{selectedImage.alt}</p>
