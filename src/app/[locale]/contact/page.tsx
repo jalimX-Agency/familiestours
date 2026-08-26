@@ -10,6 +10,7 @@ import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Calendar, Users, AlertCi
 function ContactContent() {
   const { locale, t } = useLocale();
   const [selectedPackage, setSelectedPackage] = useState<string>('');
+  const [packages, setPackages] = useState<any[]>(tourPackages);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,9 +23,20 @@ function ContactContent() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  useState(() => {
+    fetch('/api/tours')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && Array.isArray(data.tours) && data.tours.length > 0) {
+          setPackages(data.tours);
+        }
+      })
+      .catch(() => {});
+  });
+
   const getPackageName = (pkgId: string) => {
     if (!pkgId) return 'Custom Experience';
-    const pkg = tourPackages.find((p) => p.id.toString() === pkgId);
+    const pkg = packages.find((p) => (p.id || '').toString() === pkgId);
     return pkg ? pkg.title : 'Custom Experience';
   };
 
@@ -148,7 +160,7 @@ function ContactContent() {
                           {t.contact.notSureYet}
                         </span>
                       </button>
-                      {tourPackages.map((pkg) => (
+                      {packages.map((pkg) => (
                         <button
                           key={pkg.id}
                           type="button"
@@ -161,11 +173,7 @@ function ContactContent() {
                         >
                           <div className="flex justify-between items-center gap-2">
                             <span className={`text-sm font-medium ${selectedPackage === pkg.id.toString() ? 'text-amber-500 font-semibold' : 'dark:text-zinc-300 text-stone-700'}`}>
-                              {pkg.id === 1 ? t.packageNames.camelDinner : 
-                               pkg.id === 2 ? t.packageNames.quadDinner : 
-                               pkg.id === 3 ? t.packageNames.ultimateCombo : 
-                               pkg.id === 4 ? t.packageNames.sunriseBreakfast : 
-                               t.packageNames.safari4x4}
+                              {pkg.title}
                             </span>
                             <span className="text-xs font-semibold text-amber-500 whitespace-nowrap">{pkg.price} MAD</span>
                           </div>

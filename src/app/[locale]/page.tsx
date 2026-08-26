@@ -11,14 +11,37 @@ import { ArrowRight, Star, Play } from 'lucide-react';
 function HomeContent() {
   const { locale, t } = useLocale();
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [livePackages, setLivePackages] = useState<any[]>(tourPackages);
+  const [liveReviews, setLiveReviews] = useState<any[]>(testimonials);
 
   useEffect(() => {
+    fetch('/api/tours')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && Array.isArray(data.tours) && data.tours.length > 0) {
+          setLivePackages(data.tours);
+        }
+      })
+      .catch(() => {});
+
+    fetch('/api/reviews?publishedOnly=true')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && Array.isArray(data.reviews) && data.reviews.length > 0) {
+          setLiveReviews(data.reviews);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (liveReviews.length === 0) return;
     const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+      setCurrentTestimonial((prev) => (prev + 1) % liveReviews.length);
     }, 6000);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [liveReviews.length]);
 
   return (
     <main className="min-h-screen dark:bg-[#0c0d0f] bg-[#faf8f5] dark:text-zinc-100 text-stone-900 overflow-x-hidden transition-colors duration-300">
@@ -118,7 +141,7 @@ function HomeContent() {
 
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {tourPackages.slice(0, 3).map((pkg) => (
+            {livePackages.slice(0, 3).map((pkg) => (
               <Link 
                 key={pkg.id} 
                 href={`/${locale}/tours#${pkg.id}`}
@@ -126,7 +149,7 @@ function HomeContent() {
               >
                 <div className="relative h-72 lg:h-80 overflow-hidden">
                   <img 
-                    src={pkg.image} 
+                    src={pkg.mainImage || pkg.image || 'https://cdn.familiestours.com/tours/camel.jpg'} 
                     alt={pkg.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
@@ -149,11 +172,7 @@ function HomeContent() {
                   
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <h3 className="text-2xl font-light mb-1 group-hover:text-amber-400 transition-colors duration-300 text-white drop-shadow-sm">
-                      {pkg.id === 1 ? t.packageNames.camelDinner : 
-                       pkg.id === 2 ? t.packageNames.quadDinner : 
-                       pkg.id === 3 ? t.packageNames.ultimateCombo : 
-                       pkg.id === 4 ? t.packageNames.sunriseBreakfast : 
-                       t.packageNames.safari4x4}
+                      {pkg.title}
                     </h3>
                     <p className="text-white/75 text-sm font-light">{pkg.subtitle}</p>
                   </div>
@@ -251,15 +270,15 @@ function HomeContent() {
               <span className="text-amber-500 font-semibold text-xs tracking-[0.3em] uppercase block mb-6">{t.home.guestStories}</span>
               
               <div className="relative min-h-[320px]">
-                {testimonials.map((testimonial, idx) => (
+                {liveReviews.map((testimonial, idx) => (
                   <div
-                    key={idx}
+                    key={testimonial.id || idx}
                     className={`absolute inset-0 transition-all duration-700 ${
                       currentTestimonial === idx ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8 pointer-events-none'
                     }`}
                   >
                     <div className="flex gap-1.5 mb-6">
-                      {[...Array(testimonial.rating)].map((_, i) => (
+                      {[...Array(testimonial.rating || 5)].map((_, i) => (
                         <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
                       ))}
                     </div>
@@ -269,12 +288,12 @@ function HomeContent() {
                     </blockquote>
                     
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 rounded-full bg-amber-500/15 border border-amber-500/40 flex items-center justify-center shadow-inner">
-                        <span className="text-amber-500 font-bold">{testimonial.avatar}</span>
+                      <div className="w-14 h-14 rounded-full bg-amber-500/15 border border-amber-500/40 flex items-center justify-center shadow-inner font-mono">
+                        <span className="text-amber-500 font-bold">{testimonial.avatar || (testimonial.author || testimonial.name || 'FT').slice(0, 2).toUpperCase()}</span>
                       </div>
                       <div>
-                        <p className="font-semibold dark:text-white text-stone-900">{testimonial.name}</p>
-                        <p className="dark:text-zinc-400 text-stone-500 text-sm">{testimonial.location}</p>
+                        <p className="font-semibold dark:text-white text-stone-900">{testimonial.author || testimonial.name}</p>
+                        <p className="dark:text-zinc-400 text-stone-500 text-sm">{testimonial.location} {testimonial.tour ? `• ${testimonial.tour}` : ''}</p>
                       </div>
                     </div>
                   </div>
@@ -282,7 +301,7 @@ function HomeContent() {
               </div>
               
               <div className="flex gap-3 mt-10">
-                {testimonials.map((_, idx) => (
+                {liveReviews.map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => setCurrentTestimonial(idx)}

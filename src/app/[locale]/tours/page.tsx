@@ -10,12 +10,24 @@ import { ArrowRight, Clock, Users, Signal, Check, ChevronDown, ChevronUp } from 
 
 function ToursContent() {
   const { locale, t } = useLocale();
-  const [expandedPackage, setExpandedPackage] = useState<number | null>(null);
+  const [expandedPackage, setExpandedPackage] = useState<string | number | null>(null);
   const [filter, setFilter] = useState<'all' | 'adventure' | 'luxury' | 'family'>('all');
+  const [packages, setPackages] = useState<any[]>(tourPackages);
 
-  const filteredPackages = tourPackages.filter(pkg => {
+  useState(() => {
+    fetch('/api/tours')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && Array.isArray(data.tours) && data.tours.length > 0) {
+          setPackages(data.tours);
+        }
+      })
+      .catch(() => {});
+  });
+
+  const filteredPackages = packages.filter(pkg => {
     if (filter === 'all') return true;
-    if (filter === 'luxury') return pkg.luxury;
+    if (filter === 'luxury') return pkg.luxury || pkg.highlight;
     if (filter === 'family') return !pkg.luxury;
     return true;
   });
@@ -100,7 +112,7 @@ function ToursContent() {
                 <div className={`relative group overflow-hidden rounded-xl ${pkg.id % 2 === 0 ? 'lg:order-2' : ''}`}>
                   <div className="relative overflow-hidden aspect-[4/3] lg:aspect-[4/3]">
                     <img 
-                      src={pkg.image} 
+                      src={pkg.mainImage || pkg.image || 'https://cdn.familiestours.com/tours/camel.jpg'} 
                       alt={pkg.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
@@ -122,9 +134,9 @@ function ToursContent() {
                               {t.tours.signature}
                             </span>
                           )}
-                          {pkg.luxury && (
+                          {(pkg.luxury || pkg.highlight) && (
                             <span className="px-3 py-1 bg-black/80 text-amber-400 text-xs tracking-wider uppercase border border-amber-500/40 rounded-sm shadow-md font-semibold">
-                              {t.tours.luxury}
+                              {pkg.luxury ? t.tours.luxury : 'Featured'}
                             </span>
                           )}
                         </div>
@@ -143,11 +155,7 @@ function ToursContent() {
                   </div>
 
                   <h2 className="text-2xl lg:text-3xl font-light mb-2 dark:text-white text-stone-900">
-                    {pkg.id === 1 ? t.packageNames.camelDinner : 
-                     pkg.id === 2 ? t.packageNames.quadDinner : 
-                     pkg.id === 3 ? t.packageNames.ultimateCombo : 
-                     pkg.id === 4 ? t.packageNames.sunriseBreakfast : 
-                     t.packageNames.safari4x4}
+                    {pkg.title}
                   </h2>
                   <p className="text-amber-500 text-base font-normal italic mb-5">{pkg.subtitle}</p>
 
