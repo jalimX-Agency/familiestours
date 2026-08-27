@@ -867,8 +867,11 @@ function UploadModal({
 export default function AdminDashboard() {
   const { theme, setTheme } = useTheme();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [pinInput, setPinInput] = useState('');
-  const [pinError, setPinError] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('overview');
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -909,27 +912,79 @@ export default function AdminDashboard() {
   });
   const [showUploadModal, setShowUploadModal] = useState(false);
 
+  // Change Password state
+  const [pwForm, setPwForm] = useState({ current: '', newPw: '', confirm: '' });
+  const [isChangingPw, setIsChangingPw] = useState(false);
+
   // ── Authentication ──
   useEffect(() => {
-    if (localStorage.getItem('families_admin_auth') === 'true') setIsAuthenticated(true);
+    // Check if already logged in via cookie
+    fetch('/api/admin/me')
+      .then(res => res.json())
+      .then(data => { if (data.success) setIsAuthenticated(true); })
+      .catch(() => {})
+      .finally(() => setIsCheckingAuth(false));
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const validPins = ['families2026', 'admin', '2026', '1234'];
-    if (validPins.includes(pinInput.trim())) {
-      setIsAuthenticated(true);
-      localStorage.setItem('families_admin_auth', 'true');
-      setPinError(false);
-    } else {
-      setPinError(true);
+    setIsLoggingIn(true);
+    setLoginError('');
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: loginEmail, password: loginPassword }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsAuthenticated(true);
+        setLoginEmail('');
+        setLoginPassword('');
+      } else {
+        setLoginError(data.error || 'Invalid credentials');
+      }
+    } catch {
+      setLoginError('Connection error — please try again');
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('families_admin_auth');
+  const handleLogout = async () => {
+    await fetch('/api/admin/logout', { method: 'POST' });
     setIsAuthenticated(false);
-    setPinInput('');
+  };
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pwForm.newPw !== pwForm.confirm) {
+      showToast('New passwords do not match', 'error');
+      return;
+    }
+    if (pwForm.newPw.length < 6) {
+      showToast('New password must be at least 6 characters', 'error');
+      return;
+    }
+    setIsChangingPw(true);
+    try {
+      const res = await fetch('/api/admin/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPassword: pwForm.current, newPassword: pwForm.newPw }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('Password changed successfully', 'success');
+        setPwForm({ current: '', newPw: '', confirm: '' });
+      } else {
+        showToast(data.error || 'Failed to change password', 'error');
+      }
+    } catch {
+      showToast('Connection error', 'error');
+    } finally {
+      setIsChangingPw(false);
+    }
   };
 
   // ── Data Fetching ──
@@ -1214,9 +1269,18 @@ export default function AdminDashboard() {
   // ─────────────────────────────────────────────────────
   // LOGIN SCREEN
   // ─────────────────────────────────────────────────────
+  // Show loading spinner while checking cookie auth
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen flex items-center justify-center dark:bg-[#0a0b0d] bg-[#f6f5f2]">
+        <RefreshCw className="w-6 h-6 text-amber-500 animate-spin" />
+      </div>
+    );
+  }
+
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center dark:bg-[#0a0b0d] bg-[#f6f5f2] p-6 transition-colors">
+      <div className="min-h-screen flex items-center justify-center dark:bg-[#0a0b0d] bg-[#f6f5f2] transition-colors">
         <button
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           className="fixed top-6 right-6 w-9 h-9 flex items-center justify-center border dark:border-white/10 border-stone-300 rounded-full dark:text-zinc-400 text-stone-500 hover:text-amber-600 transition-colors"
@@ -1224,7 +1288,7 @@ export default function AdminDashboard() {
           {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
         </button>
 
-        <div className="w-full max-w-sm">
+        <div className="w-full max-w-sm px-4">
           <div className="text-center mb-12">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.png" alt="Families Tours" className="h-16 w-auto mx-auto mb-6 object-contain" />
@@ -1233,32 +1297,46 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-5">
             <div>
               <label className="block text-[10px] tracking-[0.2em] uppercase font-mono dark:text-zinc-500 text-stone-400 mb-2.5">
-                Access Code
+                Email Address
+              </label>
+              <input
+                type="email"
+                value={loginEmail}
+                onChange={e => setLoginEmail(e.target.value)}
+                placeholder="admin@familiestours.com"
+                required
+                autoFocus
+                className="w-full font-mono text-sm bg-transparent border-b-2 dark:border-white/20 border-stone-300 focus:border-amber-500 dark:text-white text-stone-900 py-3 px-0 outline-none transition-colors placeholder:text-stone-300 dark:placeholder:text-zinc-700"
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] tracking-[0.2em] uppercase font-mono dark:text-zinc-500 text-stone-400 mb-2.5">
+                Password
               </label>
               <input
                 type="password"
-                value={pinInput}
-                onChange={e => setPinInput(e.target.value)}
-                placeholder="Enter access code"
-                autoFocus
-                className={`w-full font-mono text-sm bg-transparent border-b-2 ${
-                  pinError
-                    ? 'border-red-500 dark:text-red-400 text-red-600'
-                    : 'dark:border-white/20 border-stone-300 focus:border-amber-500 dark:text-white text-stone-900'
-                } py-3 px-0 outline-none transition-colors placeholder:text-stone-300 dark:placeholder:text-zinc-700 text-center tracking-widest`}
+                value={loginPassword}
+                onChange={e => setLoginPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                className="w-full font-mono text-sm bg-transparent border-b-2 dark:border-white/20 border-stone-300 focus:border-amber-500 dark:text-white text-stone-900 py-3 px-0 outline-none transition-colors placeholder:text-stone-300 dark:placeholder:text-zinc-700"
               />
-              {pinError && (
-                <p className="text-[11px] text-red-500 font-mono mt-2 text-center">Invalid code — try again</p>
-              )}
             </div>
+
+            {loginError && (
+              <p className="text-[11px] text-red-500 font-mono text-center">{loginError}</p>
+            )}
+
             <button
               type="submit"
-              className="w-full mt-6 py-3 text-[11px] tracking-[0.2em] uppercase font-semibold font-mono bg-amber-600 hover:bg-amber-500 text-white transition-colors"
+              disabled={isLoggingIn}
+              className="w-full mt-2 py-3 text-[11px] tracking-[0.2em] uppercase font-semibold font-mono bg-amber-600 hover:bg-amber-500 disabled:opacity-50 text-white transition-colors flex items-center justify-center gap-2"
             >
-              Unlock Dashboard
+              {isLoggingIn ? <RefreshCw className="w-4 h-4 animate-spin" /> : null}
+              {isLoggingIn ? 'Signing in…' : 'Sign In'}
             </button>
           </form>
 
@@ -2062,8 +2140,58 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
+              {/* Change Password */}
+              <div className="border dark:border-white/[0.06] border-stone-200">
+                <div className="px-5 py-4 border-b dark:border-white/[0.06] border-stone-200">
+                  <p className="text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400">Change Password</p>
+                </div>
+                <form onSubmit={handleChangePassword} className="px-5 py-4 space-y-4">
+                  <div>
+                    <label className="block text-[10px] font-mono tracking-widest uppercase dark:text-zinc-600 text-stone-400 mb-1.5">Current Password</label>
+                    <input
+                      type="password"
+                      required
+                      value={pwForm.current}
+                      onChange={e => setPwForm(f => ({ ...f, current: e.target.value }))}
+                      placeholder="••••••••"
+                      className="w-full h-9 px-3 text-[13px] bg-transparent border dark:border-white/10 border-stone-300 dark:text-zinc-200 text-stone-800 focus:outline-none focus:border-amber-500 transition-colors font-mono"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-mono tracking-widests uppercase dark:text-zinc-600 text-stone-400 mb-1.5">New Password</label>
+                    <input
+                      type="password"
+                      required
+                      value={pwForm.newPw}
+                      onChange={e => setPwForm(f => ({ ...f, newPw: e.target.value }))}
+                      placeholder="Min. 6 characters"
+                      className="w-full h-9 px-3 text-[13px] bg-transparent border dark:border-white/10 border-stone-300 dark:text-zinc-200 text-stone-800 focus:outline-none focus:border-amber-500 transition-colors font-mono"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-mono tracking-widests uppercase dark:text-zinc-600 text-stone-400 mb-1.5">Confirm New Password</label>
+                    <input
+                      type="password"
+                      required
+                      value={pwForm.confirm}
+                      onChange={e => setPwForm(f => ({ ...f, confirm: e.target.value }))}
+                      placeholder="Repeat new password"
+                      className="w-full h-9 px-3 text-[13px] bg-transparent border dark:border-white/10 border-stone-300 dark:text-zinc-200 text-stone-800 focus:outline-none focus:border-amber-500 transition-colors font-mono"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isChangingPw}
+                    className="flex items-center justify-center gap-2 h-9 px-6 bg-amber-600 hover:bg-amber-500 disabled:opacity-50 text-white text-[11px] font-mono tracking-wide transition-colors"
+                  >
+                    {isChangingPw ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : null}
+                    {isChangingPw ? 'Saving…' : 'Update Password'}
+                  </button>
+                </form>
+              </div>
+
               <p className="text-[10px] font-mono dark:text-zinc-700 text-stone-300 text-center">
-                Families Tours Management Platform · Marrakech · v2.2
+                Families Tours Management Platform · Marrakech · v2.3
               </p>
             </div>
           </div>
