@@ -61,12 +61,22 @@ export default function Navbar() {
             {/* Official Logo */}
             <Link href={`/${locale}`} className="flex items-center gap-3 group py-1">
               <div className="relative flex items-center">
+                {/* Light mode logo */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/logo.png"
                   alt="Families Tours Marrakech"
-                  className={`h-11 sm:h-12 lg:h-14 w-auto object-contain transition-all duration-300 group-hover:scale-105 ${
+                  className={`h-11 sm:h-12 lg:h-14 w-auto object-contain transition-all duration-300 group-hover:scale-105 block dark:hidden ${
                     !isScrolled ? 'drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)]' : 'drop-shadow-sm'
+                  }`}
+                />
+                {/* Dark mode logo */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logo-dark.jpg"
+                  alt="Families Tours Marrakech"
+                  className={`h-11 sm:h-12 lg:h-14 w-auto object-contain transition-all duration-300 group-hover:scale-105 hidden dark:block ${
+                    !isScrolled ? 'drop-shadow-[0_2px_12px_rgba(251,191,36,0.3)]' : 'drop-shadow-sm'
                   }`}
                 />
               </div>

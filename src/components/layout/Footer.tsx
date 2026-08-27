@@ -17,7 +17,13 @@ export default function Footer() {
               <img
                 src="/logo.png"
                 alt="Families Tours"
-                className="h-16 sm:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                className="h-16 sm:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105 block dark:hidden"
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo-dark.jpg"
+                alt="Families Tours"
+                className="h-16 sm:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105 hidden dark:block"
               />
             </Link>
             <p className="dark:text-zinc-400 text-stone-600 text-sm leading-relaxed mb-4">

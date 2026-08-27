@@ -1291,7 +1291,9 @@ export default function AdminDashboard() {
         <div className="w-full max-w-sm px-4">
           <div className="text-center mb-12">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="Families Tours" className="h-16 w-auto mx-auto mb-6 object-contain" />
+            <img src="/logo.png" alt="Families Tours" className="h-16 w-auto mx-auto mb-6 object-contain block dark:hidden" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo-dark.jpg" alt="Families Tours" className="h-16 w-auto mx-auto mb-6 object-contain hidden dark:block" />
             <div className="text-[10px] tracking-[0.3em] uppercase dark:text-zinc-500 text-stone-400 font-mono">
               Admin Portal · Secure Access
             </div>
@@ -1425,7 +1427,9 @@ export default function AdminDashboard() {
         {/* Brand */}
         <div className="flex items-center h-14 px-3.5 border-b dark:border-white/[0.06] border-stone-200 gap-3 overflow-hidden flex-shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="FT" className="w-7 h-7 object-contain flex-shrink-0" />
+          <img src="/logo.png" alt="FT" className="w-7 h-7 object-contain flex-shrink-0 block dark:hidden" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-dark.jpg" alt="FT" className="w-7 h-7 object-contain flex-shrink-0 hidden dark:block" />
           <span className="text-[11px] tracking-[0.18em] uppercase font-semibold dark:text-zinc-300 text-stone-700 whitespace-nowrap opacity-0 group-hover/sidebar:opacity-100 transition-opacity duration-150">
             Families Tours
           </span>
