@@ -103,6 +103,7 @@ interface R2Object {
   size: number;
   lastModified?: string;
   url: string;
+  category?: string;
 }
 
 type TabType = 'overview' | 'bookings' | 'tours' | 'reviews' | 'media' | 'settings';
@@ -1231,7 +1232,11 @@ export default function AdminDashboard() {
 
   const filteredR2Images = useMemo(() => {
     if (mediaFilterCategory === 'ALL') return r2Images;
-    return r2Images.filter(img => img.key.toLowerCase().includes(mediaFilterCategory.toLowerCase()));
+    return r2Images.filter(img => 
+      img.category 
+        ? img.category.toLowerCase() === mediaFilterCategory.toLowerCase()
+        : img.key.toLowerCase().includes(mediaFilterCategory.toLowerCase())
+    );
   }, [r2Images, mediaFilterCategory]);
 
   const stats = useMemo(() => {

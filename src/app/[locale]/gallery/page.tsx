@@ -25,14 +25,16 @@ function GalleryContent() {
   useEffect(() => {
     async function loadImages() {
       try {
-        const res = await fetch('/api/upload?category=Gallery');
+        const res = await fetch('/api/upload');
         const data = await res.json();
         if (data.success && data.objects) {
-          const mapped = data.objects.map((obj: any) => ({
-            src: obj.url,
-            alt: obj.altText || obj.key.split('/').pop(),
-            category: obj.category || 'Gallery'
-          }));
+          const mapped = data.objects
+            .filter((obj: any) => obj.category && obj.category.toLowerCase() !== 'tours')
+            .map((obj: any) => ({
+              src: obj.url,
+              alt: obj.altText || obj.key.split('/').pop(),
+              category: obj.category
+            }));
           setGalleryImages(mapped);
         }
       } catch (err) {
