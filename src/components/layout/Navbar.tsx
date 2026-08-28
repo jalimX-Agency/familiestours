@@ -73,7 +73,7 @@ export default function Navbar() {
                 {/* Dark mode logo */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/logo-dark.jpg"
+                  src="/logo-white.png"
                   alt="Families Tours Marrakech"
                   className={`h-11 sm:h-12 lg:h-14 w-auto object-contain transition-all duration-300 group-hover:scale-105 hidden dark:block ${
                     !isScrolled ? 'drop-shadow-[0_2px_12px_rgba(251,191,36,0.3)]' : 'drop-shadow-sm'
