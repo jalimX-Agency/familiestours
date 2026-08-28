@@ -84,7 +84,16 @@ export async function GET(req: NextRequest) {
 
     // Fallback: list from R2 directly
     const prefix = category ? `gallery/${category.toLowerCase()}/` : undefined;
-    const objects = await listR2Objects(prefix);
+    const r2Objects = await listR2Objects(prefix);
+    const objects = r2Objects.map(obj => {
+      const parts = obj.key.split('/');
+      let cat = 'Gallery';
+      if (parts.length >= 3 && parts[0] === 'gallery') {
+        const rawCat = parts[1];
+        cat = rawCat.charAt(0).toUpperCase() + rawCat.slice(1).toLowerCase();
+      }
+      return { ...obj, category: cat };
+    });
     return NextResponse.json({ success: true, count: objects.length, objects, source: 'r2' });
   } catch (error: any) {
     console.error('Error listing images:', error);
