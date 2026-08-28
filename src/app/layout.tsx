@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   keywords: ["Morocco", "desert tours", "camel trek", "quad biking", "Merzouga", "Sahara", "family tours", "luxury travel"],
   authors: [{ name: "Families Tours" }],
   icons: {
-    icon: "/logo.svg",
+    icon: "/logo.png",
   },
   openGraph: {
     title: "Families Tours | Luxury Desert Experiences",
