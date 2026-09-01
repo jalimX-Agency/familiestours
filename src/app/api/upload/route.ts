@@ -118,15 +118,23 @@ export async function GET(req: NextRequest) {
       // DB not available — fall through to R2
     }
 
-    // Fallback: list from R2 directly
-    const prefix = category ? `gallery/${category.toLowerCase()}/` : undefined;
+    // Fallback: list from R2 directly. Always scope to the gallery/ prefix so
+    // site assets stored elsewhere in the bucket (brand/, tours/, videos/, or
+    // bucket-root files) never leak into the public gallery.
+    const prefix = category ? `gallery/${category.toLowerCase()}/` : 'gallery/';
     const r2Objects = await listR2Objects(prefix);
     const objects = r2Objects.map(obj => {
       const parts = obj.key.split('/');
       let cat = 'Gallery';
       if (parts.length >= 3 && parts[0] === 'gallery') {
+        // Nested: gallery/<category>/<file>
         const rawCat = parts[1];
         cat = rawCat.charAt(0).toUpperCase() + rawCat.slice(1).toLowerCase();
+      } else if (parts.length === 2 && parts[0] === 'gallery') {
+        // Flat legacy files: gallery/<category>-<n>.<ext> or gallery/<name>.<ext>
+        const filename = parts[1].replace(/\.[^.]+$/, '');
+        const rawCat = filename.replace(/^gallery-/, '').replace(/-\d+$/, '');
+        cat = rawCat ? rawCat.charAt(0).toUpperCase() + rawCat.slice(1).toLowerCase() : 'Gallery';
       }
       return { ...obj, category: cat };
     });
