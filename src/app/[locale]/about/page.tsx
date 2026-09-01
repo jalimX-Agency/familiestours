@@ -18,8 +18,6 @@ function AboutContent() {
     { icon: <TreePine className="w-8 h-8" />, ...t.about.values[5] },
   ];
 
-  const team = t.about.team;
-
   return (
     <main className="min-h-screen dark:bg-[#0c0d0f] bg-[#faf8f5] dark:text-zinc-100 text-stone-900 transition-colors duration-300">
       <Navbar />
@@ -124,40 +122,6 @@ function AboutContent() {
                 <p className="dark:text-zinc-400 text-stone-600 text-sm leading-relaxed">
                   {value.description}
                 </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="py-20 lg:py-28 dark:bg-[#121418] bg-stone-100/70 border-t dark:border-white/5 border-stone-200/80">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="text-center mb-16">
-            <span className="text-amber-500 font-semibold text-xs tracking-[0.3em] uppercase block mb-3">The People Behind the Magic</span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light dark:text-white text-stone-900">
-              Meet Our <span className="font-serif italic text-amber-500">Team</span>
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {team.map((member, idx) => (
-              <div key={idx} className="group p-6 rounded-2xl dark:bg-zinc-900/60 bg-white border dark:border-white/10 border-stone-200 shadow-md hover:shadow-xl transition-all">
-                <div className="aspect-[3/4] dark:bg-zinc-800 bg-stone-200 rounded-xl mb-6 overflow-hidden relative shadow-inner">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-6xl font-light text-amber-500/30 group-hover:text-amber-500/50 transition-colors duration-500">
-                      {member.name.charAt(0)}
-                    </span>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
-                  <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                    <p className="text-white/90 text-sm leading-relaxed">{member.story}</p>
-                  </div>
-                </div>
-                
-                <h3 className="text-xl font-medium mb-1 dark:text-white text-stone-900">{member.name}</h3>
-                <p className="text-amber-500 text-sm font-semibold">{member.role}</p>
               </div>
             ))}
           </div>
