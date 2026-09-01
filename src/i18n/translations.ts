@@ -3,7 +3,7 @@ export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = 'en';
 
-interface Translations {
+export interface Translations {
   // Navigation
   nav: {
     home: string;
@@ -129,6 +129,10 @@ interface Translations {
     happyGuests: string;
     familyOwned: string;
     averageRating: string;
+    yearsOfExperienceLabel: string;
+    happyGuestsLabel: string;
+    familyOwnedLabel: string;
+    averageRatingLabel: string;
     team: {
       name: string;
       role: string;
@@ -521,7 +525,7 @@ export const translations: Record<Locale, Translations> = {
       scroll: 'Défiler',
     },
     home: {
-      curatedForVous: 'Sélectionné Pour Vous',
+      curatedForYou: 'Sélectionné Pour Vous',
       signatureExperiences: 'Expériences Signature',
       viewAllExperiences: 'Voir Toutes les Expériences',
       quote: 'Le désert a une voix pour ceux qui écoutent — il parle de l\'intemporel, de la merveille et de la joie des moments partagés sous une infinité d\'étoiles.',
@@ -631,7 +635,7 @@ export const translations: Record<Locale, Translations> = {
       storyP3: 'Notre philosophie n\'a jamais vacillé : chaque famille mérite de vivre le désert non pas comme des touristes, mais comme des invités honorés. Cette conviction guide chacune de nos décisions, des familles berbères qui vous accueillent dans leurs camps, aux moments soigneusement craftés qui deviennent vos souvenirs les plus précieux.',
       founderQuote: "Nous ne montrons pas simplement le désert aux familles — nous les aidons à ressentir son rythme ancien, à entendre ses secrets murmurés, et à emporter un peu de sa magie dans leur cœur pour toujours.",
       founderName: '— Hassan El-Fassi, Fondateur',
-      guidesNous: 'Ce Qui Nous Guide',
+      guidesUs: 'Ce Qui Nous Guide',
       coreValues: 'Nos Valeurs Fondamentales',
       values: [
         { title: 'La Famille D\'Abord', description: 'Chaque expérience est conçue avec le plaisir intergénéral à l\'esprit. Des grands-parents aux petits-enfants, chacun trouve son moment d\'émerveillement.' },
@@ -811,7 +815,7 @@ export const translations: Record<Locale, Translations> = {
       transportIncluded: '✦ Transporte Hotelero Complementario Incluido en Todas las Experiencias',
       transportDetail: 'Recogida y dejada en tu alojamiento',
       allExperiences: 'Todas las Experiencias',
-      familyAdventuras: 'Aventuras Familiares',
+      familyAdventures: 'Aventuras Familiares',
       luxuryPrivate: 'Lujo y Privado',
       startingFrom: 'Desde',
       perPerson: '/ persona',
@@ -864,7 +868,7 @@ export const translations: Record<Locale, Translations> = {
         },
         {
           title: 'Aventura en Cuatrimoto y Cena',
-          title: 'Cuando la Adrenalina Encuentra la Tradición',
+          subtitle: 'Cuando la Adrenalina Encuentra la Tradición',
           description: 'Siente la emoción de conquistar las dunas doradas en una poderosa cuatrimoto. Después de tu aventura desértica, relájate con una cena espectacular en nuestro campamento desértico exclusivo.',
         },
         {
@@ -940,7 +944,7 @@ export const translations: Record<Locale, Translations> = {
       visualJourney: 'Viaje Visual',
       glimpses: 'Vistazos de la magia que espera a tu familia',
       all: 'Todo',
-      camellos: 'Camellos',
+      camels: 'Camellos',
       adventure: 'Aventura',
       camp: 'Campamento',
       nature: 'Naturaleza',
@@ -949,7 +953,7 @@ export const translations: Record<Locale, Translations> = {
       galleryCta: ' Estos momentos esperan a tu familia. Dejanos crear tu experiencia desértica perfecta.',
       startJourney: 'Comenzar Tu Viaje',
       categories: {
-        camells: 'Camellos',
+        camels: 'Camellos',
         adventure: 'Aventura',
         camp: 'Campamento',
         nature: 'Naturaleza',

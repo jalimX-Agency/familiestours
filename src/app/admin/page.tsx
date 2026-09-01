@@ -1263,12 +1263,12 @@ export default function AdminDashboard() {
 
   // ── Nav items ──
   const navItems = [
-    { id: 'overview',  label: 'Overview',     icon: LayoutDashboard },
+    { id: 'overview',  label: 'Overview',     icon: LayoutDashboard, badge: undefined as number | undefined },
     { id: 'bookings',  label: 'Reservations', icon: CalendarDays,    badge: stats.pending > 0 ? stats.pending : undefined },
     { id: 'tours',     label: 'Tours',        icon: Compass,         badge: tours.length || undefined },
     { id: 'reviews',   label: 'Reviews',      icon: Star,            badge: reviews.length || undefined },
     { id: 'media',     label: 'Media',        icon: ImageIcon,       badge: r2Images.length || undefined },
-    { id: 'settings',  label: 'Settings',     icon: Settings },
+    { id: 'settings',  label: 'Settings',     icon: Settings,        badge: undefined as number | undefined },
   ] as const;
 
   // ─────────────────────────────────────────────────────

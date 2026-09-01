@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { tourPackages as defaultPackages } from '@/lib/images';
+import { requireAdmin } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
   try {
@@ -43,6 +44,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const auth = await requireAdmin(req);
+  if (auth instanceof NextResponse) return auth;
+
   try {
     const body = await req.json();
     const {

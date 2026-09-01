@@ -344,7 +344,7 @@ function ContactContent() {
                     </div>
                     <div>
                       <p className="dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase font-semibold mb-0.5">{t.contact.availability}</p>
-                      <p className="dark:text-white text-stone-800 font-medium text-sm">{t.contact.available247}</p>
+                      <p className="dark:text-white text-stone-800 font-medium text-sm">{t.contact.alwaysReady}</p>
                     </div>
                   </div>
                 </div>

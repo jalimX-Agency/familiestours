@@ -1,3 +1,4 @@
+import { NextRequest, NextResponse } from 'next/server';
 import { SignJWT, jwtVerify } from 'jose';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'familiestours-super-secret-key-2026';
@@ -18,4 +19,22 @@ export async function verifyToken(token: string) {
   } catch (error) {
     return null;
   }
+}
+
+/**
+ * Guards a mutating API route to admin-only callers.
+ * Returns the verified token payload, or a 401 NextResponse to return as-is.
+ */
+export async function requireAdmin(req: NextRequest) {
+  const token = req.cookies.get('admin_token')?.value;
+  if (!token) {
+    return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const payload = await verifyToken(token);
+  if (!payload) {
+    return NextResponse.json({ success: false, error: 'Invalid token' }, { status: 401 });
+  }
+
+  return payload;
 }
