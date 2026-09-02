@@ -1,12 +1,135 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Link from 'next/link';
+import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { images, tourPackages } from '@/lib/images';
 import { useLocale } from '@/context/LocaleContext';
 import { ArrowRight, Clock, Users, Signal, Check, ChevronDown, ChevronUp } from 'lucide-react';
+
+function PackageCard({
+  pkg,
+  index,
+  total,
+  progress,
+  t,
+  locale,
+  expandedPackage,
+  setExpandedPackage,
+}: {
+  pkg: any;
+  index: number;
+  total: number;
+  progress: MotionValue<number>;
+  t: any;
+  locale: string;
+  expandedPackage: string | number | null;
+  setExpandedPackage: (id: string | number | null) => void;
+}) {
+  const end = total > 1 ? (index + 1) / total : 1;
+  const minScale = Math.max(0.88, 1 - (total - index - 1) * 0.035);
+  const scale = useTransform(progress, [end, 1], [1, minScale]);
+
+  return (
+    <div className="sticky top-24 lg:top-28 pb-6" style={{ zIndex: index + 1 }}>
+      <motion.div
+        id={pkg.id.toString()}
+        style={{ scale, transformOrigin: 'top center' }}
+        className={`grid lg:grid-cols-2 gap-8 lg:gap-14 items-center p-6 lg:p-10 rounded-2xl dark:bg-zinc-900 bg-white dark:border dark:border-white/10 border border-stone-200/90 shadow-2xl shadow-stone-900/10 ${
+          pkg.id % 2 === 0 ? 'lg:flex-row-reverse' : ''
+        }`}
+      >
+        <div className={`relative group overflow-hidden rounded-xl ${pkg.id % 2 === 0 ? 'lg:order-2' : ''}`}>
+          <div className="relative overflow-hidden aspect-[4/3] lg:aspect-[4/3]">
+            <img
+              src={pkg.mainImage || pkg.image || 'https://cdn.familiestours.com/tours/camel.jpg'}
+              alt={pkg.title}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+
+            <div className="absolute bottom-6 left-6 right-6">
+              <div className="flex items-end justify-between">
+                <div>
+                  <p className="font-mono text-white/70 text-xs tracking-wider uppercase mb-1 font-medium">{t.tours.startingFrom}</p>
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-mono text-amber-400 text-4xl lg:text-5xl font-light">{pkg.price}</span>
+                    <span className="text-white/80 text-base font-medium">{t.tours.perPerson}</span>
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  {pkg.signature && (
+                    <span className="font-mono px-3 py-1 bg-gradient-to-r from-amber-500 to-amber-600 text-black text-xs tracking-wider uppercase font-bold rounded-sm shadow-md">
+                      {t.tours.signature}
+                    </span>
+                  )}
+                  {(pkg.luxury || pkg.highlight) && (
+                    <span className="font-mono px-3 py-1 bg-black/80 text-amber-400 text-xs tracking-wider uppercase border border-amber-500/40 rounded-sm shadow-md font-semibold">
+                      {pkg.luxury ? t.tours.luxury : 'Featured'}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className={`${pkg.id % 2 === 0 ? 'lg:order-1' : ''}`}>
+          <div className="font-mono flex flex-wrap items-center gap-4 dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase mb-4 font-medium">
+            <span className="flex items-center gap-1.5"><Clock className="w-4 h-4 text-amber-500" />{pkg.duration}</span>
+            <span className="w-1 h-1 dark:bg-zinc-600 bg-stone-300 rounded-full"></span>
+            <span className="flex items-center gap-1.5"><Signal className="w-4 h-4 text-amber-500" />{pkg.difficulty}</span>
+            <span className="w-1 h-1 dark:bg-zinc-600 bg-stone-300 rounded-full"></span>
+            <span className="flex items-center gap-1.5"><Users className="w-4 h-4 text-amber-500" />{pkg.groupSize}</span>
+          </div>
+
+          <h2 className="font-display font-semibold tracking-tight text-2xl lg:text-3xl mb-2 dark:text-white text-stone-900">
+            {pkg.title}
+          </h2>
+          <p className="text-amber-500 text-base font-normal italic mb-5">{pkg.subtitle}</p>
+
+          <p className="dark:text-zinc-300 text-stone-600 leading-relaxed mb-6 text-sm">
+            {pkg.description}
+          </p>
+
+          <div className="mb-6">
+            <button
+              onClick={() => setExpandedPackage(expandedPackage === pkg.id ? null : pkg.id)}
+              className="flex items-center justify-between w-full py-3 dark:border-t dark:border-b border-t border-b dark:border-white/10 border-stone-200 hover:border-amber-500/40 transition-colors duration-300 group"
+            >
+              <span className="text-xs tracking-wider uppercase font-semibold dark:text-zinc-300 text-stone-700 group-hover:text-amber-500 transition-colors">
+                {t.tours.whatsIncluded}
+              </span>
+              {expandedPackage === pkg.id ? <ChevronUp className="w-4 h-4 text-amber-500" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
+
+            {expandedPackage === pkg.id && (
+              <div className="pt-5 pb-2 grid grid-cols-1 sm:grid-cols-2 gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                {pkg.features.map((feature: string, idx: number) => (
+                  <div key={idx} className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
+                    <span className="dark:text-zinc-300 text-stone-600 text-sm">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link
+            href={`/${locale}/contact`}
+            className="group inline-flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold tracking-wider uppercase text-xs hover:from-amber-400 hover:to-amber-500 transition-all duration-300 shadow-md shadow-amber-500/25 rounded-sm"
+          >
+            {t.tours.bookThisExperience}
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
 
 export default function ToursContent() {
   const { locale, t } = useLocale();
@@ -32,6 +155,12 @@ export default function ToursContent() {
     return true;
   });
 
+  const stackRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: stackProgress } = useScroll({
+    target: stackRef,
+    offset: ['start start', 'end end'],
+  });
+
   return (
     <main className="min-h-screen dark:bg-[#0c0d0f] bg-[#faf8f5] dark:text-zinc-100 text-stone-900 transition-colors duration-300">
       <Navbar />
@@ -49,12 +178,13 @@ export default function ToursContent() {
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-3 mb-6">
             <span className="w-8 h-[1px] bg-amber-400"></span>
-            <span className="text-amber-400 text-xs tracking-[0.35em] uppercase font-semibold drop-shadow-sm">{t.tours.pageTitle}</span>
+            <span className="font-mono text-amber-400 text-xs tracking-[0.35em] uppercase font-semibold drop-shadow-sm">{t.tours.pageTitle}</span>
             <span className="w-8 h-[1px] bg-amber-400"></span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light mb-6 text-white drop-shadow-md">
-            Desert <span className="font-serif italic text-amber-400">Experiences</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-6 text-white drop-shadow-md">
+            <span className="font-display font-semibold tracking-tight">Desert</span>{' '}
+            <span className="font-serif italic text-amber-400">Experiences</span>
           </h1>
 
           <p className="text-lg text-white/90 max-w-2xl mx-auto font-light drop-shadow-sm">
@@ -73,7 +203,7 @@ export default function ToursContent() {
       </div>
 
       {/* Filter Tabs */}
-      <section className="dark:border-b border-b dark:border-white/10 border-stone-200 sticky top-20 lg:top-24 dark:bg-zinc-950/95 bg-white/95 backdrop-blur-xl z-30 shadow-sm">
+      <section className="dark:border-b border-b dark:border-white/10 border-stone-200 sticky top-20 lg:top-24 dark:bg-zinc-950/95 bg-white/95 backdrop-blur-xl z-40 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex gap-2 overflow-x-auto py-1">
             {[
@@ -84,7 +214,7 @@ export default function ToursContent() {
               <button
                 key={tab.key}
                 onClick={() => setFilter(tab.key as typeof filter)}
-                className={`px-6 py-4 text-sm tracking-wider uppercase whitespace-nowrap transition-all duration-300 border-b-2 font-medium ${
+                className={`font-mono px-6 py-4 text-sm tracking-wider uppercase whitespace-nowrap transition-all duration-300 border-b-2 font-medium ${
                   filter === tab.key
                     ? 'text-amber-500 border-amber-500 font-semibold'
                     : 'dark:text-zinc-400 text-stone-500 border-transparent hover:dark:text-white hover:text-stone-900'
@@ -97,104 +227,22 @@ export default function ToursContent() {
         </div>
       </section>
 
-      {/* Packages Grid */}
+      {/* Packages Stack */}
       <section className="py-20 lg:py-28 dark:bg-[#0c0d0f] bg-[#faf8f5]">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="space-y-16 lg:space-y-24">
-            {filteredPackages.map((pkg) => (
-              <div
+          <div ref={stackRef} className="relative" style={{ height: `${filteredPackages.length * 90}vh` }}>
+            {filteredPackages.map((pkg, index) => (
+              <PackageCard
                 key={pkg.id}
-                id={pkg.id.toString()}
-                className={`grid lg:grid-cols-2 gap-8 lg:gap-14 items-center p-6 lg:p-10 rounded-2xl dark:bg-zinc-900/60 bg-white dark:border dark:border-white/10 border border-stone-200/90 shadow-lg shadow-stone-900/5 hover:shadow-2xl hover:border-amber-500/30 transition-all duration-500 ${
-                  pkg.id % 2 === 0 ? 'lg:flex-row-reverse' : ''
-                }`}
-              >
-                <div className={`relative group overflow-hidden rounded-xl ${pkg.id % 2 === 0 ? 'lg:order-2' : ''}`}>
-                  <div className="relative overflow-hidden aspect-[4/3] lg:aspect-[4/3]">
-                    <img
-                      src={pkg.mainImage || pkg.image || 'https://cdn.familiestours.com/tours/camel.jpg'}
-                      alt={pkg.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-
-                    <div className="absolute bottom-6 left-6 right-6">
-                      <div className="flex items-end justify-between">
-                        <div>
-                          <p className="text-white/70 text-xs tracking-wider uppercase mb-1 font-medium">{t.tours.startingFrom}</p>
-                          <div className="flex items-baseline gap-2">
-                            <span className="text-amber-400 text-4xl lg:text-5xl font-light">{pkg.price}</span>
-                            <span className="text-white/80 text-base font-medium">{t.tours.perPerson}</span>
-                          </div>
-                        </div>
-
-                        <div className="flex gap-2">
-                          {pkg.signature && (
-                            <span className="px-3 py-1 bg-gradient-to-r from-amber-500 to-amber-600 text-black text-xs tracking-wider uppercase font-bold rounded-sm shadow-md">
-                              {t.tours.signature}
-                            </span>
-                          )}
-                          {(pkg.luxury || pkg.highlight) && (
-                            <span className="px-3 py-1 bg-black/80 text-amber-400 text-xs tracking-wider uppercase border border-amber-500/40 rounded-sm shadow-md font-semibold">
-                              {pkg.luxury ? t.tours.luxury : 'Featured'}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={`${pkg.id % 2 === 0 ? 'lg:order-1' : ''}`}>
-                  <div className="flex flex-wrap items-center gap-4 dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase mb-4 font-medium">
-                    <span className="flex items-center gap-1.5"><Clock className="w-4 h-4 text-amber-500" />{pkg.duration}</span>
-                    <span className="w-1 h-1 dark:bg-zinc-600 bg-stone-300 rounded-full"></span>
-                    <span className="flex items-center gap-1.5"><Signal className="w-4 h-4 text-amber-500" />{pkg.difficulty}</span>
-                    <span className="w-1 h-1 dark:bg-zinc-600 bg-stone-300 rounded-full"></span>
-                    <span className="flex items-center gap-1.5"><Users className="w-4 h-4 text-amber-500" />{pkg.groupSize}</span>
-                  </div>
-
-                  <h2 className="text-2xl lg:text-3xl font-light mb-2 dark:text-white text-stone-900">
-                    {pkg.title}
-                  </h2>
-                  <p className="text-amber-500 text-base font-normal italic mb-5">{pkg.subtitle}</p>
-
-                  <p className="dark:text-zinc-300 text-stone-600 leading-relaxed mb-6 text-sm">
-                    {pkg.description}
-                  </p>
-
-                  <div className="mb-6">
-                    <button
-                      onClick={() => setExpandedPackage(expandedPackage === pkg.id ? null : pkg.id)}
-                      className="flex items-center justify-between w-full py-3 dark:border-t dark:border-b border-t border-b dark:border-white/10 border-stone-200 hover:border-amber-500/40 transition-colors duration-300 group"
-                    >
-                      <span className="text-xs tracking-wider uppercase font-semibold dark:text-zinc-300 text-stone-700 group-hover:text-amber-500 transition-colors">
-                        {t.tours.whatsIncluded}
-                      </span>
-                      {expandedPackage === pkg.id ? <ChevronUp className="w-4 h-4 text-amber-500" /> : <ChevronDown className="w-4 h-4" />}
-                    </button>
-
-                    {expandedPackage === pkg.id && (
-                      <div className="pt-5 pb-2 grid grid-cols-1 sm:grid-cols-2 gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
-                        {pkg.features.map((feature, idx) => (
-                          <div key={idx} className="flex items-start gap-2.5">
-                            <Check className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
-                            <span className="dark:text-zinc-300 text-stone-600 text-sm">{feature}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  <Link
-                    href={`/${locale}/contact`}
-                    className="group inline-flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold tracking-wider uppercase text-xs hover:from-amber-400 hover:to-amber-500 transition-all duration-300 shadow-md shadow-amber-500/25 rounded-sm"
-                  >
-                    {t.tours.bookThisExperience}
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
-              </div>
+                pkg={pkg}
+                index={index}
+                total={filteredPackages.length}
+                progress={stackProgress}
+                t={t}
+                locale={locale}
+                expandedPackage={expandedPackage}
+                setExpandedPackage={setExpandedPackage}
+              />
             ))}
           </div>
         </div>
