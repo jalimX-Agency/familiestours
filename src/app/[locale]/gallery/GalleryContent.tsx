@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { useLocale } from '@/context/LocaleContext';
@@ -76,12 +77,26 @@ export default function GalleryContent() {
     <main className="min-h-screen dark:bg-[#0c0d0f] bg-[#faf8f5] dark:text-zinc-100 text-stone-900 transition-colors duration-300">
       <Navbar />
 
-      {/* Minimal Header spacing for fixed navbar */}
-      <div className="pt-24 lg:pt-32"></div>
+      {/* Editorial Header — asymmetric, no image, lets the photos carry the page */}
+      <section className="pt-32 lg:pt-44 pb-10 lg:pb-16 dark:bg-[#0c0d0f] bg-[#faf8f5]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+            <div>
+              <span className="font-mono text-amber-500 text-xs tracking-[0.3em] uppercase block mb-3">{t.gallery.visualJourney}</span>
+              <h1 className="font-display font-semibold tracking-tight text-4xl md:text-5xl lg:text-6xl dark:text-white text-stone-900">
+                {t.gallery.pageTitle}
+              </h1>
+            </div>
+            <span className="font-mono dark:text-zinc-500 text-stone-500 text-sm tracking-wider">
+              {String(filteredImages.length).padStart(2, '0')} {t.gallery.photos}
+            </span>
+          </div>
+        </div>
+      </section>
 
       {/* Filter Bar */}
       <section className="sticky top-20 lg:top-24 z-30 dark:bg-zinc-950/95 bg-white/95 backdrop-blur-xl dark:border-b border-b dark:border-white/10 border-stone-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-4">
           <div className="flex gap-2 overflow-x-auto">
             {categories.map((cat) => {
               // Translate common categories if they exist in translations, otherwise use the raw category name
@@ -96,7 +111,7 @@ export default function GalleryContent() {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-5 py-2 text-xs tracking-wider uppercase whitespace-nowrap rounded-full transition-all duration-300 font-semibold ${
+                  className={`font-mono px-5 py-2 text-xs tracking-wider uppercase whitespace-nowrap rounded-full transition-all duration-300 font-semibold ${
                     selectedCategory === cat
                       ? 'bg-amber-500 text-black shadow-md shadow-amber-500/20'
                       : 'dark:text-zinc-400 text-stone-600 hover:dark:text-white hover:text-stone-950 dark:hover:bg-white/5 hover:bg-stone-100'
@@ -107,10 +122,6 @@ export default function GalleryContent() {
               );
             })}
           </div>
-
-          <span className="hidden md:block dark:text-zinc-400 text-stone-500 text-xs tracking-wider uppercase font-medium">
-            {filteredImages.length} {t.gallery.photos}
-          </span>
         </div>
       </section>
 
@@ -129,10 +140,14 @@ export default function GalleryContent() {
           ) : (
             <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-5 space-y-5">
               {filteredImages.map((image, idx) => (
-                <div
-                  key={idx}
+                <motion.div
+                  key={image.src}
+                  initial={{ opacity: 0, y: 32 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-80px' }}
+                  transition={{ duration: 0.6, delay: (idx % 4) * 0.08, ease: [0.16, 1, 0.3, 1] }}
                   onClick={() => openLightbox(image, idx)}
-                  className="break-inside-avoid group cursor-pointer relative overflow-hidden rounded-xl border dark:border-white/10 border-stone-200/80 shadow-md shadow-stone-900/5 hover:shadow-2xl transition-all duration-500"
+                  className="break-inside-avoid group cursor-pointer relative overflow-hidden rounded-xl border dark:border-white/10 border-stone-200/80 shadow-md shadow-stone-900/5 hover:shadow-2xl transition-shadow duration-500"
                 >
                   <div className="relative">
                     <Image
@@ -148,10 +163,10 @@ export default function GalleryContent() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent transition-all duration-300 flex items-end p-5 opacity-0 group-hover:opacity-100">
                     <div>
                       <p className="text-white font-medium text-sm drop-shadow-sm truncate max-w-[200px]">{image.alt}</p>
-                      <p className="text-amber-400 text-xs uppercase tracking-wider mt-1 font-semibold">{image.category}</p>
+                      <p className="font-mono text-amber-400 text-xs uppercase tracking-wider mt-1 font-semibold">{image.category}</p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           )}
@@ -203,11 +218,11 @@ export default function GalleryContent() {
 
             <div className="mt-4">
               <p className="text-white font-medium text-lg drop-shadow-sm">{selectedImage.alt}</p>
-              <p className="text-amber-400 text-xs uppercase tracking-widest mt-1 font-semibold">{selectedImage.category}</p>
+              <p className="font-mono text-amber-400 text-xs uppercase tracking-widest mt-1 font-semibold">{selectedImage.category}</p>
             </div>
 
-            <p className="text-center text-white/50 text-xs mt-3">
-              {selectedIndex + 1} / {filteredImages.length}
+            <p className="font-mono text-center text-white/50 text-xs mt-3">
+              {String(selectedIndex + 1).padStart(2, '0')} / {String(filteredImages.length).padStart(2, '0')}
             </p>
           </div>
         </div>
@@ -216,8 +231,8 @@ export default function GalleryContent() {
       {/* CTA Section */}
       <section className="py-24 dark:bg-[#121418] bg-stone-100/80 border-t dark:border-white/5 border-stone-200/80">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-light mb-5 dark:text-white text-stone-900">
-            {t.gallery.createMemories.split(' ')[0]} Your Own <span className="font-serif italic text-amber-500">{t.gallery.createMemories.split(' ').slice(1).join(' ')}</span>?
+          <h2 className="font-display font-semibold tracking-tight text-3xl md:text-4xl mb-5 dark:text-white text-stone-900">
+            {t.gallery.createMemories.split(' ')[0]} Your Own <span className="font-serif italic font-normal tracking-normal text-amber-500">{t.gallery.createMemories.split(' ').slice(1).join(' ')}</span>?
           </h2>
           <p className="dark:text-zinc-300 text-stone-600 mb-8 max-w-2xl mx-auto text-base leading-relaxed">
             {t.gallery.galleryCta}

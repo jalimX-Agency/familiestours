@@ -1,14 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { motion, useScroll, useTransform, type Variants } from 'framer-motion';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { tourPackages, images } from '@/lib/images';
 import { useLocale } from '@/context/LocaleContext';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Calendar, Users, AlertCircle, Loader2 } from 'lucide-react';
 
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } },
+};
+
 export default function ContactContent() {
   const { locale, t } = useLocale();
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
+  const heroScale = useTransform(heroProgress, [0, 1], [1, 1.12]);
   const [selectedPackage, setSelectedPackage] = useState<string>('');
   const [packages, setPackages] = useState<any[]>(tourPackages);
   const [formData, setFormData] = useState({
@@ -82,39 +96,51 @@ export default function ContactContent() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative h-[48vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-        <div
+      <section ref={heroRef} className="relative h-[48vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+        <motion.div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${images.camel})` }}
+          style={{ backgroundImage: `url(${images.camel})`, scale: heroScale }}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/50"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40"></div>
-        </div>
+        </motion.div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <div className="inline-flex items-center gap-3 mb-6">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="relative z-10 max-w-4xl mx-auto px-6 text-center"
+        >
+          <motion.div variants={fadeUp} className="inline-flex items-center gap-3 mb-6">
             <span className="w-8 h-[1px] bg-amber-400"></span>
-            <span className="text-amber-400 text-xs tracking-[0.35em] uppercase font-semibold drop-shadow-sm">{t.contact.beginYourJourney}</span>
+            <span className="font-mono text-amber-400 text-xs tracking-[0.35em] uppercase font-semibold drop-shadow-sm">{t.contact.beginYourJourney}</span>
             <span className="w-8 h-[1px] bg-amber-400"></span>
-          </div>
+          </motion.div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light mb-4 text-white drop-shadow-md">
-            Reserve Your <span className="font-serif italic text-amber-400">Experience</span>
-          </h1>
+          <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl lg:text-6xl mb-4 text-white drop-shadow-md">
+            <span className="font-display font-semibold tracking-tight">Reserve Your</span>{' '}
+            <span className="font-serif italic text-amber-400">Experience</span>
+          </motion.h1>
 
-          <p className="text-white/90 font-light max-w-xl mx-auto drop-shadow-sm text-base">
+          <motion.p variants={fadeUp} className="text-white/90 font-light max-w-xl mx-auto drop-shadow-sm text-base">
             {t.contact.pageSubtitle}
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
       </section>
 
       {/* Main Content */}
       <section className="py-20 lg:py-28 dark:bg-[#0c0d0f] bg-[#faf8f5]">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            variants={staggerContainer}
+            className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start"
+          >
 
             {/* Form Section */}
-            <div className="lg:col-span-3 p-8 lg:p-10 rounded-2xl dark:bg-zinc-900/70 bg-white border dark:border-white/10 border-stone-200/90 shadow-xl shadow-stone-900/5">
+            <motion.div variants={fadeUp} className="lg:col-span-3 p-8 lg:p-10 rounded-2xl dark:bg-zinc-900/70 bg-white border dark:border-white/10 border-stone-200/90 shadow-xl shadow-stone-900/5">
               {isSubmitted ? (
                 <div className="dark:bg-emerald-950/30 bg-emerald-50/80 border dark:border-emerald-500/30 border-emerald-300/80 p-10 rounded-xl text-center animate-in fade-in duration-500">
                   <div className="w-20 h-20 mx-auto mb-5 rounded-full dark:bg-emerald-500/15 bg-emerald-100 flex items-center justify-center shadow-inner">
@@ -293,14 +319,14 @@ export default function ContactContent() {
                   </p>
                 </form>
               )}
-            </div>
+            </motion.div>
 
             {/* Sidebar */}
-            <div className="lg:col-span-2 space-y-8">
+            <motion.div variants={fadeUp} className="lg:col-span-2 space-y-8">
 
               {/* Contact Info Card */}
               <div className="p-8 rounded-2xl dark:bg-zinc-900/60 bg-white border dark:border-white/10 border-stone-200/90 shadow-lg shadow-stone-900/5">
-                <h3 className="text-xs tracking-[0.25em] uppercase font-bold text-amber-500 mb-6">{t.contact.contactDirectly}</h3>
+                <h3 className="font-mono text-xs tracking-[0.25em] uppercase font-bold text-amber-500 mb-6">{t.contact.contactDirectly}</h3>
 
                 <div className="space-y-6">
                   <div className="flex items-start gap-4 group">
@@ -359,7 +385,7 @@ export default function ContactContent() {
                 <ol className="space-y-2.5 text-sm dark:text-zinc-300 text-stone-700">
                   {t.contact.steps.map((step, idx) => (
                     <li key={idx} className="flex gap-2.5">
-                      <span className="text-amber-500 font-bold">0{idx + 1}</span>
+                      <span className="font-mono text-amber-500 font-bold">0{idx + 1}</span>
                       <span>{step}</span>
                     </li>
                   ))}
@@ -374,8 +400,8 @@ export default function ContactContent() {
                 </p>
               </div>
 
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
