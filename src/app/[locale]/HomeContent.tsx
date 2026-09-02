@@ -111,7 +111,7 @@ export default function HomeContent() {
             <span className="w-12 h-[1px] bg-amber-400"></span>
           </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight mb-6 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight mb-6 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
             <motion.span
               variants={heroItemVariants}
               className="block text-white font-display font-semibold tracking-tight"
