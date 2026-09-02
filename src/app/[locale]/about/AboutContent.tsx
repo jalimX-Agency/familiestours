@@ -19,8 +19,8 @@ function TrailSection({ t }: { t: any }) {
 
   const panels = [
     { image: images.camel, text: t.about.storyP1 },
-    { image: images.camelCaravan, text: t.about.storyP2 },
-    { image: images.tent, text: t.about.storyP3 },
+    { image: images.family, text: t.about.storyP2 },
+    { image: images.camp, text: t.about.storyP3 },
   ];
 
   const { scrollYProgress } = useScroll({ target: trackRef, offset: ['start start', 'end end'] });
@@ -31,7 +31,7 @@ function TrailSection({ t }: { t: any }) {
   });
 
   return (
-    <section ref={trackRef} className="relative" style={{ height: `${panels.length * 100}vh` }}>
+    <section ref={trackRef} className="relative h-[300vh]">
       <div className="sticky top-0 h-screen overflow-hidden dark:bg-[#0c0d0f] bg-[#faf8f5]">
         <motion.div className="flex h-full" style={{ x }}>
           {panels.map((panel, idx) => (
