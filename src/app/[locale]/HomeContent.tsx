@@ -299,7 +299,7 @@ export default function HomeContent() {
               <div className="aspect-[3/4] overflow-hidden rounded-2xl shadow-2xl border dark:border-white/10 border-stone-200">
                 <img
                   src={images.family}
-                  alt="Happy family in Agafay desert"
+                  alt="Desert camp overlook in the Agafay desert"
                   className="w-full h-full object-cover transition-all duration-700"
                 />
               </div>

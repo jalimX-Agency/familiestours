@@ -132,7 +132,7 @@ export default function AboutContent() {
         <div className="relative flex-1 lg:max-w-[46%] h-[45vh] lg:h-auto order-1 lg:order-2">
           <img
             src={images.camelCaravan}
-            alt="Camel caravan in the Agafay desert"
+            alt="Rocky canyon landscape in the Agafay desert"
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-transparent to-black/10 dark:to-black/20"></div>
