@@ -251,7 +251,7 @@ export const translations: Record<Locale, Translations> = {
       bookNow: 'Book Now',
     },
     hero: {
-      location: 'Morocco • Sahara Desert',
+      location: 'Morocco • Agafay Desert',
       title1: 'Where Golden Dunes',
       title2: 'Meet Family Dreams',
       subtitle: 'Curated desert experiences that weave together adventure, culture, and unforgettable family moments in the heart of Morocco.',
@@ -334,7 +334,7 @@ export const translations: Record<Locale, Translations> = {
         {
           title: 'Camel Trek & Dinner',
           subtitle: 'The Classic Desert Experience',
-          description: 'Experience the timeless magic of the Sahara on a traditional camel caravan. Watch the sunset paint the dunes in gold and crimson, then indulge in an authentic Berber feast under a canopy of stars.',
+          description: 'Experience the timeless magic of Agafay on a traditional camel caravan. Watch the sunset paint the rocky terrain in gold and crimson, then indulge in an authentic Berber feast under a canopy of stars.',
         },
         {
           title: 'Quad Adventure & Dinner',
@@ -354,7 +354,7 @@ export const translations: Record<Locale, Translations> = {
         {
           title: 'Royal 4x4 Safari',
           subtitle: 'The Ultimate Luxury Experience',
-          description: 'Journey beyond the ordinary into the heart of the Sahara in private luxury. This exclusive expedition takes you to hidden oases, remote villages, and pristine dunes few ever witness.',
+          description: 'Journey beyond the ordinary into the heart of the Agafay rocky desert in private luxury. This exclusive expedition takes you to hidden Berber villages, remote plateaus, and breathtaking Atlas panoramas few ever witness.',
         },
       ],
     },
@@ -394,7 +394,7 @@ export const translations: Record<Locale, Translations> = {
         {
           name: 'Hassan El-Fassi',
           role: 'Founder & Lead Guide',
-          story: 'Born in the Atlas Mountains, Hassan has spent over 20 years guiding families through the Sahara. His warmth and expertise are the foundation of everything we do.',
+          story: 'Born in the Atlas Mountains, Hassan has spent over 20 years guiding families through the Agafay desert. His warmth and expertise are the foundation of everything we do.',
         },
         {
           name: 'Fatima Benhassan',
@@ -516,7 +516,7 @@ export const translations: Record<Locale, Translations> = {
       bookNow: 'Réserver',
     },
     hero: {
-      location: 'Maroc • Désert du Sahara',
+      location: 'Maroc • Désert d\'Agafay',
       title1: 'Où les Dunes Dorées',
       title2: 'Rencontrent les Rêves Familiaux',
       subtitle: 'Expériences désertiques soigneusement élaborées, mêlant aventure, culture et moments familiaux inoubliables au cœur du Maroc.',
@@ -599,7 +599,7 @@ export const translations: Record<Locale, Translations> = {
         {
           title: 'Balade à Chameau & Dîner',
           subtitle: 'L\'Expérience Classique du Désert',
-          description: 'Découvrez la magie intemporelle du Sahara lors d\'une caravane de chameaux traditionnelle. Regardez le coucher de soleil peindre les dunes en or et cramoisi, puis régalez-vous avec un festin berbère authentique sous un ciel étoilé.',
+          description: 'Découvrez la magie intemporelle d\'Agafay lors d\'une caravane de chameaux traditionnelle. Regardez le coucher de soleil peindre le terrain rocailleux en or et cramoisi, puis régalez-vous avec un festin berbère authentique sous un ciel étoilé.',
         },
         {
           title: 'Aventure en Quad & Dîner',
@@ -619,7 +619,7 @@ export const translations: Record<Locale, Translations> = {
         {
           title: 'Safari 4x4 Royal',
           subtitle: 'L\'Expérience Luxe Ultime',
-          description: 'Voyagez au-delà de l\'ordinaire au cœur du Sahara dans un luxe privé. Cette expédition exclusive vous emmène vers des oasis cachées, des villages reculés et des dunes immaculées que peu ont le privilège de voir.',
+          description: 'Voyagez au-delà de l\'ordinaire au cœur du désert rocailleux d\'Agafay dans un luxe privé. Cette expédition exclusive vous emmène vers des villages berbères cachés, des plateaux reculés et des panoramas de l\'Atlas que peu ont le privilège de voir.',
         },
       ],
     },
@@ -659,7 +659,7 @@ export const translations: Record<Locale, Translations> = {
         {
           name: 'Hassan El-Fassi',
           role: 'Fondateur & Guide Principal',
-          story: 'Né dans l\'Atlas, Hassan passe plus de 20 ans à guider des familles à travers le Sahara. Sa chaleur et son expertise sont le fondement de tout ce que nous faisons.',
+          story: 'Né dans l\'Atlas, Hassan passe plus de 20 ans à guider des familles à travers le désert d\'Agafay. Sa chaleur et son expertise sont le fondement de tout ce que nous faisons.',
         },
         {
           name: 'Fatima Benhassan',
@@ -781,7 +781,7 @@ export const translations: Record<Locale, Translations> = {
       bookNow: 'Reservar Ahora',
     },
     hero: {
-      location: 'Marruecos • Desierto del Sahara',
+      location: 'Marruecos • Desierto de Agafay',
       title1: 'Donde las Dunas Doradas',
       title2: 'Encuentran los Sueños Familiares',
       subtitle: 'Experiencias desérticas cuidadosamente elaboradas que tejen aventura, cultura y momentos familiares inolvidables en el corazón de Marruecos.',
@@ -864,7 +864,7 @@ export const translations: Record<Locale, Translations> = {
         {
           title: 'Paseo en Camello y Cena',
           subtitle: 'La Experiencia Clásica del Desierto',
-          description: 'Experimenta la magia atemporal del Sahara en una caravana tradicional de camellos. Observa cómo el atardecer pinta las dunas de oro y carmesí, luego disfruta de un festín bereber auténtico bajo un dosel de estrellas.',
+          description: 'Experimenta la magia atemporal de Agafay en una caravana tradicional de camellos. Observa cómo el atardecer pinta el terreno rocoso de oro y carmesí, luego disfruta de un festín bereber auténtico bajo un dosel de estrellas.',
         },
         {
           title: 'Aventura en Cuatrimoto y Cena',
@@ -884,7 +884,7 @@ export const translations: Record<Locale, Translations> = {
         {
           title: 'Safari 4x4 Real',
           subtitle: 'La Experiencia de Lujo Definitiva',
-          description: 'Viaja más allá de lo ordinario hacia el corazón del Sahara en lujo privado. Esta expedición exclusiva te lleva a oasis ocultos, pueblos remotos y dunas prístinas que pocos tienen el privilegio de presenciar.',
+          description: 'Viaja más allá de lo ordinario hacia el corazón del desierto rocoso de Agafay en lujo privado. Esta expedición exclusiva te lleva a pueblos bereberes ocultos, mesetas remotas y panorámicas del Atlas que pocos tienen el privilegio de presenciar.',
         },
       ],
     },
@@ -924,7 +924,7 @@ export const translations: Record<Locale, Translations> = {
         {
           name: 'Hassan El-Fassi',
           role: 'Fundador y Guía Principal',
-          story: 'Nacido en el Atlas, Hassan ha pasado más de 20 años guiando familias a través del Sahara. Su calidez y experiencia son el fundamento de todo lo que hacemos.',
+          story: 'Nacido en el Atlas, Hassan ha pasado más de 20 años guiando familias a través del desierto de Agafay. Su calidez y experiencia son el fundamento de todo lo que hacemos.',
         },
         {
           name: 'Fatima Benhassan',

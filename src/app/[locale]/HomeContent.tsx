@@ -1,18 +1,39 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { motion, useScroll, useTransform, type Variants } from 'framer-motion';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { images, tourPackages, testimonials } from '@/lib/images';
 import { useLocale } from '@/context/LocaleContext';
 import { ArrowRight, Star, Play } from 'lucide-react';
 
+const heroTextVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
+};
+
+const heroItemVariants: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+};
+
 export default function HomeContent() {
   const { locale, t } = useLocale();
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [livePackages, setLivePackages] = useState<any[]>(tourPackages);
   const [liveReviews, setLiveReviews] = useState<any[]>(testimonials);
+
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const videoScale = useTransform(heroProgress, [0, 1], [1, 1.18]);
+  const videoBlur = useTransform(heroProgress, [0, 1], [0, 6]);
+  const videoFilter = useTransform(videoBlur, (v) => `blur(${v}px)`);
+  const overlayOpacity = useTransform(heroProgress, [0, 1], [0.15, 0.65]);
 
   useEffect(() => {
     fetch('/api/tours')
@@ -48,9 +69,9 @@ export default function HomeContent() {
       <Navbar />
 
       {/* Hero Section - Cinematic Full Screen with Clear Video */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* Video Background - Performance Optimized & Clearly Visible */}
-        <div className="absolute inset-0">
+      <section ref={heroRef} className="relative h-screen flex items-center justify-center overflow-hidden">
+        {/* Video Background - scales up and softens as you scroll past the hero */}
+        <motion.div className="absolute inset-0" style={{ scale: videoScale, filter: videoFilter }}>
           <video
             className="absolute inset-0 w-full h-full object-cover"
             autoPlay
@@ -69,31 +90,50 @@ export default function HomeContent() {
               style={{ backgroundImage: `url(${images.hero})` }}
             />
           </video>
-          {/* Subtle balanced overlays: leaves video bright in the center while ensuring text legibility */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-black/40"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40"></div>
-        </div>
+        </motion.div>
+        {/* Overlays: subtle at rest, deepen as the video scales/blurs on scroll */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-black/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40"></div>
+        <motion.div className="absolute inset-0 bg-black" style={{ opacity: overlayOpacity }}></motion.div>
 
         <div className="absolute top-1/4 left-10 w-px h-32 bg-gradient-to-b from-transparent via-amber-500/50 to-transparent hidden lg:block"></div>
         <div className="absolute bottom-1/4 right-10 w-px h-32 bg-gradient-to-b from-transparent via-amber-500/50 to-transparent hidden lg:block"></div>
 
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center animate-in fade-in slide-in-from-bottom-10 duration-1000">
-          <div className="inline-flex items-center gap-3 mb-6">
+        <motion.div
+          className="relative z-10 max-w-5xl mx-auto px-6 text-center"
+          variants={heroTextVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div variants={heroItemVariants} className="inline-flex items-center gap-3 mb-6">
             <span className="w-12 h-[1px] bg-amber-400"></span>
-            <span className="text-amber-400 text-xs tracking-[0.35em] uppercase font-medium drop-shadow-sm">{t.hero.location}</span>
+            <span className="font-mono text-amber-400 text-xs tracking-[0.35em] uppercase font-medium drop-shadow-sm">{t.hero.location}</span>
             <span className="w-12 h-[1px] bg-amber-400"></span>
-          </div>
+          </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-tight mb-6 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
-            <span className="block text-white font-normal">{t.hero.title1}</span>
-            <span className="block font-serif italic text-amber-400 mt-2">{t.hero.title2}</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight mb-6 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
+            <motion.span
+              variants={heroItemVariants}
+              className="block text-white font-display font-semibold tracking-tight"
+            >
+              {t.hero.title1}
+            </motion.span>
+            <motion.span
+              variants={heroItemVariants}
+              className="block font-serif italic text-amber-400 mt-2"
+            >
+              {t.hero.title2}
+            </motion.span>
           </h1>
 
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10 font-light leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.8)]">
+          <motion.p
+            variants={heroItemVariants}
+            className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10 font-light leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.8)]"
+          >
             {t.hero.subtitle}
-          </p>
+          </motion.p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <motion.div variants={heroItemVariants} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href={`/${locale}/tours`}
               className="group relative px-10 py-4 bg-amber-500 text-black font-semibold tracking-wider uppercase text-sm hover:bg-amber-400 transition-all duration-300 shadow-xl shadow-amber-500/25 rounded-sm"
@@ -110,11 +150,11 @@ export default function HomeContent() {
               <Play className="w-4 h-4 text-amber-400" />
               {t.hero.viewGallery}
             </Link>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 pointer-events-none">
-          <span className="text-white/60 text-xs tracking-widest uppercase rotate-90 origin-center translate-y-8 drop-shadow-sm">{t.hero.scroll}</span>
+          <span className="font-mono text-white/60 text-xs tracking-widest uppercase rotate-90 origin-center translate-y-8 drop-shadow-sm">{t.hero.scroll}</span>
           <div className="w-[1px] h-16 bg-gradient-to-b from-white/60 to-transparent animate-pulse"></div>
         </div>
       </section>
@@ -157,7 +197,7 @@ export default function HomeContent() {
 
                   <div className="absolute top-5 right-5">
                     <div className="px-4 py-1.5 bg-black/70 backdrop-blur-md border border-white/15 rounded-md shadow-md">
-                      <span className="text-amber-400 font-semibold text-2xl">{pkg.price}</span>
+                      <span className="font-mono text-amber-400 font-semibold text-2xl">{pkg.price}</span>
                       <span className="text-white/70 text-xs ml-1 font-medium">MAD</span>
                     </div>
                   </div>
