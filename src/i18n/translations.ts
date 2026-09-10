@@ -10,6 +10,7 @@ export interface Translations {
     experiences: string;
     about: string;
     gallery: string;
+    blog: string;
     reserve: string;
     bookNow: string;
   };
@@ -218,6 +219,7 @@ export interface Translations {
       experiences: string;
       about: string;
       gallery: string;
+      blog: string;
       reserve: string;
     };
   };
@@ -247,6 +249,7 @@ export const translations: Record<Locale, Translations> = {
       experiences: 'Experiences',
       about: 'Our Story',
       gallery: 'Gallery',
+      blog: 'Blog',
       reserve: 'Reserve',
       bookNow: 'Book Now',
     },
@@ -486,6 +489,7 @@ export const translations: Record<Locale, Translations> = {
         experiences: 'Experiences',
         about: 'Our Story',
         gallery: 'Gallery',
+        blog: 'Blog',
         reserve: 'Reserve',
       },
     },
@@ -512,6 +516,7 @@ export const translations: Record<Locale, Translations> = {
       experiences: 'Expériences',
       about: 'Notre Histoire',
       gallery: 'Galerie',
+      blog: 'Blog',
       reserve: 'Réserver',
       bookNow: 'Réserver',
     },
@@ -751,6 +756,7 @@ export const translations: Record<Locale, Translations> = {
         experiences: 'Expériences',
         about: 'Notre Histoire',
         gallery: 'Galerie',
+        blog: 'Blog',
         reserve: 'Réserver',
       },
     },
@@ -777,6 +783,7 @@ export const translations: Record<Locale, Translations> = {
       experiences: 'Experiencias',
       about: 'Nuestra Historia',
       gallery: 'Galería',
+      blog: 'Blog',
       reserve: 'Reservar',
       bookNow: 'Reservar Ahora',
     },
@@ -1016,6 +1023,7 @@ export const translations: Record<Locale, Translations> = {
         experiences: 'Experiencias',
         about: 'Nuestra Historia',
         gallery: 'Galería',
+        blog: 'Blog',
         reserve: 'Reservar',
       },
     },

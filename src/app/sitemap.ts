@@ -1,13 +1,14 @@
 import type { MetadataRoute } from 'next';
 import { locales } from '@/i18n/translations';
+import { db } from '@/lib/db';
 
 const BASE_URL = 'https://www.familiestours.com';
-const ROUTES = ['', '/tours', '/about', '/gallery', '/contact'];
+const ROUTES = ['', '/tours', '/about', '/gallery', '/contact', '/blog'];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
-  return ROUTES.flatMap((route) =>
+  const staticEntries: MetadataRoute.Sitemap = ROUTES.flatMap((route) =>
     locales.map((locale) => ({
       url: `${BASE_URL}/${locale}${route}`,
       lastModified: now,
@@ -20,4 +21,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     }))
   );
+
+  let blogEntries: MetadataRoute.Sitemap = [];
+  try {
+    const posts = await db.blogPost.findMany({
+      where: { published: true },
+      select: { slug: true, locale: true, updatedAt: true },
+    });
+
+    blogEntries = posts.map((post) => ({
+      url: `${BASE_URL}/${post.locale}/blog/${post.slug}`,
+      lastModified: post.updatedAt,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    }));
+  } catch {
+    // DB unavailable at build time - ship the static routes only
+  }
+
+  return [...staticEntries, ...blogEntries];
 }

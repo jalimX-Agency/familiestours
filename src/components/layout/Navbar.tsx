@@ -12,6 +12,7 @@ const navLinks = [
   { href: '/tours', labelKey: 'nav.experiences' },
   { href: '/about', labelKey: 'nav.about' },
   { href: '/gallery', labelKey: 'nav.gallery' },
+  { href: '/blog', labelKey: 'nav.blog' },
   { href: '/contact', labelKey: 'nav.reserve' },
 ];
 

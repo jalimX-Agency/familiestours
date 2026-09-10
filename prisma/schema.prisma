@@ -105,6 +105,29 @@ model Review {
   @@index([published])
 }
 
+model BlogPost {
+  id              String   @id @default(cuid())
+  slug            String
+  locale          String   @default("en")
+  title           String
+  excerpt         String
+  content         String   // semantic HTML
+  category        String   @default("Travel Guide")
+  tags            String[]
+  heroImage       String
+  heroImageAlt    String
+  metaTitle       String
+  metaDescription String
+  readingTime     Int      @default(5)
+  published       Boolean  @default(true)
+  publishedAt     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([slug, locale])
+  @@index([locale, published])
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique

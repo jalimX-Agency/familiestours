@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { MapPin, Phone, Mail, Clock, Instagram, Facebook } from 'lucide-react';
 import { useLocale } from '@/context/LocaleContext';
@@ -64,6 +66,7 @@ export default function Footer() {
                 { labelKey: 'quickLinks.experiences', href: '/tours' },
                 { labelKey: 'quickLinks.about', href: '/about' },
                 { labelKey: 'quickLinks.gallery', href: '/gallery' },
+                { labelKey: 'quickLinks.blog', href: '/blog' },
                 { labelKey: 'quickLinks.reserve', href: '/contact' },
               ].map((link) => {
                 const label = (t.footer as any)[link.labelKey.split('.')[0]][link.labelKey.split('.')[1]];

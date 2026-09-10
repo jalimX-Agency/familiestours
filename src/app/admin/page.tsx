@@ -50,6 +50,7 @@ import {
   Eye,
   EyeOff,
   Sparkles,
+  FileText,
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
@@ -1471,6 +1472,15 @@ export default function AdminDashboard() {
               </button>
             );
           })}
+          <a
+            href="/admin/blog"
+            className="relative w-full flex items-center gap-3 h-9 px-2.5 text-left transition-colors dark:text-zinc-400 text-stone-500 hover:dark:text-zinc-100 hover:text-stone-900 hover:dark:bg-white/5 hover:bg-stone-100"
+          >
+            <FileText className="w-4 h-4 flex-shrink-0" />
+            <span className="text-[12px] font-medium whitespace-nowrap opacity-0 group-hover/sidebar:opacity-100 transition-opacity duration-150 overflow-hidden">
+              Blog
+            </span>
+          </a>
         </nav>
 
         {/* Bottom controls */}
