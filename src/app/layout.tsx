@@ -21,7 +21,7 @@ const unbounded = Unbounded({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://familiestours.com"),
+  metadataBase: new URL("https://www.familiestours.com"),
   title: "Families Tours | Luxury Desert Experiences in Morocco",
   description: "Discover authentic Agafay desert experiences with Families Tours. Camel treks, quad adventures, and luxury desert camps near Marrakech. Free transport included.",
   keywords: ["Morocco", "Agafay desert", "Marrakech desert tours", "camel trek", "quad biking", "Atlas Mountains", "family tours", "luxury travel"],
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Families Tours | Luxury Desert Experiences",
     description: "Authentic Agafay desert experiences near Marrakech with free transport. Camel treks, quad adventures, and more.",
-    url: "https://familiestours.com",
+    url: "https://www.familiestours.com",
     siteName: "Families Tours",
     type: "website",
     images: [
@@ -57,8 +57,8 @@ const organizationJsonLd = {
   "@type": "TravelAgency",
   name: "Families Tours",
   description: "Family-owned desert tour operator offering camel treks, quad adventures, and luxury camps in the Agafay desert near Marrakech, Morocco.",
-  url: "https://familiestours.com",
-  logo: "https://familiestours.com/logo.png",
+  url: "https://www.familiestours.com",
+  logo: "https://www.familiestours.com/logo.png",
   image: "https://cdn.familiestours.com/tours/camel.jpg",
   telephone: "+212631024326",
   email: "info@familiestours.com",

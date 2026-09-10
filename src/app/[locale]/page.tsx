@@ -10,11 +10,11 @@ const SEO_COPY: Record<Locale, { title: string; description: string }> = {
   },
   fr: {
     title: 'Families Tours | Excursions de Luxe dans le Désert au Maroc',
-    description: 'Découvrez des expériences authentiques dans le désert d’Agafay avec Families Tours. Balades à dos de chameau, aventures en quad et camps de luxe près de Marrakech. Transport gratuit inclus.',
+    description: 'Expériences authentiques dans le désert d’Agafay : balades à dos de chameau, aventures en quad et camps de luxe près de Marrakech. Transport gratuit inclus.',
   },
   es: {
     title: 'Families Tours | Experiencias de Lujo en el Desierto de Marruecos',
-    description: 'Descubre experiencias auténticas en el desierto de Agafay con Families Tours. Paseos en camello, aventuras en quad y campamentos de lujo cerca de Marrakech. Transporte gratuito incluido.',
+    description: 'Experiencias auténticas en el desierto de Agafay: paseos en camello, aventuras en quad y campamentos de lujo cerca de Marrakech. Transporte gratuito incluido.',
   },
 };
 
@@ -27,17 +27,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: copy.title,
     description: copy.description,
     alternates: {
-      canonical: `https://familiestours.com/${locale}`,
+      canonical: `https://www.familiestours.com/${locale}`,
       languages: {
-        en: 'https://familiestours.com/en',
-        fr: 'https://familiestours.com/fr',
-        es: 'https://familiestours.com/es',
+        en: 'https://www.familiestours.com/en',
+        fr: 'https://www.familiestours.com/fr',
+        es: 'https://www.familiestours.com/es',
       },
     },
     openGraph: {
       title: copy.title,
       description: copy.description,
-      url: `https://familiestours.com/${locale}`,
+      url: `https://www.familiestours.com/${locale}`,
       locale,
     },
   };

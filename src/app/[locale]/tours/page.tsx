@@ -14,7 +14,7 @@ const SEO_COPY: Record<Locale, { title: string; description: string }> = {
   },
   es: {
     title: 'Experiencias y Precios | Families Tours — Agafay, Marruecos',
-    description: 'Paseos en camello, aventuras en quad y campamentos de lujo en el desierto de Agafay cerca de Marrakech. Consulta precios, duración y qué incluye cada experiencia.',
+    description: 'Paseos en camello, aventuras en quad y campamentos de lujo en el desierto de Agafay cerca de Marrakech. Consulta precios y duración.',
   },
 };
 
@@ -27,17 +27,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: copy.title,
     description: copy.description,
     alternates: {
-      canonical: `https://familiestours.com/${locale}/tours`,
+      canonical: `https://www.familiestours.com/${locale}/tours`,
       languages: {
-        en: 'https://familiestours.com/en/tours',
-        fr: 'https://familiestours.com/fr/tours',
-        es: 'https://familiestours.com/es/tours',
+        en: 'https://www.familiestours.com/en/tours',
+        fr: 'https://www.familiestours.com/fr/tours',
+        es: 'https://www.familiestours.com/es/tours',
       },
     },
     openGraph: {
       title: copy.title,
       description: copy.description,
-      url: `https://familiestours.com/${locale}/tours`,
+      url: `https://www.familiestours.com/${locale}/tours`,
       locale,
     },
   };

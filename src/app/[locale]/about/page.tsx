@@ -10,11 +10,11 @@ const SEO_COPY: Record<Locale, { title: string; description: string }> = {
   },
   fr: {
     title: 'Notre Histoire | Families Tours — Désert d’Agafay, Maroc',
-    description: 'D’un seul chameau à des milliers de sourires. Découvrez la famille derrière Families Tours et notre mission de partager des expériences authentiques dans le désert d’Agafay.',
+    description: 'D’un seul chameau à des milliers de sourires. Découvrez la famille derrière Families Tours et notre mission dans le désert d’Agafay.',
   },
   es: {
     title: 'Nuestra Historia | Families Tours — Desierto de Agafay, Marruecos',
-    description: 'De un solo camello a miles de sonrisas. Conoce a la familia detrás de Families Tours y nuestra misión de compartir experiencias auténticas en el desierto de Agafay.',
+    description: 'De un solo camello a miles de sonrisas. Conoce a la familia detrás de Families Tours y nuestra misión en el desierto de Agafay.',
   },
 };
 
@@ -27,17 +27,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: copy.title,
     description: copy.description,
     alternates: {
-      canonical: `https://familiestours.com/${locale}/about`,
+      canonical: `https://www.familiestours.com/${locale}/about`,
       languages: {
-        en: 'https://familiestours.com/en/about',
-        fr: 'https://familiestours.com/fr/about',
-        es: 'https://familiestours.com/es/about',
+        en: 'https://www.familiestours.com/en/about',
+        fr: 'https://www.familiestours.com/fr/about',
+        es: 'https://www.familiestours.com/es/about',
       },
     },
     openGraph: {
       title: copy.title,
       description: copy.description,
-      url: `https://familiestours.com/${locale}/about`,
+      url: `https://www.familiestours.com/${locale}/about`,
       locale,
     },
   };

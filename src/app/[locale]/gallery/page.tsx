@@ -10,7 +10,7 @@ const SEO_COPY: Record<Locale, { title: string; description: string }> = {
   },
   fr: {
     title: 'Galerie Photos | Families Tours — Désert d’Agafay, Maroc',
-    description: 'Parcourez de vraies photos de nos expériences dans le désert d’Agafay près de Marrakech : balades à dos de chameau, camps désertiques et moments familiaux inoubliables.',
+    description: 'Parcourez de vraies photos de nos expériences dans le désert d’Agafay : balades à dos de chameau, camps désertiques et moments familiaux inoubliables.',
   },
   es: {
     title: 'Galería de Fotos | Families Tours — Desierto de Agafay, Marruecos',
@@ -27,17 +27,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: copy.title,
     description: copy.description,
     alternates: {
-      canonical: `https://familiestours.com/${locale}/gallery`,
+      canonical: `https://www.familiestours.com/${locale}/gallery`,
       languages: {
-        en: 'https://familiestours.com/en/gallery',
-        fr: 'https://familiestours.com/fr/gallery',
-        es: 'https://familiestours.com/es/gallery',
+        en: 'https://www.familiestours.com/en/gallery',
+        fr: 'https://www.familiestours.com/fr/gallery',
+        es: 'https://www.familiestours.com/es/gallery',
       },
     },
     openGraph: {
       title: copy.title,
       description: copy.description,
-      url: `https://familiestours.com/${locale}/gallery`,
+      url: `https://www.familiestours.com/${locale}/gallery`,
       locale,
     },
   };

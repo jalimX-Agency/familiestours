@@ -27,17 +27,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: copy.title,
     description: copy.description,
     alternates: {
-      canonical: `https://familiestours.com/${locale}/contact`,
+      canonical: `https://www.familiestours.com/${locale}/contact`,
       languages: {
-        en: 'https://familiestours.com/en/contact',
-        fr: 'https://familiestours.com/fr/contact',
-        es: 'https://familiestours.com/es/contact',
+        en: 'https://www.familiestours.com/en/contact',
+        fr: 'https://www.familiestours.com/fr/contact',
+        es: 'https://www.familiestours.com/es/contact',
       },
     },
     openGraph: {
       title: copy.title,
       description: copy.description,
-      url: `https://familiestours.com/${locale}/contact`,
+      url: `https://www.familiestours.com/${locale}/contact`,
       locale,
     },
   };

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { locales } from '@/i18n/translations';
 
-const BASE_URL = 'https://familiestours.com';
+const BASE_URL = 'https://www.familiestours.com';
 const ROUTES = ['', '/tours', '/about', '/gallery', '/contact'];
 
 export default function sitemap(): MetadataRoute.Sitemap {
