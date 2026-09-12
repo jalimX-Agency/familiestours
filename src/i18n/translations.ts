@@ -203,7 +203,29 @@ export interface Translations {
     successMessage: string;
     successImmediate: string;
   };
-  
+
+  // Review Submission Page
+  review: {
+    pageTitle: string;
+    pageSubtitle: string;
+    yourName: string;
+    yourNamePlaceholder: string;
+    yourLocation: string;
+    yourLocationPlaceholder: string;
+    whichExperience: string;
+    selectExperience: string;
+    yourRating: string;
+    yourReview: string;
+    yourReviewPlaceholder: string;
+    submitButton: string;
+    successTitle: string;
+    successMessage: string;
+    shareTitle: string;
+    shareSubtitle: string;
+    copyLink: string;
+    linkCopied: string;
+  };
+
   // Footer
   footer: {
     tagline: string;
@@ -221,6 +243,7 @@ export interface Translations {
       gallery: string;
       blog: string;
       reserve: string;
+      review: string;
     };
   };
 
@@ -475,6 +498,26 @@ export const translations: Record<Locale, Translations> = {
       successMessage: 'Thank you for your inquiry. Our team will contact you within 24 hours to finalize your desert adventure.',
       successImmediate: 'For immediate assistance: +212 XXX XXXXXX',
     },
+    review: {
+      pageTitle: 'Share Your Experience',
+      pageSubtitle: 'Tell us how your desert adventure went. It takes two minutes and helps other families find us.',
+      yourName: 'Your Name',
+      yourNamePlaceholder: 'Sarah Williams',
+      yourLocation: 'Where Are You From? (optional)',
+      yourLocationPlaceholder: 'London, UK',
+      whichExperience: 'Which Experience Did You Take?',
+      selectExperience: 'Select an experience',
+      yourRating: 'Your Rating',
+      yourReview: 'Your Review',
+      yourReviewPlaceholder: 'Tell us about your experience — what made it special?',
+      submitButton: 'Submit Review',
+      successTitle: 'Thank You!',
+      successMessage: 'Your review has been submitted and will appear on our site once our team approves it. We appreciate you taking the time.',
+      shareTitle: 'Know Someone Who Just Traveled With Us?',
+      shareSubtitle: 'Share this link so they can leave a review too.',
+      copyLink: 'Copy Link',
+      linkCopied: 'Link Copied!',
+    },
     footer: {
       tagline: 'Crafting extraordinary desert experiences for discerning families since 2009. Where luxury meets authentic Moroccan hospitality.',
       experiences: 'Experiences',
@@ -491,6 +534,7 @@ export const translations: Record<Locale, Translations> = {
         gallery: 'Gallery',
         blog: 'Blog',
         reserve: 'Reserve',
+        review: 'Leave a Review',
       },
     },
     packageNames: {
@@ -742,6 +786,26 @@ export const translations: Record<Locale, Translations> = {
       successMessage: 'Merci pour votre demande. Notre équipe vous contactera dans les 24 heures pour finaliser votre aventure désertique.',
       successImmediate: 'Pour une assistance immédiate : +212 XXX XXXXXX',
     },
+    review: {
+      pageTitle: 'Partagez Votre Expérience',
+      pageSubtitle: 'Dites-nous comment s\'est passée votre aventure désertique. Cela prend deux minutes et aide d\'autres familles à nous trouver.',
+      yourName: 'Votre Nom',
+      yourNamePlaceholder: 'Sarah Williams',
+      yourLocation: 'D\'où venez-vous ? (facultatif)',
+      yourLocationPlaceholder: 'Londres, Royaume-Uni',
+      whichExperience: 'Quelle Expérience Avez-Vous Vécue ?',
+      selectExperience: 'Sélectionnez une expérience',
+      yourRating: 'Votre Note',
+      yourReview: 'Votre Avis',
+      yourReviewPlaceholder: 'Parlez-nous de votre expérience — qu\'est-ce qui l\'a rendue spéciale ?',
+      submitButton: 'Envoyer l\'Avis',
+      successTitle: 'Merci !',
+      successMessage: 'Votre avis a été envoyé et apparaîtra sur notre site après validation par notre équipe. Merci d\'avoir pris le temps.',
+      shareTitle: 'Vous Connaissez Quelqu\'un Qui Vient de Voyager Avec Nous ?',
+      shareSubtitle: 'Partagez ce lien pour qu\'il puisse laisser un avis aussi.',
+      copyLink: 'Copier le Lien',
+      linkCopied: 'Lien Copié !',
+    },
     footer: {
       tagline: 'Créant des expériences désertiques extraordinaires pour des familles exigeantes depuis 2009. Où le luxe rencontre l\'hospitalité marocaine authentique.',
       experiences: 'Expériences',
@@ -758,6 +822,7 @@ export const translations: Record<Locale, Translations> = {
         gallery: 'Galerie',
         blog: 'Blog',
         reserve: 'Réserver',
+        review: 'Laisser un Avis',
       },
     },
     packageNames: {
@@ -1009,6 +1074,26 @@ export const translations: Record<Locale, Translations> = {
       successMessage: 'Gracias por tu consulta. Nuestro equipo te contactará dentro de 24 horas para finalizar tu aventura desértica.',
       successImmediate: 'Para asistencia inmediata: +212 XXX XXXXXX',
     },
+    review: {
+      pageTitle: 'Comparte Tu Experiencia',
+      pageSubtitle: 'Cuéntanos cómo fue tu aventura en el desierto. Toma dos minutos y ayuda a otras familias a encontrarnos.',
+      yourName: 'Tu Nombre',
+      yourNamePlaceholder: 'Sarah Williams',
+      yourLocation: '¿De Dónde Eres? (opcional)',
+      yourLocationPlaceholder: 'Londres, Reino Unido',
+      whichExperience: '¿Qué Experiencia Viviste?',
+      selectExperience: 'Selecciona una experiencia',
+      yourRating: 'Tu Valoración',
+      yourReview: 'Tu Reseña',
+      yourReviewPlaceholder: 'Cuéntanos sobre tu experiencia — ¿qué la hizo especial?',
+      submitButton: 'Enviar Reseña',
+      successTitle: '¡Gracias!',
+      successMessage: 'Tu reseña ha sido enviada y aparecerá en nuestro sitio una vez que nuestro equipo la apruebe. Agradecemos tu tiempo.',
+      shareTitle: '¿Conoces a Alguien Que Acaba de Viajar Con Nosotros?',
+      shareSubtitle: 'Comparte este enlace para que también pueda dejar una reseña.',
+      copyLink: 'Copiar Enlace',
+      linkCopied: '¡Enlace Copiado!',
+    },
     footer: {
       tagline: 'Creando experiencias desérticas extraordinarias para familias exigentes desde 2009. Donde el lujo encuentra la hospitalidad marroquí auténtica.',
       experiences: 'Experiencias',
@@ -1025,6 +1110,7 @@ export const translations: Record<Locale, Translations> = {
         gallery: 'Galería',
         blog: 'Blog',
         reserve: 'Reservar',
+        review: 'Dejar una Reseña',
       },
     },
     packageNames: {

@@ -68,6 +68,7 @@ export default function Footer() {
                 { labelKey: 'quickLinks.gallery', href: '/gallery' },
                 { labelKey: 'quickLinks.blog', href: '/blog' },
                 { labelKey: 'quickLinks.reserve', href: '/contact' },
+                { labelKey: 'quickLinks.review', href: '/review' },
               ].map((link) => {
                 const label = (t.footer as any)[link.labelKey.split('.')[0]][link.labelKey.split('.')[1]];
                 return (
