@@ -1314,7 +1314,6 @@ export default function AdminDashboard() {
                 type="email"
                 value={loginEmail}
                 onChange={e => setLoginEmail(e.target.value)}
-                placeholder="admin@familiestours.com"
                 required
                 autoFocus
                 className="w-full font-mono text-sm bg-transparent border-b-2 dark:border-white/20 border-stone-300 focus:border-amber-500 dark:text-white text-stone-900 py-3 px-0 outline-none transition-colors placeholder:text-stone-300 dark:placeholder:text-zinc-700"
