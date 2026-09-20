@@ -6,7 +6,7 @@ import AboutContent from './AboutContent';
 const SEO_COPY: Record<Locale, { title: string; description: string }> = {
   en: {
     title: 'Our Story | Families Tours — Agafay Desert, Morocco',
-    description: 'From a single camel to thousands of smiles. Meet the family behind Families Tours and our mission to share authentic Agafay desert experiences near Marrakech.',
+    description: 'From a single camel to thousands of smiles. Meet the family behind Families Tours and our mission to share authentic Agafay desert experiences.',
   },
   fr: {
     title: 'Notre Histoire | Families Tours — Désert d’Agafay, Maroc',
@@ -32,6 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         en: 'https://www.familiestours.com/en/about',
         fr: 'https://www.familiestours.com/fr/about',
         es: 'https://www.familiestours.com/es/about',
+        'x-default': 'https://www.familiestours.com/en/about',
       },
     },
     openGraph: {

@@ -14,6 +14,22 @@ interface GalleryImage {
   category: string;
 }
 
+
+const ABOUT_COPY: Record<string, { title: string; body: string }> = {
+  en: {
+    title: 'About these photos',
+    body: 'Every photo here was taken during our own experiences in the Agafay desert, a rocky stone desert about 30 km from Marrakech. You will see camel treks at golden hour, quad rides across the stony plateau, and desert camps set up for dinner under the stars. Use the categories above to browse camels, adventure, camp life and landscapes, then reserve the experience that matches your family.',
+  },
+  fr: {
+    title: 'À propos de ces photos',
+    body: 'Chaque photo a été prise lors de nos propres expériences dans le désert d’Agafay, un désert de pierres à environ 30 km de Marrakech. Vous y verrez des balades à dos de chameau à l’heure dorée, des sorties en quad sur le plateau rocheux et des camps prêts pour un dîner sous les étoiles. Utilisez les catégories ci-dessus pour parcourir chameaux, aventure, camp et paysages, puis réservez l’expérience qui convient à votre famille.',
+  },
+  es: {
+    title: 'Sobre estas fotos',
+    body: 'Cada foto se tomó durante nuestras propias experiencias en el desierto de Agafay, un desierto de piedra a unos 30 km de Marrakech. Verás paseos en camello a la hora dorada, rutas en quad por la meseta rocosa y campamentos preparados para cenar bajo las estrellas. Usa las categorías de arriba para explorar camellos, aventura, campamento y paisajes, y reserva la experiencia que mejor encaje con tu familia.',
+  },
+};
+
 export default function GalleryContent() {
   const { t, locale } = useLocale();
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -228,11 +244,18 @@ export default function GalleryContent() {
         </div>
       )}
 
+      <section className="pb-16 dark:bg-[#0c0d0f] bg-[#faf8f5]">
+        <div className="max-w-3xl mx-auto px-6 lg:px-12">
+          <h2 className="font-display font-semibold tracking-tight text-xl mb-3 dark:text-white text-stone-900">{(ABOUT_COPY[locale] || ABOUT_COPY.en).title}</h2>
+          <p className="dark:text-zinc-400 text-stone-600 leading-relaxed">{(ABOUT_COPY[locale] || ABOUT_COPY.en).body}</p>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-24 dark:bg-[#121418] bg-stone-100/80 border-t dark:border-white/5 border-stone-200/80">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="font-display font-semibold tracking-tight text-3xl md:text-4xl mb-5 dark:text-white text-stone-900">
-            {t.gallery.createMemories.split(' ')[0]} Your Own <span className="font-serif italic font-normal tracking-normal text-amber-500">{t.gallery.createMemories.split(' ').slice(1).join(' ')}</span>?
+            {t.gallery.createMemories.split(' ').slice(0, -2).join(' ')} <span className="font-serif italic font-normal tracking-normal text-amber-500">{t.gallery.createMemories.split(' ').slice(-2).join(' ')}</span>
           </h2>
           <p className="dark:text-zinc-300 text-stone-600 mb-8 max-w-2xl mx-auto text-base leading-relaxed">
             {t.gallery.galleryCta}

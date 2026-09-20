@@ -18,6 +18,37 @@ const staggerContainer: Variants = {
   visible: { transition: { staggerChildren: 0.15 } },
 };
 
+
+const FAQ_COPY: Record<string, { title: string; items: { q: string; a: string }[] }> = {
+  en: {
+    title: 'Before you book',
+    items: [
+      { q: 'Is hotel pickup included?', a: 'Yes. Transport from your hotel or riad in Marrakech is included in every experience, and the Agafay desert is about 30 km (40–50 minutes) away.' },
+      { q: 'How much do the experiences cost?', a: 'Prices start at 150 MAD for the Camel Trek & Dinner, 230 MAD for the Quad Adventure & Dinner and 300 MAD for the Ultimate Combo or Sunrise Breakfast. The 4x4 Safari is 900 MAD.' },
+      { q: 'How do I reserve?', a: 'Send the form on this page or message us on WhatsApp. Our team is available 24/7 and confirms your booking quickly.' },
+      { q: 'Is Agafay a sand desert?', a: 'No. Agafay is a rocky stone desert with wide plateaus and Atlas Mountain views, which is why it is so close to Marrakech.' },
+    ],
+  },
+  fr: {
+    title: 'Avant de réserver',
+    items: [
+      { q: 'Le transfert depuis l’hôtel est-il inclus ?', a: 'Oui. Le transport depuis votre hôtel ou riad à Marrakech est inclus dans chaque expérience ; le désert d’Agafay se trouve à environ 30 km (40 à 50 minutes).' },
+      { q: 'Combien coûtent les expériences ?', a: 'Les tarifs débutent à 150 MAD pour la Balade à Dos de Chameau et Dîner, 230 MAD pour l’Aventure en Quad et Dîner, et 300 MAD pour le Combo Ultime ou le Petit-Déjeuner au Lever du Soleil. Le Safari 4x4 est à 900 MAD.' },
+      { q: 'Comment réserver ?', a: 'Envoyez le formulaire de cette page ou écrivez-nous sur WhatsApp. Notre équipe est disponible 24/7 et confirme rapidement votre réservation.' },
+      { q: 'Agafay est-il un désert de sable ?', a: 'Non. Agafay est un désert de pierres, avec de vastes plateaux et une vue sur l’Atlas, ce qui explique sa proximité avec Marrakech.' },
+    ],
+  },
+  es: {
+    title: 'Antes de reservar',
+    items: [
+      { q: '¿Incluye el traslado desde el hotel?', a: 'Sí. El transporte desde tu hotel o riad en Marrakech está incluido en cada experiencia; el desierto de Agafay queda a unos 30 km (40–50 minutos).' },
+      { q: '¿Cuánto cuestan las experiencias?', a: 'Los precios empiezan en 150 MAD para el Paseo en Camello y Cena, 230 MAD para la Aventura en Quad y Cena, y 300 MAD para el Combo Definitivo o el Desayuno al Amanecer. El Safari 4x4 cuesta 900 MAD.' },
+      { q: '¿Cómo reservo?', a: 'Envía el formulario de esta página o escríbenos por WhatsApp. Nuestro equipo está disponible 24/7 y confirma tu reserva rápidamente.' },
+      { q: '¿Agafay es un desierto de arena?', a: 'No. Agafay es un desierto de piedra con amplias mesetas y vistas al Atlas, por eso está tan cerca de Marrakech.' },
+    ],
+  },
+};
+
 export default function ContactContent() {
   const { locale, t } = useLocale();
   const heroRef = useRef<HTMLElement>(null);
@@ -403,6 +434,34 @@ export default function ContactContent() {
             </motion.div>
           </motion.div>
         </div>
+      </section>
+
+      <section className="py-20 dark:bg-[#0c0d0f] bg-[#faf8f5] border-t dark:border-white/5 border-stone-200/80">
+        <div className="max-w-3xl mx-auto px-6 lg:px-12">
+          <h2 className="font-display font-semibold tracking-tight text-3xl mb-8 dark:text-white text-stone-900">{(FAQ_COPY[locale] || FAQ_COPY.en).title}</h2>
+          <dl className="space-y-6">
+            {(FAQ_COPY[locale] || FAQ_COPY.en).items.map((item) => (
+              <div key={item.q}>
+                <dt className="font-medium dark:text-white text-stone-900 mb-1">{item.q}</dt>
+                <dd className="dark:text-zinc-400 text-stone-600 leading-relaxed">{item.a}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: (FAQ_COPY[locale] || FAQ_COPY.en).items.map((item) => ({
+                '@type': 'Question',
+                name: item.q,
+                acceptedAnswer: { '@type': 'Answer', text: item.a },
+              })),
+            }),
+          }}
+        />
       </section>
 
       <Footer />

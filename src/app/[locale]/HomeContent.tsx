@@ -117,7 +117,7 @@ export default function HomeContent() {
               className="block text-white font-display font-semibold tracking-tight"
             >
               {t.hero.title1}
-            </motion.span>
+            </motion.span>{' '}
             <motion.span
               variants={heroItemVariants}
               className="block font-serif italic text-amber-400 mt-2"
@@ -268,7 +268,7 @@ export default function HomeContent() {
           <div className="text-center mb-16">
             <span className="text-amber-500 font-semibold text-xs tracking-[0.3em] uppercase block mb-3">{t.home.difference}</span>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-light dark:text-white text-stone-900">
-              {t.home.whyChooseUs.split(' ')[0]} Families Choose <span className="font-serif italic text-amber-500">{t.home.whyChooseUs.split(' ').slice(-2).join(' ')}</span>
+              {t.home.whyChooseUs.split(' ').slice(0, -2).join(' ')} <span className="font-serif italic text-amber-500">{t.home.whyChooseUs.split(' ').slice(-2).join(' ')}</span>
             </h2>
           </div>
 

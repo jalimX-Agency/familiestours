@@ -37,6 +37,13 @@ const SEO_COPY: Record<Locale, { title: string; description: string; eyebrow: st
   },
 };
 
+
+const INTRO: Record<string, string> = {
+  en: 'The Agafay desert is a rocky stone desert about 30 km from Marrakech, close enough for a half-day or full-day trip. Our guides answer the questions families ask us most: how Agafay differs from the Sahara, which season suits your plans, and whether a camel trek or quad ride fits your group. Everything here comes from running these experiences ourselves.',
+  fr: 'Le désert d’Agafay est un désert de pierres à environ 30 km de Marrakech, assez proche pour une excursion d’une demi-journée ou d’une journée. Nos guides répondent aux questions que les familles nous posent le plus : en quoi Agafay diffère du Sahara, quelle saison choisir, et si une balade à dos de chameau ou en quad convient à votre groupe. Tout vient de notre expérience sur le terrain.',
+  es: 'El desierto de Agafay es un desierto de piedra a unos 30 km de Marrakech, lo bastante cerca para una excursión de medio día o de día completo. Nuestras guías responden a lo que más nos preguntan las familias: en qué se diferencia Agafay del Sahara, qué época elegir y si un paseo en camello o en quad encaja con tu grupo. Todo procede de nuestra experiencia organizando estas actividades.',
+};
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale: localeParam } = await params;
   const locale = (localeParam as Locale) || 'en';
@@ -51,6 +58,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         en: 'https://www.familiestours.com/en/blog',
         fr: 'https://www.familiestours.com/fr/blog',
         es: 'https://www.familiestours.com/es/blog',
+        'x-default': 'https://www.familiestours.com/en/blog',
       },
     },
     openGraph: {
@@ -131,6 +139,10 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
             </div>
           )}
         </div>
+      </section>
+
+      <section className="pb-20 dark:bg-[#0c0d0f] bg-[#faf8f5]">
+        <p className="max-w-3xl mx-auto px-6 lg:px-12 dark:text-zinc-400 text-stone-600 leading-relaxed">{INTRO[locale] || INTRO.en}</p>
       </section>
 
       <Footer />

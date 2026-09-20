@@ -28,11 +28,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: copy.description,
     alternates: {
       canonical: `https://www.familiestours.com/${locale}/review`,
-      languages: {
-        en: 'https://www.familiestours.com/en/review',
-        fr: 'https://www.familiestours.com/fr/review',
-        es: 'https://www.familiestours.com/es/review',
-      },
     },
     openGraph: {
       title: copy.title,

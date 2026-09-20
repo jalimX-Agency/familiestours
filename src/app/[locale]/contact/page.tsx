@@ -32,6 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         en: 'https://www.familiestours.com/en/contact',
         fr: 'https://www.familiestours.com/fr/contact',
         es: 'https://www.familiestours.com/es/contact',
+        'x-default': 'https://www.familiestours.com/en/contact',
       },
     },
     openGraph: {

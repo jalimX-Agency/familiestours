@@ -67,6 +67,8 @@ export default function Navbar() {
                 <img
                   src="/logo.png"
                   alt="Families Tours Marrakech"
+                  width={480}
+                  height={320}
                   className={`h-11 sm:h-12 lg:h-14 w-auto object-contain transition-all duration-300 group-hover:scale-105 block dark:hidden ${
                     !isScrolled ? 'drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)]' : 'drop-shadow-sm'
                   }`}
@@ -76,6 +78,8 @@ export default function Navbar() {
                 <img
                   src="/logo-white.png"
                   alt="Families Tours Marrakech"
+                  width={480}
+                  height={320}
                   className={`h-11 sm:h-12 lg:h-14 w-auto object-contain transition-all duration-300 group-hover:scale-105 hidden dark:block ${
                     !isScrolled ? 'drop-shadow-[0_2px_12px_rgba(251,191,36,0.3)]' : 'drop-shadow-sm'
                   }`}

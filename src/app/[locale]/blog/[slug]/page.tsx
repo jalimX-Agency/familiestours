@@ -48,11 +48,21 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     return { title: 'Not Found' };
   }
 
+  const siblings = await db.blogPost.findMany({
+    where: { slug, published: true },
+    select: { locale: true },
+  });
+  const languages: Record<string, string> = Object.fromEntries(
+    siblings.map((s) => [s.locale, `https://www.familiestours.com/${s.locale}/blog/${slug}`])
+  );
+  if (languages.en) languages['x-default'] = languages.en;
+
   return {
     title: post.metaTitle,
     description: post.metaDescription,
     alternates: {
       canonical: `https://www.familiestours.com/${locale}/blog/${slug}`,
+      languages,
     },
     openGraph: {
       title: post.metaTitle,

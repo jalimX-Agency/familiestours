@@ -6,7 +6,7 @@ import HomeContent from './HomeContent';
 const SEO_COPY: Record<Locale, { title: string; description: string }> = {
   en: {
     title: 'Families Tours | Luxury Desert Experiences in Morocco',
-    description: 'Discover authentic Agafay desert experiences with Families Tours. Camel treks, quad adventures, and luxury desert camps near Marrakech. Free transport included.',
+    description: 'Authentic Agafay desert experiences near Marrakech: camel treks, quad adventures and luxury desert camps. Free hotel transport included.',
   },
   fr: {
     title: 'Families Tours | Excursions de Luxe dans le Désert au Maroc',
@@ -32,6 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         en: 'https://www.familiestours.com/en',
         fr: 'https://www.familiestours.com/fr',
         es: 'https://www.familiestours.com/es',
+        'x-default': 'https://www.familiestours.com/en',
       },
     },
     openGraph: {

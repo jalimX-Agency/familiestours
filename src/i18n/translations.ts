@@ -278,8 +278,8 @@ export const translations: Record<Locale, Translations> = {
     },
     hero: {
       location: 'Morocco • Agafay Desert',
-      title1: 'Where Golden Dunes',
-      title2: 'Meet Family Dreams',
+      title1: 'Where the Agafay Desert',
+      title2: 'Meets Family Dreams',
       subtitle: 'Curated desert experiences that weave together adventure, culture, and unforgettable family moments in the heart of Morocco.',
       discover: 'Discover Experiences',
       viewGallery: 'View Gallery',
@@ -566,8 +566,8 @@ export const translations: Record<Locale, Translations> = {
     },
     hero: {
       location: 'Maroc • Désert d\'Agafay',
-      title1: 'Où les Dunes Dorées',
-      title2: 'Rencontrent les Rêves Familiaux',
+      title1: 'Où le Désert d’Agafay',
+      title2: 'Rencontre les Rêves Familiaux',
       subtitle: 'Expériences désertiques soigneusement élaborées, mêlant aventure, culture et moments familiaux inoubliables au cœur du Maroc.',
       discover: 'Découvrir les Expériences',
       viewGallery: 'Voir la Galerie',
@@ -854,8 +854,8 @@ export const translations: Record<Locale, Translations> = {
     },
     hero: {
       location: 'Marruecos • Desierto de Agafay',
-      title1: 'Donde las Dunas Doradas',
-      title2: 'Encuentran los Sueños Familiares',
+      title1: 'Donde el Desierto de Agafay',
+      title2: 'Encuentra los Sueños Familiares',
       subtitle: 'Experiencias desérticas cuidadosamente elaboradas que tejen aventura, cultura y momentos familiares inolvidables en el corazón de Marruecos.',
       discover: 'Descubrir Experiencias',
       viewGallery: 'Ver Galería',
@@ -1021,7 +1021,7 @@ export const translations: Record<Locale, Translations> = {
       camp: 'Campamento',
       nature: 'Naturaleza',
       photos: 'fotos',
-      createMemories: '¿Listo para Crear Tus Propios Recuerdes Desérticos?',
+      createMemories: '¿Listo para Crear Tus Propios Recuerdos Desérticos?',
       galleryCta: ' Estos momentos esperan a tu familia. Dejanos crear tu experiencia desértica perfecta.',
       startJourney: 'Comenzar Tu Viaje',
       categories: {

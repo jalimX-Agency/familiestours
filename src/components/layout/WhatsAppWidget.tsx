@@ -119,7 +119,7 @@ export default function WhatsAppWidget() {
               <div className="relative">
                 <div className="w-10 h-10 rounded-full border border-amber-500/50 bg-amber-500/10 flex items-center justify-center p-1">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/logo.png" alt="Families Tours" className="w-full h-full object-contain" />
+                  <img src="/logo.png" alt="Families Tours" width={480} height={320} className="w-full h-full object-contain" />
                 </div>
                 <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full ring-2 ring-zinc-900"></span>
               </div>

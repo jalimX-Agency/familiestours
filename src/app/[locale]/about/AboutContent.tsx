@@ -119,7 +119,7 @@ export default function AboutContent() {
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl leading-[0.95] mb-6 dark:text-white text-stone-900">
-              <span className="block font-display font-semibold tracking-tight">{t.about.pageTitle.split(' ')[0]}</span>
+              <span className="block font-display font-semibold tracking-tight">{t.about.pageTitle.split(' ')[0]}</span>{' '}
               <span className="block font-serif italic text-amber-500 -mt-1">{t.about.pageTitle.split(' ').slice(1).join(' ')}</span>
             </h1>
 
