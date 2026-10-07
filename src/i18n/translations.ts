@@ -235,6 +235,7 @@ export interface Translations {
     hotelPickup: string;
     available247: string;
     copyright: string;
+    credit: string;
     transportIncluded: string;
     quickLinks: {
       home: string;
@@ -526,6 +527,7 @@ export const translations: Record<Locale, Translations> = {
       hotelPickup: 'Marrakech, Morocco (Hotel pickup available)',
       available247: 'Available 24/7',
       copyright: '© 2024 Families Tours. All rights reserved.',
+      credit: 'Website by',
       transportIncluded: 'Complimentary transport included in all experiences',
       quickLinks: {
         home: 'Home',
@@ -814,6 +816,7 @@ export const translations: Record<Locale, Translations> = {
       hotelPickup: 'Marrakech, Maroc (Prise en charge à l\'hotel disponible)',
       available247: 'Disponible 24/7',
       copyright: '© 2024 Families Tours. Tous droits réservés.',
+      credit: 'Site réalisé par',
       transportIncluded: 'Transport complémentaire inclus dans toutes les expériences',
       quickLinks: {
         home: 'Accueil',
@@ -1102,6 +1105,7 @@ export const translations: Record<Locale, Translations> = {
       hotelPickup: 'Marrakech, Marruecos (Recogida en hotel disponible)',
       available247: 'Disponible 24/7',
       copyright: '© 2024 Families Tours. Todos los derechos reservados.',
+      credit: 'Sitio web por',
       transportIncluded: 'Transporte complementario incluido en todas las experiencias',
       quickLinks: {
         home: 'Inicio',

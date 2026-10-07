@@ -124,9 +124,22 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="dark:border-t border-t dark:border-white/5 border-stone-200/80">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="dark:text-zinc-500 text-stone-500 text-xs tracking-wider">
-            © 2026 Families Tours. All rights reserved.
-          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-x-4 gap-y-1">
+            <p className="dark:text-zinc-500 text-stone-500 text-xs tracking-wider">
+              © 2026 Families Tours. All rights reserved.
+            </p>
+            <p className="dark:text-zinc-500 text-stone-500 text-xs tracking-wider">
+              {t.footer.credit}{' '}
+              <a
+                href={locale === 'fr' ? 'https://www.jalimx.com/fr' : 'https://www.jalimx.com'}
+                target="_blank"
+                rel="noopener"
+                className="underline underline-offset-2 hover:text-amber-500 focus-visible:text-amber-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-500 transition-colors"
+              >
+                JalimX
+              </a>
+            </p>
+          </div>
           <p className="text-amber-500/80 text-xs tracking-wider flex items-center gap-2 font-medium">
             <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
             {t.footer.transportIncluded}
